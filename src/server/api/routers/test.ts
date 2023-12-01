@@ -1,15 +1,14 @@
-import { z } from "zod";
-
+import { z } from 'zod';
 import {
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
-} from "@/server/api/trpc";
+} from '@/server/api/trpc';
 
 export const testRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.task.findMany();
   }),
+
   create: publicProcedure
     .input(z.object({ task: z.string().min(1), done: z.boolean() }))
     .mutation(({ ctx, input }) => {
@@ -20,6 +19,7 @@ export const testRouter = createTRPCRouter({
         },
       });
     }),
+
   delete: publicProcedure
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
@@ -29,6 +29,7 @@ export const testRouter = createTRPCRouter({
         },
       });
     }),
+
   update: publicProcedure
     .input(z.object({ id: z.string().min(1), done: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
