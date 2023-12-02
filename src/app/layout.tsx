@@ -21,7 +21,7 @@ type Props = {
 
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={`font-sans ${inter.variable} h-screen flex flex-col`}>
         <TRPCReactProvider cookies={cookies().toString()}>
           {children}
