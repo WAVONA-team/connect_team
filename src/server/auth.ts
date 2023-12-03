@@ -48,12 +48,12 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
     Google({
-      clientId: env.GOOGLE_CLIENT_ID!, // Using non-null assertion
-      clientSecret: env.GOOGLE_CLIENT_SECRET!,
+      clientId: env.GOOGLE_CLIENT_ID, // Using non-null assertion
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     GitHub({
-      clientId: env.GITHUB_CLIENT_ID!,
-      clientSecret: env.GITHUB_CLIENT_SECRET!
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET
     }),
     /**
      * ...add more providers here.
