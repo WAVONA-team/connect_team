@@ -1,9 +1,11 @@
 import React from 'react';
-import { cookies } from "next/headers";
-import { TRPCReactProvider } from "@/trpc/react";
 
-import { Inter } from "next/font/google";
-import "@/styles/globals.css";
+import Providers from '@/components/providers/Providers';
+import Header from '@/components/header/Header';
+import Footer from '@/components/footer/Footer';
+
+import { Inter } from 'next/font/google';
+import '@/styles/globals.css';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,10 +24,18 @@ type Props = {
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
-      <body className={`font-sans ${inter.variable} h-screen flex flex-col`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
-        </TRPCReactProvider>
+      <body className={`font-sans ${inter.className} h-screen flex flex-col`}>
+        <Providers>
+          <Header />
+
+          <main className="flex-1">
+            <div className="w-1/2 m-auto">
+              {children}
+            </div>
+          </main>
+
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
