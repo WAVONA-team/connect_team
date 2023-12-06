@@ -1,17 +1,18 @@
-import React from 'react';
-import { cookies } from 'next/headers';
-import { TRPCReactProvider } from '../../trpc/react';
+import { PropsWithChildren } from "react";
+import { cookies } from "next/headers";
+import { TRPCReactProvider } from "../../trpc/react";
+import SessionProvider from "@/shared/SessionProvider";
+import { getServerSession } from "next-auth";
 
-type Props = {
-  children: React.ReactNode,
-};
-
-const Providers: React.FC<Props> = React.memo(({ children }) => {
+const Providers: React.FC<PropsWithChildren> = async ({ children }) => {
+  const session = await getServerSession();
   return (
-    <TRPCReactProvider cookies={cookies().toString()}>
-      {children}
-    </TRPCReactProvider>
+    <SessionProvider session={session}>
+      <TRPCReactProvider cookies={cookies().toString()}>
+        {children}
+      </TRPCReactProvider>
+    </SessionProvider>
   );
-});
+};
 
 export default Providers;
