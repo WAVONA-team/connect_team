@@ -2,18 +2,11 @@
 
 import React from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 import Image from 'next/image';
 
 const User: React.FC = React.memo(() => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  if (status === "unauthenticated") {
-    router.push('/api/auth/signin');
-    return null;
-  }
+  const { data: session } = useSession();
 
   const userInfo = [
     {
@@ -52,9 +45,7 @@ const User: React.FC = React.memo(() => {
           const { placeholder, value } = info;
 
           return (
-            <div
-              key={placeholder}
-            >
+            <div key={placeholder}>
               <span>
                 {placeholder}
               </span>
@@ -62,9 +53,7 @@ const User: React.FC = React.memo(() => {
               {Array.isArray(value) ? (
                 <div className="flex gap-4">
                   {value.map(el => (
-                    <p
-                      key={el}
-                    >
+                    <p key={el}>
                       {el}
                     </p>
                   ))}
