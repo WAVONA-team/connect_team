@@ -34,8 +34,8 @@ export const userRouter = createTRPCRouter({
 
   updateUser: protectedProcedure
     .input(z.object({
-      email: z.optional(z.string().trim().email()),
-      name: z.optional(z.string().trim()),
+      email: z.string().trim().email(),
+      name: z.string().trim(),
       id: z.string().trim(),
     }))
     .query(async ({ ctx, input }) => {
