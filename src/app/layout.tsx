@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import Providers from '@/components/providers/Providers';
-import Header from '@/components/header/Header';
-import Footer from '@/components/footer/Footer';
+import Providers from "@/components/providers/Providers";
+import Header from "@/components/header/Header";
+import Footer from "@/components/footer/Footer";
 
-import { Inter } from 'next/font/google';
-import '@/styles/globals.css';
+import { Inter } from "next/font/google";
+import "@/styles/globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,20 +18,18 @@ export const metadata = {
 };
 
 type Props = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
-      <body className={`font-sans ${inter.className} h-screen flex flex-col`}>
+      <body className={`font-sans ${inter.className} flex h-screen flex-col`}>
         <Providers>
           <Header />
 
           <main className="flex-1">
-            <div className="w-1/2 m-auto">
-              {children}
-            </div>
+            <div className="m-auto w-1/2">{children}</div>
           </main>
 
           <Footer />

@@ -1,9 +1,5 @@
-import { z } from 'zod';
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from '../trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
   create: publicProcedure
@@ -11,7 +7,7 @@ export const userRouter = createTRPCRouter({
       z.object({
         email: z.string().trim().email(),
         name: z.string().trim(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.user.create({
@@ -23,9 +19,11 @@ export const userRouter = createTRPCRouter({
     }),
 
   delete: protectedProcedure
-    .input(z.object({
-      id: z.string().trim(),
-    }))
+    .input(
+      z.object({
+        id: z.string().trim(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.user.delete({
         where: {
@@ -35,11 +33,13 @@ export const userRouter = createTRPCRouter({
     }),
 
   update: protectedProcedure
-    .input(z.object({
-      email: z.string().trim().email(),
-      name: z.string().trim(),
-      id: z.string().trim(),
-    }))
+    .input(
+      z.object({
+        email: z.string().trim().email(),
+        name: z.string().trim(),
+        id: z.string().trim(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.user.update({
         where: {
@@ -53,9 +53,11 @@ export const userRouter = createTRPCRouter({
     }),
 
   get: publicProcedure
-    .input(z.object({
-      id: z.string().trim(),
-    }))
+    .input(
+      z.object({
+        id: z.string().trim(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
       return ctx.db.user.findUnique({
         where: {

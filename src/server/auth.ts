@@ -4,8 +4,8 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import Google from "next-auth/providers/google"
-import GitHub from "next-auth/providers/github"
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
 import { env } from "@/env";
 import { db } from "@/server/db";
 
@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
     }),
     GitHub({
       clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET
+      clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
     /**
      * ...add more providers here.
