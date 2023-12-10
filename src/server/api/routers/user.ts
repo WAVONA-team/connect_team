@@ -13,7 +13,7 @@ export const userRouter = createTRPCRouter({
         name: z.string().trim(),
       })
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.user.create({
         data: {
           email: input.email,
@@ -24,7 +24,7 @@ export const userRouter = createTRPCRouter({
 
   deleteUser: protectedProcedure
     .input(z.string().trim())
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.user.delete({
         where: {
           id: input,
@@ -38,7 +38,7 @@ export const userRouter = createTRPCRouter({
       name: z.string().trim(),
       id: z.string().trim(),
     }))
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.user.update({
         where: {
           id: input.id,
