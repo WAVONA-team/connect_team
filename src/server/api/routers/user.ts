@@ -6,7 +6,7 @@ import {
 } from '../trpc';
 
 export const userRouter = createTRPCRouter({
-  createUser: publicProcedure
+  create: publicProcedure
     .input(
       z.object({
         email: z.string().trim().email(),
@@ -22,17 +22,19 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  deleteUser: protectedProcedure
-    .input(z.string().trim())
+  delete: protectedProcedure
+    .input(z.object({
+      id: z.string().trim(),
+    }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.user.delete({
         where: {
-          id: input,
+          id: input.id,
         },
       });
     }),
 
-  updateUser: protectedProcedure
+  update: protectedProcedure
     .input(z.object({
       email: z.string().trim().email(),
       name: z.string().trim(),
@@ -50,12 +52,14 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  getUser: publicProcedure
-    .input(z.string().trim())
+  get: publicProcedure
+    .input(z.object({
+      id: z.string().trim(),
+    }))
     .query(async ({ ctx, input }) => {
       return ctx.db.user.findUnique({
         where: {
-          id: input,
+          id: input.id,
         },
       });
     }),
