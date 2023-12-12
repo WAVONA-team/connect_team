@@ -9,6 +9,10 @@ export default {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
     },
+    screens: {
+      tablet: '768px',
+      desktop: '1280px',
+    },
   },
   plugins: [],
 } satisfies Config;

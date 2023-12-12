@@ -28,9 +28,7 @@ const RootLayout: React.FC<Props> = React.memo(({ children }) => {
         <Providers>
           <Header />
 
-          <main className="flex-1">
-            <div className="m-auto w-1/2">{children}</div>
-          </main>
+          <main className="flex-1">{children}</main>
 
           <Footer />
         </Providers>
