@@ -1,23 +1,23 @@
-import { z } from 'zod';
-import { createTRPCRouter,protectedProcedure,publicProcedure } from '../trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const projectRouter = createTRPCRouter({
   create: protectedProcedure
-  .input(
-    z.object({
-      title: z.string().trim(),
-      description: z.string().trim(),
-    })
-  )
-  .mutation(async ({ ctx, input }) => {
-    return ctx.db.project.create({
-      data: {
-        title: input.title,
-        description: input.description,
-        userId: ctx.session.user.id
-      },
-    });
-  }),
+    .input(
+      z.object({
+        title: z.string().trim(),
+        description: z.string().trim(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.project.create({
+        data: {
+          title: input.title,
+          description: input.description,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 
   delete: protectedProcedure
     .input(z.string().trim())
@@ -30,11 +30,13 @@ export const projectRouter = createTRPCRouter({
     }),
 
   change: protectedProcedure
-    .input(z.object({
-      title: z.string().trim(),
-      description: z.string(),
-      id: z.string().trim(),
-    }))
+    .input(
+      z.object({
+        title: z.string().trim(),
+        description: z.string(),
+        id: z.string().trim(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.project.update({
         where: {
@@ -47,7 +49,7 @@ export const projectRouter = createTRPCRouter({
       });
     }),
 
-  ById: publicProcedure
+  findById: publicProcedure
     .input(z.string().trim())
     .mutation(async ({ ctx, input }) => {
       return ctx.db.project.findUnique({
@@ -56,7 +58,7 @@ export const projectRouter = createTRPCRouter({
         },
       });
     }),
-  ByTitle: publicProcedure
+  searchByTitle: publicProcedure
     .input(z.string().trim())
     .mutation(async ({ ctx, input }) => {
       return ctx.db.project.findMany({
@@ -64,10 +66,8 @@ export const projectRouter = createTRPCRouter({
           title: input,
         },
       });
-  }),
-  All: publicProcedure
-    .input(z.string().trim())
-    .mutation(async ({ ctx }) => {
-      return ctx.db.project.findMany();
     }),
+  getAll: publicProcedure.input(z.string().trim()).mutation(async ({ ctx }) => {
+    return ctx.db.project.findMany();
+  }),
 });
