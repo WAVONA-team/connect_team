@@ -2,14 +2,14 @@ import { z } from 'zod';
 import { createTRPCRouter,protectedProcedure,publicProcedure } from '../trpc';
 
 export const projectRouter = createTRPCRouter({
-  createProject: protectedProcedure
+  create: protectedProcedure
   .input(
     z.object({
       title: z.string().trim(),
       description: z.string().trim(),
     })
   )
-  .query(async ({ ctx, input }) => {
+  .mutation(async ({ ctx, input }) => {
     return ctx.db.project.create({
       data: {
         title: input.title,
@@ -19,9 +19,9 @@ export const projectRouter = createTRPCRouter({
     });
   }),
 
-  deleteProject: protectedProcedure
+  delete: protectedProcedure
     .input(z.string().trim())
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.project.delete({
         where: {
           id: input,
@@ -29,13 +29,13 @@ export const projectRouter = createTRPCRouter({
       });
     }),
 
-  changeProjectInfo: protectedProcedure
+  change: protectedProcedure
     .input(z.object({
       title: z.string().trim(),
       description: z.string(),
       id: z.string().trim(),
     }))
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.project.update({
         where: {
           id: input.id,
@@ -47,27 +47,27 @@ export const projectRouter = createTRPCRouter({
       });
     }),
 
-  searchProjectById: publicProcedure
+  ById: publicProcedure
     .input(z.string().trim())
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.project.findUnique({
         where: {
           id: input,
         },
       });
     }),
-  searchProjectByTitle: publicProcedure
+  ByTitle: publicProcedure
     .input(z.string().trim())
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.project.findMany({
         where: {
           title: input,
         },
       });
   }),
-  searchAllProjects: publicProcedure
+  All: publicProcedure
     .input(z.string().trim())
-    .query(async ({ ctx }) => {
+    .mutation(async ({ ctx }) => {
       return ctx.db.project.findMany();
     }),
 });
