@@ -1,33 +1,23 @@
-'use client'
+import React from "react";
+import { getServerAuthSession } from "@/server/auth";
 
-import React from 'react';
-import { signIn, useSession } from 'next-auth/react';
+import Link from "next/link";
 
-import Link from 'next/link';
-
-const Home: React.FC = React.memo(() => {
-  const { data: session, status } = useSession();
+const Home: React.FC = async () => {
+  const session = await getServerAuthSession();
 
   return (
     <section>
-      {status === "authenticated" ? (
-        <Link
-          href={`/user/${session.user.id}`}
-          className="bg-purple-800 text-gray-300 p-2 rounded"
-        >
-          Profile
-        </Link>
-      ) : (
-        <button
-          type="button"
-          onClick={() => signIn()}
-          className="bg-purple-800 text-gray-300 p-2 rounded"
-        >
-          Registration
-        </button>
-      )}
+      <Link
+        href={
+          session === null ? `/api/auth/signin` : `/user/${session.user.id}`
+        }
+        className="rounded bg-purple-800 p-2 text-gray-300"
+      >
+        Profile
+      </Link>
     </section>
   );
-});
+};
 
 export default Home;

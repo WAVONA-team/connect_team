@@ -1,24 +1,21 @@
-'use client'
+import { getServerAuthSession } from "@/server/auth";
 
-import React from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import Image from "next/image";
 
-import Image from 'next/image';
-
-const User: React.FC = React.memo(() => {
-  const { data: session } = useSession();
+const User: React.FC = async () => {
+  const session = await getServerAuthSession();
 
   const userInfo = [
     {
-      placeholder: 'Имя',
+      placeholder: "Имя",
       value: [session?.user.name],
     },
     {
-      placeholder: 'Почта',
+      placeholder: "Почта",
       value: [session?.user.email],
     },
     {
-      placeholder: 'Проекты',
+      placeholder: "Проекты",
       value: [1, 2, 3],
     },
   ];
@@ -34,51 +31,33 @@ const User: React.FC = React.memo(() => {
             height={250}
           />
         ) : (
-          <p>
-            Фотографии нет
-          </p>
+          <p>Фотографии нет</p>
         )}
       </div>
 
       <div className="flex flex-col gap-4">
-        {userInfo.map(info => {
+        {userInfo.map((info) => {
           const { placeholder, value } = info;
 
           return (
             <div key={placeholder}>
-              <span>
-                {placeholder}
-              </span>
+              <span>{placeholder}</span>
 
               {Array.isArray(value) ? (
                 <div className="flex gap-4">
-                  {value.map(el => (
-                    <p key={el}>
-                      {el}
-                    </p>
+                  {value.map((el) => (
+                    <p key={el}>{el}</p>
                   ))}
                 </div>
               ) : (
-                <p>
-                  {value}
-                </p>
+                <p>{value}</p>
               )}
             </div>
           );
         })}
-
-        <button
-          type="button"
-          onClick={() => signOut({
-            callbackUrl: '/'
-          })}
-          className="bg-purple-800 text-gray-300 p-2 rounded"
-        >
-          Sign out
-        </button>
       </div>
     </section>
   );
-});
+};
 
 export default User;
