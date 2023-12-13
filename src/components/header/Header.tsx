@@ -3,22 +3,21 @@ import React from "react";
 import { getServerAuthSession } from "@/server/auth";
 
 import Container from "@/ui/container/Container";
-import Logo from "@/ui/logo/Logo";
+import Logo from "@/components/logo/Logo";
 import Menu from "@/ui/menu/Menu";
-import SignOutButton from "@/ui/signOutButton/signOut";
-import SignInButton from "@/ui/signInButton/signIn";
-import PopOver from "@/ui/popOver/PopOver";
+import NotificationPopOver from "../notificationPopOver/notificationPopOver";
+import SignInButton from "@/components/signInButton/signIn";
 
 const Header: React.FC = React.memo(async () => {
   const session = await getServerAuthSession();
   const menuItems = [
     {
       name: "Настройки",
-      where: "/settings",
+      path: "/settings",
     },
     {
       name: "Профиль",
-      where: `/user/${session?.user.id}`,
+      path: `/user/${session?.user.id}`,
     },
   ];
 
@@ -39,15 +38,13 @@ const Header: React.FC = React.memo(async () => {
               <SignInButton />
             ) : (
               <div className="flex gap-4 items-center">
-                <PopOver />
+                <NotificationPopOver />
 
                 <Menu
                   withArrow
                   items={menuItems}
                   imgUrl={`${session.user.image}`}
-                >
-                  <SignOutButton />
-                </Menu>
+                />
               </div>
             )}
           </div>

@@ -5,18 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { type MenuItems } from "./types/MenuItem";
+import SignOutButton from "@/components/signOutButton/signOut";
 
 type Props = {
   withArrow?: boolean;
   items: MenuItems[];
-  children?: React.ReactNode;
   imgUrl: string;
 };
 
 const Menu: React.FC<Props> = React.memo(
-  ({ withArrow = false, items, children = null, imgUrl }) => {
-    console.log(imgUrl);
-
+  ({ withArrow = false, items, imgUrl }) => {
     return (
       <HeadlessMenu as="div" className="relative">
         <div
@@ -74,14 +72,10 @@ const Menu: React.FC<Props> = React.memo(
           >
             <div className="px-3 py-3">
               {items.map((item) => {
-                const { name, where } = item;
+                const { name, path } = item;
 
                 return (
-                  <HeadlessMenu.Item
-                    key={name}
-                    as={"div"}
-                    className="block"
-                  >
+                  <HeadlessMenu.Item key={name} as={"div"} className="block">
                     <Link
                       className="
                         block
@@ -94,7 +88,7 @@ const Menu: React.FC<Props> = React.memo(
                         hover:bg-purple-800
                         hover:text-white
                       "
-                      href={where}
+                      href={path}
                     >
                       {name}
                     </Link>
@@ -102,7 +96,9 @@ const Menu: React.FC<Props> = React.memo(
                 );
               })}
 
-              {children && <HeadlessMenu.Item>{children}</HeadlessMenu.Item>}
+              <HeadlessMenu.Item>
+                <SignOutButton />
+              </HeadlessMenu.Item>
             </div>
           </HeadlessMenu.Items>
         </Transition>

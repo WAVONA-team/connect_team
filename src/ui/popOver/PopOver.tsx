@@ -2,7 +2,11 @@
 import React, { Fragment } from "react";
 import { Popover as HeadlessPopOver, Transition } from "@headlessui/react";
 
-const PopOver: React.FC = React.memo(() => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const PopOver: React.FC<Props> = React.memo(({ children }) => {
   return (
     <div className="max-w-sm">
       <HeadlessPopOver className="relative">
@@ -10,10 +14,11 @@ const PopOver: React.FC = React.memo(() => {
           className={`
             h-8
             w-6
-            bg-[url("/images/ring.svg")]
+            bg-[url("/images/bell.svg")]
             bg-contain
             bg-center
             bg-no-repeat
+            focus:outline-none
           `}
         />
 
@@ -27,7 +32,7 @@ const PopOver: React.FC = React.memo(() => {
           leaveTo="transform opacity-0 scale-95"
         >
           <HeadlessPopOver.Panel className="absolute left-1/2 top-10 -translate-x-1/2 border border-purple-700">
-            notifications
+            {children}
           </HeadlessPopOver.Panel>
         </Transition>
       </HeadlessPopOver>
