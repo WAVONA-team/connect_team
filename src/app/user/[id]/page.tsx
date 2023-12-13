@@ -1,21 +1,27 @@
-import { getServerAuthSession } from "@/server/auth";
-
 import Image from "next/image";
+import { api } from "@/trpc/server";
+import { type Metadata } from "next";
 
-const User: React.FC = async () => {
-  const session = await getServerAuthSession();
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const User: React.FC<Props> = async ({ params }) => {
+  const user = await api.user.get.query({ id: params.id });
 
   const userInfo = [
     {
-      placeholder: "Имя",
-      value: [session?.user.name],
+      label: "Имя",
+      value: [user?.name],
     },
     {
-      placeholder: "Почта",
-      value: [session?.user.email],
+      label: "Почта",
+      value: [user?.email],
     },
     {
-      placeholder: "Проекты",
+      label: "Проекты",
       value: [1, 2, 3],
     },
   ];
@@ -23,13 +29,8 @@ const User: React.FC = async () => {
   return (
     <section className="flex gap-7">
       <div>
-        {session?.user.image && session.user.name ? (
-          <Image
-            src={session.user.image}
-            alt={session.user.name}
-            width={250}
-            height={250}
-          />
+        {user?.image && user?.name ? (
+          <Image src={user.image} alt={user.name} width={250} height={250} />
         ) : (
           <p>Фотографии нет</p>
         )}
@@ -37,11 +38,11 @@ const User: React.FC = async () => {
 
       <div className="flex flex-col gap-4">
         {userInfo.map((info) => {
-          const { placeholder, value } = info;
+          const { label, value } = info;
 
           return (
-            <div key={placeholder}>
-              <span>{placeholder}</span>
+            <div key={label}>
+              <span>{label}</span>
 
               {Array.isArray(value) ? (
                 <div className="flex gap-4">
@@ -61,3 +62,12 @@ const User: React.FC = async () => {
 };
 
 export default User;
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const user = await api.user.get.query({ id: params.id });
+  return {
+    title: `${user?.name} profile`,
+  };
+};
