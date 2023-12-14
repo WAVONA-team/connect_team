@@ -1,39 +1,26 @@
 "use client";
 import React, { Fragment } from "react";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
-import Link from "next/link";
-import Image from "next/image";
-
-import { type MenuItems } from "./types/MenuItem";
-import SignOutButton from "@/components/signOutButton/signOut";
 
 type Props = {
   withArrow?: boolean;
-  items: MenuItems[];
-  imgUrl: string;
+  children: React.ReactNode;
+  menuButton: React.ReactNode;
 };
 
 const Menu: React.FC<Props> = React.memo(
-  ({ withArrow = false, items, imgUrl }) => {
+  ({ withArrow = false, children, menuButton }) => {
     return (
       <HeadlessMenu as="div" className="relative">
         <div
           className="
-          flex
-          items-center
-          justify-between
-          gap-2
-        "
+            flex
+            items-center
+            justify-between
+            gap-2
+          "
         >
-          <HeadlessMenu.Button>
-            <Image
-              src={imgUrl}
-              alt={imgUrl}
-              width={32}
-              height={32}
-              className="rounded"
-            />
-          </HeadlessMenu.Button>
+          <HeadlessMenu.Button>{menuButton}</HeadlessMenu.Button>
 
           {withArrow && (
             <div
@@ -70,36 +57,7 @@ const Menu: React.FC<Props> = React.memo(
               shadow-lg
             "
           >
-            <div className="px-3 py-3">
-              {items.map((item) => {
-                const { name, path } = item;
-
-                return (
-                  <HeadlessMenu.Item key={name} as={"div"} className="block">
-                    <Link
-                      className="
-                        block
-                        rounded
-                        px-2
-                        py-2
-                        text-center
-                        text-sm
-                        text-black
-                        hover:bg-purple-800
-                        hover:text-white
-                      "
-                      href={path}
-                    >
-                      {name}
-                    </Link>
-                  </HeadlessMenu.Item>
-                );
-              })}
-
-              <HeadlessMenu.Item>
-                <SignOutButton />
-              </HeadlessMenu.Item>
-            </div>
+            <div className="px-3 py-3">{children}</div>
           </HeadlessMenu.Items>
         </Transition>
       </HeadlessMenu>
