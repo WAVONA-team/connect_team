@@ -15,7 +15,7 @@ const AuthButton: FC<Props> = ({ image, text, provider }) => {
   const callbackUrl = searchParams.get("callbackUrl") ?? "/profile";
   console.log(callbackUrl);
   const handleClick = async () => {
-    await signIn("github", { callbackUrl });
+    await signIn(provider, { callbackUrl });
   };
 
   return (
