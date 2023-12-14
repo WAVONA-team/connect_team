@@ -1,34 +1,33 @@
 "use client";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
+import { type FC } from "react";
+import { useSearchParams } from "next/navigation";
 
-export function GoogleSignInButton() {
+type Props = {
+  image: HTMLImageElement;
+  text: string;
+  provider: "google" | "github" | "vk";
+};
+
+const AuthButton: FC<Props> = ({ image, text, provider }) => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/profile";
+  console.log(callbackUrl);
   const handleClick = async () => {
-    await signIn("google");
+    await signIn("github", { callbackUrl });
   };
 
   return (
-    <button
-      onClick={handleClick}
-      type="button"
-      className="inline-block w-full rounded-lg border border-gray-200 py-2.5 text-center text-sm font-normal text-gray-500 shadow-sm transition duration-200 hover:shadow-md"
-    >
-      Google
-    </button>
+    <>
+      <div
+        onClick={handleClick}
+        className="justify-left flex cursor-pointer items-center gap-3 rounded-xl bg-gray-1 px-16 py-5 hover:bg-neutral-700"
+      >
+        <Image src={image} alt={text} />
+        <p className="font-inter text-xl font-normal text-white">{text}</p>
+      </div>
+    </>
   );
-}
-
-export function GithubSignInButton() {
-  const handleClick = async () => {
-    await signIn("github");
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      type="button"
-      className="inline-block w-full rounded-lg border border-gray-200 py-2.5 text-center text-sm font-normal text-gray-500 shadow-sm transition duration-200 hover:shadow-md"
-    >
-      Github
-    </button>
-  );
-}
+};
+export default AuthButton;

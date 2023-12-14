@@ -6,7 +6,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        inter: ["'Inter', sans-serif"],
+        roboto: ["'Roboto', sans-serif"],
+      },
+      colors: {
+        gray: "#1F1F1F",
+        "gray-1": "#333",
       },
     },
   },

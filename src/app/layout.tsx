@@ -1,11 +1,11 @@
 import React from "react";
 
-import Providers from "@/components/providers/Providers";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
+import Providers from "@/components/providers/Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,7 +24,9 @@ type Props = {
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
-      <body className={`font-sans ${inter.className} flex h-screen flex-col`}>
+      <body
+        className={`font-sans ${inter.className} font-roboto flex h-screen flex-col bg-gray`}
+      >
         <Providers>
           <Header />
 
