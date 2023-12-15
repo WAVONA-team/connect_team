@@ -7,12 +7,12 @@ type Props = {
 const Container: React.FC<Props> = React.memo(({ children }) => (
   <div
     className="
-      desktop:w-3/5
-      desktop:px-0
-      tablet:px-5
+      px-2
       tablet:m-auto
       tablet:w-full
-      px-2
+      tablet:px-5
+      desktop:w-3/5
+      desktop:px-0
     "
   >
     {children}

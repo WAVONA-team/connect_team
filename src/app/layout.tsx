@@ -25,7 +25,7 @@ const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
       <body
-        className={`font-sans ${inter.className} font-roboto flex h-screen flex-col bg-gray`}
+        className={`font-sans ${inter.className} flex h-screen flex-col bg-gray font-roboto`}
       >
         <Providers>
           <Header />

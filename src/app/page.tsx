@@ -12,7 +12,7 @@ const Home: React.FC = async () => {
         href={
           session === null ? `/api/auth/signin` : `/user/${session.user.id}`
         }
-        className="rounded bg-purple-800 p-2 text-gray-300"
+        className="text-gray-300 rounded bg-purple-800 p-2"
       >
         Profile
       </Link>
