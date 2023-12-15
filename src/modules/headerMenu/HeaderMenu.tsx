@@ -12,7 +12,7 @@ import { type MenuItem } from "./types/MenuItem";
 
 type Props = {
   userId: string;
-  imgUrl: string;
+  imgUrl: string | null | undefined;
 };
 
 const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
@@ -32,8 +32,8 @@ const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
       withArrow
       menuButton={
         <Image
-          src={imgUrl}
-          alt={imgUrl}
+          src={imgUrl ?? ""}
+          alt={imgUrl ?? "avatar"}
           width={32}
           height={32}
           className="rounded"
