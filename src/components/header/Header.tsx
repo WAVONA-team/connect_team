@@ -16,9 +16,9 @@ const Header: React.FC = React.memo(async () => {
   return (
     <header
       className="
+        desktop:py-5
         bg-purple-800
         py-2
-        desktop:py-5
       "
     >
       <Container>
@@ -34,7 +34,7 @@ const Header: React.FC = React.memo(async () => {
 
                 <HeaderMenu
                   userId={session.user.id}
-                  imgUrl={session.user.image!}
+                  imgUrl={session.user.image}
                 />
               </div>
             )}

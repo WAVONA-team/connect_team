@@ -9,9 +9,7 @@ const Home: React.FC = async () => {
   return (
     <section>
       <Link
-        href={
-          session === null ? `/api/auth/signin` : `/user/${session.user.id}`
-        }
+        href={session === null ? `/auth/login` : `/user/${session.user?.id}`}
         className="text-gray-300 rounded bg-purple-800 p-2"
       >
         Profile
