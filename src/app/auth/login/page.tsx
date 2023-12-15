@@ -1,4 +1,3 @@
-"use client";
 import AuthButton from "@/components/auth/authButton";
 import google from "@/assets/google.svg";
 import github from "@/assets/github.svg";
