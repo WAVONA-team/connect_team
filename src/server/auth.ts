@@ -4,7 +4,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { getServerSession, type NextAuthOptions } from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { DefaultSession } from "next-auth";
+import { type DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "auth/login",
+    signIn: "/auth/login",
   },
   adapter: PrismaAdapter(db),
   providers: [
