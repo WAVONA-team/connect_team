@@ -12,7 +12,7 @@ type Props = {
 
 const AuthButton: FC<Props> = ({ image, text, provider }) => {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/profile";
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/";
   console.log(callbackUrl);
   const handleClick = async () => {
     await signIn(provider, { callbackUrl });
