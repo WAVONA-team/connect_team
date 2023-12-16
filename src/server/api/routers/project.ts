@@ -51,7 +51,7 @@ export const projectRouter = createTRPCRouter({
 
   findById: publicProcedure
     .input(z.string().trim())
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.project.findUnique({
         where: {
           id: input,
@@ -60,14 +60,15 @@ export const projectRouter = createTRPCRouter({
     }),
   searchByTitle: publicProcedure
     .input(z.string().trim())
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.project.findMany({
         where: {
           title: input,
         },
       });
     }),
-  getAll: publicProcedure.input(z.string().trim()).mutation(async ({ ctx }) => {
-    return ctx.db.project.findMany();
-  }),
+  getAll: publicProcedure
+    .query(async ({ ctx }) => {
+      return ctx.db.project.findMany();
+    })
 });
