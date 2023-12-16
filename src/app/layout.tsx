@@ -24,12 +24,12 @@ type Props = {
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
-      <body className={`font-sans ${inter.className} flex h-screen flex-col`}>
+      <body className={`font-sans ${inter.className} flex h-screen flex-col bg-black`}>
         <Providers>
           <Header />
 
           <main className="flex-1">
-            <div className="m-auto w-1/2">{children}</div>
+            <div className="m-auto w-3/5">{children}</div>
           </main>
 
           <Footer />

@@ -45,8 +45,14 @@ model User {
     id            String    @id @default(cuid())
     name          String?
     email         String?   @unique
-    emailVerified DateTime?
     image         String?
+    description   String?
+    profesion     String?
+    telegram      String?
+    city          String?
+    age           Int?
+    languages     String?
+    emailVerified DateTime?
     projects      Project[]
     accounts      Account[]
     sessions      Session[]
@@ -55,6 +61,9 @@ model Project {
     id            String    @id @default(cuid())
     title         String
     description   String?
+    status        String
+    term          String
+    deadline      DateTime
     userId        String
     creator       User     @relation(fields: [userId], references: [id])
 }
