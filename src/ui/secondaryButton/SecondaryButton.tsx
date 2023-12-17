@@ -5,7 +5,7 @@ type Props = {
   text: string;
   className?: string;
   disabled?: boolean;
-  onClick: (params: unknown) => void;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const SecondaryButton: React.FC<Props> = React.memo(
@@ -18,22 +18,22 @@ const SecondaryButton: React.FC<Props> = React.memo(
         className={`
           ${className}
           bg-secondary-rich-black
-          text-primary-button-fill
-          border-primary-button-fill
-          hover:border-primary-majorelle-blue
-          hover:text-primary-majorelle-blue
-          focus:border-primary-palatinate-blue
-          focus:text-primary-palatinate-blue
-          disabled:border-secondary-cadet-grey
-          disabled:text-secondary-cadet-grey
-          rounded
+          rounded-lg
           border
+          border-primary-button-fill
           px-4
           py-3.5
           text-center
           text-sm
+          text-primary-button-fill
           outline-none
           transition
+          hover:border-primary-majorelle-blue
+          hover:text-primary-majorelle-blue
+          active:border-primary-palatinate-blue
+          active:text-primary-palatinate-blue
+          disabled:border-secondary-cadet-grey
+          disabled:text-secondary-cadet-grey
         `}
       >
         {text}
