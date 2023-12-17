@@ -6,15 +6,17 @@ import Link from "next/link";
 type Props = {
   text: string;
   path: string;
+  target: "_self" | "_blank" | "_top" | "_parent";
   className?: string;
   disabled?: boolean;
 };
 
 const MainButtonLink: React.FC<Props> = React.memo(
-  ({ text, path, className = "", disabled = false }) => {
+  ({ text, path, target, className = "", disabled = false }) => {
     return (
       <Link
         href={path}
+        target={target}
         className={classNames(
           className,
           `
