@@ -9,10 +9,8 @@ export default {
         roboto: ["'Roboto', sans-serif"],
       },
       colors: {
-        gray: "#1F1F1F",
-        "gray-1": "#333",
         primary: {
-          "button-fill": "#6366F1",
+          "neon-blue": "#6366F1",
           "majorelle-blue": "#4F46E5",
           "palatinate-blue": "#4338CA",
           "powder-blue": "#A5B4FC",
