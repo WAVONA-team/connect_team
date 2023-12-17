@@ -5,7 +5,7 @@ type Props = {
   text: string;
   className?: string;
   disabled?: boolean;
-  onClick: (params: unknown) => void;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const MainButton: React.FC<Props> = React.memo(
@@ -17,18 +17,17 @@ const MainButton: React.FC<Props> = React.memo(
         disabled={disabled}
         className={`
           ${className}
+          rounded-lg
           bg-primary-button-fill
-          hover:bg-primary-majorelle-blue
-          focus:bg-primary-palatinate-blue
-          disabled:bg-secondary-cadet-grey
-          rounded
-          border
           px-4
           py-3.5
           text-center
           text-sm
           text-white
           transition
+          hover:bg-primary-majorelle-blue
+          active:bg-primary-palatinate-blue
+          disabled:bg-secondary-cadet-grey
         `}
       >
         {text}
