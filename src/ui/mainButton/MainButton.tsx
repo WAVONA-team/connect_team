@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 
+import buttonClassName from "./helpers/buttonClassName";
+
 type Props = {
   text: string;
   className?: string;
@@ -17,17 +19,7 @@ const MainButton: React.FC<Props> = React.memo(
         disabled={disabled}
         className={`
           ${className}
-          rounded-lg
-          bg-primary-button-fill
-          px-4
-          py-3.5
-          text-center
-          text-sm
-          text-white
-          transition
-          hover:bg-primary-majorelle-blue
-          active:bg-primary-palatinate-blue
-          disabled:bg-secondary-cadet-grey
+          ${buttonClassName}
         `}
       >
         {text}
