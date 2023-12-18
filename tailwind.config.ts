@@ -17,14 +17,20 @@ export default {
         },
         secondary: {
           "cadet-grey": "#A1A1AA",
-          "rich-black": "#0E0D1F",
+          "raisin-black": "#333335",
+          "rich-black": "#313136",
+          "dark-purple": "#252031",
         },
         accent: {
           "spring-bud": "#A3E635",
           "green-yellow": "#BEF264",
         },
+        onAccent: {
+          "pakistan-green": "#1A2E05",
+        },
         background: {
           "night": "#100E16",
+          "taupe-gray": "#65656E",
         },
         surface: {
           "raisin-black": "#1C1825",
