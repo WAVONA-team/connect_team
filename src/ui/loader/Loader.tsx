@@ -1,9 +1,26 @@
 import React from "react";
 
-const Loader: React.FC = React.memo(() => {
+type Props = {
+  height: number;
+  width: number;
+};
+
+const Loader: React.FC<Props> = React.memo(({ height, width }) => {
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="border-l-primary-neon-blue m-auto h-8 w-8 rounded-full border-4 border-l-4 border-white animate-spin" />
+      <div
+        className={`
+          border-l-primary-neon-blue
+          m-auto
+          h-${height}
+          w-${width}
+          animate-spin
+          rounded-full
+          border-4
+          border-l-4
+          border-white
+        `}
+      />
     </div>
   );
 });
