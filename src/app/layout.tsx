@@ -1,13 +1,13 @@
 import React from "react";
 
 import Header from "@/components/header/Header";
+import Providers from "@/components/providers/Providers";
 import Footer from "@/components/footer/Footer";
 
-import { Inter } from "next/font/google";
+import { Noto_Sans_Kannada } from "next/font/google";
 import "@/styles/globals.css";
-import Providers from "@/components/providers/Providers";
 
-const inter = Inter({
+const kannada = Noto_Sans_Kannada({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -25,7 +25,7 @@ const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
       <body
-        className={`font-sans ${inter.className} flex h-screen flex-col bg-gray font-roboto`}
+        className={`${kannada.className} flex h-screen flex-col`}
       >
         <Providers>
           <Header />

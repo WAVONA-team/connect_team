@@ -5,8 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        inter: ["'Inter', sans-serif"],
-        roboto: ["'Roboto', sans-serif"],
+        kannada: ["__Noto_Sans_Kannada_9c80e5", "__Noto_Sans_Kannada_Fallback_9c80e5", "sans-serif"],
       },
       colors: {
         gray: "#1F1F1F",
