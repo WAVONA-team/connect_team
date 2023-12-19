@@ -8,24 +8,28 @@ export default {
         kannada: ["__Noto_Sans_Kannada_9c80e5", "__Noto_Sans_Kannada_Fallback_9c80e5", "sans-serif"],
       },
       colors: {
-        gray: "#1F1F1F",
-        "gray-1": "#333",
         primary: {
-          "button-fill": "#6366F1",
+          "neon-blue": "#6366F1",
           "majorelle-blue": "#4F46E5",
           "palatinate-blue": "#4338CA",
           "powder-blue": "#A5B4FC",
         },
         secondary: {
           "cadet-grey": "#A1A1AA",
-          "rich-black": "#0E0D1F",
+          "raisin-black": "#333335",
+          "rich-black": "#313136",
+          "dark-purple": "#252031",
         },
         accent: {
           "spring-bud": "#A3E635",
           "green-yellow": "#BEF264",
         },
+        onAccent: {
+          "pakistan-green": "#1A2E05",
+        },
         background: {
           "night": "#100E16",
+          "taupe-gray": "#65656E",
         },
         surface: {
           "raisin-black": "#1C1825",
