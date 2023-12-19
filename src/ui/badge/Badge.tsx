@@ -17,25 +17,26 @@ const Badge: React.FC<Props> = React.memo(
         onClick={onClick}
         className={`
           ${className}
+          flex
+          h-10
+          items-center
+          justify-center
+          gap-2
+          rounded-full
+          border
+          border-white
+          px-3
+          text-base
+          text-white
+          transition
           hover:border-accent-green-yellow
           hover:text-accent-green-yellow
           active:border-accent-spring-bud
           active:text-accent-spring-bud
-          flex
-          items-center
-          gap-2
-          rounded-2xl
-          border
-          border-white
-          px-3
-          py-1.5
-          text-base
-          text-white
-          transition
         `}
       >
         {counterValue && (
-          <div className="text-onAccent-pakistan-green bg-accent-green-yellow h-6 w-6 rounded-full">
+          <div className="text-onAccent-pakistan-green rounded-full bg-accent-green-yellow px-1 text-center text-xs">
             {counterValue}
           </div>
         )}
