@@ -31,13 +31,16 @@ const Checkbox: React.FC<Props> = React.memo(
             appearance-none
             rounded
             bg-white
+            bg-[url("/images/checkbox/off.svg")]
             bg-contain
             bg-center
             bg-no-repeat
-            checked:bg-primary-button-fill
-            checked:bg-[url("/images/check.svg")]
-            disabled:bg-secondary-cadet-grey
-            disabled:text-secondary-cadet-grey
+            outline-none
+            checked:bg-[url("/images/checkbox/on.svg")]
+            focus:bg-[url("/images/checkbox/off-focused.svg")]
+            focus:checked:bg-[url("/images/checkbox/on-focused.svg")]
+            disabled:bg-[url("/images/checkbox/off-disabled.svg")]
+            disabled:checked:bg-[url("/images/checkbox/on-disabled.svg")]
           `}
         />
 
