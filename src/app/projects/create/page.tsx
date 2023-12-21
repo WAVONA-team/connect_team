@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent } from "react";
+import React, { type ChangeEvent } from "react";
 import { useState } from "react";
 import Container from "@/ui/container/Container";
 
