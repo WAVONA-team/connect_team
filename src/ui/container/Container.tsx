@@ -8,11 +8,11 @@ const Container: React.FC<Props> = React.memo(({ children }) => (
   <div
     className="
       px-2
-      tablet:m-auto
-      tablet:w-full
-      tablet:px-5
-      desktop:w-3/5
-      desktop:px-0
+      md:m-auto
+      md:w-full
+      md:px-5
+      lg:w-3/5
+      lg:px-0
     "
   >
     {children}

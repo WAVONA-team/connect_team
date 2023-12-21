@@ -46,10 +46,6 @@ export default {
         },
       },
     },
-    screens: {
-      tablet: "768px",
-      desktop: "1280px",
-    },
   },
   plugins: [],
 } satisfies Config;

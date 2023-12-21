@@ -16,7 +16,7 @@ const Header: React.FC = React.memo(async () => {
   return (
     <header
       className="
-        desktop:py-5
+        lg:py-5
         bg-purple-800
         py-2
       "
