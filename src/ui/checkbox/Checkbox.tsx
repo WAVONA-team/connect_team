@@ -4,24 +4,18 @@ import React from "react";
 type Props = {
   labelText: string;
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
   disabled?: boolean;
   className?: string;
 };
 
 const Checkbox: React.FC<Props> = React.memo(
-  ({
-    labelText,
-    isChecked,
-    setIsChecked,
-    disabled = false,
-    className = "",
-  }) => {
+  ({ labelText, isChecked, onChange, disabled = false, className = "" }) => {
     return (
       <label className="flex items-center gap-2">
         <input
           checked={isChecked}
-          onChange={() => setIsChecked((prev) => !prev)}
+          onChange={onChange}
           type="checkbox"
           disabled={disabled}
           className={`
