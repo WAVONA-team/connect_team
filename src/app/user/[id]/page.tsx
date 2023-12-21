@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { api } from "@/trpc/server";
 import { type Metadata } from "next";
+import Container from "@/ui/container/Container";
 
 interface Props {
   params: {
@@ -11,103 +12,152 @@ interface Props {
 const User: React.FC<Props> = async ({ params }) => {
   const user = await api.user.get.query({ id: params.id });
   return (
-    <div>
-      <header className=" w-full mb-6">
-        <nav className=" border-b-2 border-gray-400">
-          <div className=" flex flex-row w-3/12 justify-between">
-            <a href={`/user/${params.id}/projects`} className="text-gray-500 text-base font-medium font-['Inter'] leading-tight">Проекты</a>
-            <a href="" className="text-zinc-100 text-base font-medium font-['Inter'] leading-tight border-b-4">Профиль</a>
-            <a href={`/user/${params.id}/reviews`}  className="text-gray-500 text-base font-medium font-['Inter'] leading-tight">Отклики</a>
-          </div>
-        </nav>
-      </header>
+    <Container>
+      <nav className="mb-6 w-full border-b-2 border-gray-400">
+        <div className=" flex w-3/12 flex-row justify-between">
+          <a
+            href={`/user/${params.id}/projects`}
+            className="font-['Inter'] text-base font-medium leading-tight text-gray-500"
+          >
+            Проекты
+          </a>
+          <a
+            href=""
+            className="border-b-4 font-['Inter'] text-base font-medium leading-tight text-zinc-100"
+          >
+            Профиль
+          </a>
+          <a
+            href={`/user/${params.id}/reviews`}
+            className="font-['Inter'] text-base font-medium leading-tight text-gray-500"
+          >
+            Отклики
+          </a>
+        </div>
+      </nav>
       <div className=" w-full">
-        <div className="  flex flex-col w-full">
-          <div className=" flex flex-row justify-between mb-6">
-            <p className=" text-white text-3xl font-normal font-['Roboto'] leading-normal tracking-wide">Профиль</p>
-            <button className="px-6 py-4 bg-neutral-600 rounded-lg justify-center items-center gap-5 flex w-44 h-14 text-zinc-100 text-base font-normal font-['Roboto'] leading-normal tracking-wide">Редактировать</button>
+        <div className=" w-full">
+          <div className=" mb-6 flex flex-row justify-between">
+            <p className=" font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-white">
+              Профиль
+            </p>
+            <button className="flex h-14 w-44 items-center justify-center gap-5 rounded-lg bg-neutral-600 px-6 py-4 font-['Roboto'] text-base font-normal leading-normal tracking-wide text-zinc-100">
+              Редактировать
+            </button>
           </div>
-          <div className=" p-12 bg-zinc-800 rounded-2xl border gap-6 flex flex-row border-hidden mb-6">
+          <div className=" mb-6 flex flex-row gap-6 rounded-2xl border border-hidden bg-zinc-800 p-12">
             <div>
               {user?.image && user?.name ? (
-                <Image src={user.image} alt={user.name} width={208} height={208} className="rounded-full"/>
+                <Image
+                  src={user.image}
+                  alt={user.name}
+                  width={208}
+                  height={208}
+                  className="rounded-full"
+                />
               ) : (
-                <div className="w-52 h-52 bg-zinc-100 rounded-full"  />
+                <div className="h-52 w-52 rounded-full bg-zinc-100" />
               )}
             </div>
             <div>
               <div className=" flex flex-row gap-5">
-                <p className="text-white text-2xl font-normal font-['Roboto'] leading-normal tracking-wide">{user?.name}</p>
-                <div className="px-3 py-0.5 rounded-xl border border-white justify-end items-center gap-2.5 inline-flex">
-                  <p className="text-center text-white text-xl font-normal font-['Roboto'] leading-normal tracking-wide">{user?.profesion}</p>
+                <p className="font-['Roboto'] text-2xl font-normal leading-normal tracking-wide text-white">
+                  {user?.name}
+                </p>
+                <div className="inline-flex items-center justify-end gap-2.5 rounded-xl border border-white px-3 py-0.5">
+                  <p className="text-center font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
+                    {user?.profesion}
+                  </p>
                 </div>
               </div>
-              <p className="text-white text-lg font-normal font-['Roboto'] leading-normal tracking-wide">Город: {user?.city}</p>
-              <p className="text-white text-lg font-normal font-['Roboto'] leading-normal tracking-wide">Возраст: {user?.age}</p>
-              <p className="text-white text-lg font-normal font-['Roboto'] leading-normal tracking-wide">Владение языками: {user?.languages}</p>
+              <p className="font-['Roboto'] text-lg font-normal leading-normal tracking-wide text-white">
+                Город: {user?.city}
+              </p>
+              <p className="font-['Roboto'] text-lg font-normal leading-normal tracking-wide text-white">
+                Возраст: {user?.age}
+              </p>
+              <p className="font-['Roboto'] text-lg font-normal leading-normal tracking-wide text-white">
+                Владение языками: {user?.languages}
+              </p>
               <div className=" flex flex-col">
-                <p className="text-white text-xl font-normal font-['Roboto'] leading-normal tracking-wide">Контакты</p>
+                <p className="font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
+                  Контакты
+                </p>
                 <div className=" flex flex-row">
-                  <div className=" flex flex-row mr-6">
-                    <p className="text-white text-xl font-normal font-['Roboto'] leading-normal tracking-wide">{user?.email}</p>
+                  <div className=" mr-6 flex flex-row">
+                    <p className="font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
+                      {user?.email}
+                    </p>
                   </div>
                   <div className=" flex flex-row">
-                    <p className="text-white text-xl font-normal font-['Roboto'] leading-normal tracking-wide">{user?.telegram}</p>
+                    <p className="font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
+                      {user?.telegram}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className=" p-12 bg-zinc-800 rounded-2xl border gap-6 inline-flex flex-col border-hidden mb-6">
-            <p className="text-zinc-100 text-3xl font-normal font-['Roboto'] leading-normal tracking-wide" >Обо мне</p>
-            <p className=" w-3/4 text-zinc-100 text-base font-normal font-['Roboto'] leading-normal tracking-wide">{user?.description}</p>
+          <div className="mb-6 inline-flex w-full flex-col gap-6 rounded-2xl border border-hidden bg-zinc-800 p-12">
+            <p className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-zinc-100">
+              Обо мне
+            </p>
+            <p className=" w-3/4 font-['Roboto'] text-base font-normal leading-normal tracking-wide text-zinc-100">
+              {user?.description}
+            </p>
           </div>
         </div>
         <div>
-          <div className=" flex flex-row justify-between mb-6">
-            <p className="text-white text-3xl font-normal font-['Roboto'] leading-normal tracking-wide">Мои проекты</p>
-            <button className="px-6 py-4 bg-neutral-600 rounded-lg justify-center items-center gap-5 flex w-44 h-14 text-zinc-100 text-base font-normal font-['Roboto'] leading-normal tracking-wide">Создать проект</button>
+          <div className=" mb-6 flex flex-row justify-between">
+            <p className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-white">
+              Мои проекты
+            </p>
+            <button className="flex h-14 w-44 items-center justify-center gap-5 rounded-lg bg-neutral-600 px-6 py-4 font-['Roboto'] text-base font-normal leading-normal tracking-wide text-zinc-100">
+              Создать проект
+            </button>
           </div>
-          <div className=" grid grid-rows-3 grid-cols-2">
-            {user?.projects.map(project => {return(
-              <div className=" w-11/12 p-8 bg-zinc-800 rounded-2xl border gap-6  flex flex-row border-hidden mb-6">
-                <div className=" flex flex-col justify-between ">
-                  <div>
-                    <p className="text-white text-2xl font-normal font-['Inter'] leading-7 tracking-tight">
-                      {project.title}
-                    </p>
+          <div className=" grid grid-cols-2 grid-rows-3 gap-6">
+            {user?.projects.map((project) => {
+              return (
+                <div className=" flex flex-row gap-6 rounded-2xl border  border-hidden bg-zinc-800 p-8">
+                  <div className=" flex flex-col justify-between ">
+                    <div>
+                      <p className="font-['Inter'] text-2xl font-normal leading-7 tracking-tight text-white">
+                        {project.title}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
+                        Не могу вывести
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
+                        {project.status}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-zinc-100 text-base font-normal font-['Inter'] leading-tight tracking-tight">
-                      Не могу вывести
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-zinc-100 text-base font-normal font-['Inter'] leading-tight tracking-tight">
-                      {project.status}
-                    </p>
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <p className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
+                        Участник
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
+                        {project.term}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-col justify-between">
-                  <div>
-                  <p className="text-zinc-100 text-base font-normal font-['Inter'] leading-tight tracking-tight">
-                    Участник
-                  </p>
-                  </div>
-                  <div>
-                  <p className="text-zinc-100 text-base font-normal font-['Inter'] leading-tight tracking-tight">
-                    {project.term}
-                  </p>
-                  </div>
-                </div>
-              </div>
-            )})}
+              );
+            })}
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
-}
+};
 export default User;
 
 export const generateMetadata = async ({
