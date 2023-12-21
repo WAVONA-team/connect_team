@@ -1,11 +1,18 @@
 import { type Config } from "tailwindcss";
 
 export default {
-  content: ["./src/**/*.tsx"],
+  content: [
+    "./src/**/*.tsx",
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
+  ],
   theme: {
     extend: {
       fontFamily: {
-        kannada: ["__Noto_Sans_Kannada_9c80e5", "__Noto_Sans_Kannada_Fallback_9c80e5", "sans-serif"],
+        kannada: [
+          "__Noto_Sans_Kannada_9c80e5",
+          "__Noto_Sans_Kannada_Fallback_9c80e5",
+          "sans-serif",
+        ],
       },
       colors: {
         primary: {
@@ -28,7 +35,7 @@ export default {
           "pakistan-green": "#1A2E05",
         },
         background: {
-          "night": "#100E16",
+          night: "#100E16",
           "taupe-gray": "#65656E",
         },
         surface: {
@@ -36,7 +43,7 @@ export default {
         },
         onPrimary: {
           "anti-flash-withe": "#F4F4F5",
-          "lavender": "#EBEFFF",
+          lavender: "#EBEFFF",
         },
         success: {
           "dark-pastel-green": "#22C55E",
@@ -45,10 +52,6 @@ export default {
           "imperial-red": "#EF4444",
         },
       },
-    },
-    screens: {
-      tablet: "768px",
-      desktop: "1280px",
     },
   },
   plugins: [],
