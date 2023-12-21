@@ -25,12 +25,14 @@ const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
     <html lang="ru">
       <body
-        className={`${kannada.className} flex h-screen flex-col`}
+        className={`${kannada.className} flex h-screen flex-col bg-black`}
       >
         <Providers>
           <Header />
 
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            <div className="m-auto w-3/5">{children}</div>
+          </main>
 
           <Footer />
         </Providers>
