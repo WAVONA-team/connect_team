@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        kannada: ["__Noto_Sans_Kannada_9c80e5", "__Noto_Sans_Kannada_Fallback_9c80e5", "sans-serif"],
+        kannada: ["__Noto_Sans_b93534", "sans-serif"],
       },
       colors: {
         primary: {
