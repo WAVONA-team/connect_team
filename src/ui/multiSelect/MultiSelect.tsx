@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import classNames from "classnames";
 import { Listbox } from "@headlessui/react";
 import Badge from "@/ui/badge/Badge";
 
@@ -22,7 +23,7 @@ const MultiSelect: React.FC<Props> = React.memo(
     return (
       <Listbox
         as={"div"}
-        className={className}
+        className={`${className} relative`}
         onChange={setSelectedItems}
         value={selectedItems}
         multiple
@@ -66,19 +67,19 @@ const MultiSelect: React.FC<Props> = React.memo(
         </Listbox.Button>
 
         <Listbox.Options
-          className={`
-            shadow-surface
-            rounded-lg
-            bg-secondary-dark-purple
-            focus:outline-none
-          `}
+          className={classNames(
+            "shadow-surface absolute w-full rounded-lg bg-secondary-dark-purple focus:outline-none",
+            {
+              "top-16": !selectedItems.length,
+              "top-20": selectedItems.length,
+            },
+          )}
         >
           {allItems.map((item) => (
             <Listbox.Option
               className={`
                 hover:bg-onSecondary-english-violet
                 hover:text-onSecondary-platinum
-                mt-2
                 cursor-pointer
                 px-4
                 py-3.5
