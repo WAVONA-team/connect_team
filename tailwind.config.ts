@@ -20,6 +20,10 @@ export default {
           "rich-black": "#313136",
           "dark-purple": "#252031",
         },
+        onSecondary: {
+          "platinum": "#D4D4D9",
+          "davys-gray": "#27272A",
+        },
         accent: {
           "spring-bud": "#A3E635",
           "green-yellow": "#BEF264",
@@ -33,6 +37,7 @@ export default {
         },
         surface: {
           "raisin-black": "#1C1825",
+          "black": "#2D2D2D",
         },
         onPrimary: {
           "anti-flash-withe": "#F4F4F5",
@@ -45,6 +50,9 @@ export default {
           "imperial-red": "#EF4444",
         },
       },
+    },
+    boxShadow: {
+      "surface": "0px 8px 12px 0px rgba(0, 0, 0, 0.30)",
     },
     screens: {
       tablet: "768px",
