@@ -59,31 +59,30 @@ model User {
     sessions      Session[]
 }
 model Project {
-    id              String    @id @default(cuid())
-    title           String
-    description     String?
+    id            String    @id @default(cuid())
+    title         String
+    description   String?
     status        String
-    term            String
+    term          String
     deadline      DateTime
     userId        String
-    creator         User    @relation(fields: [userId], references: [id])
+    creator       User    @relation(fields: [userId], references: [id])
     responses     Response[]
 }
 
 model Response {
-  id            String  @id @default(cuid())
-  userId        String
-  projectId     String
-  date          DateTime
-  status        String
-  project       Project    @relation(fields: [projectId], references: [id])
-  candidat      User     @relation(fields: [userId], references: [id])
+  id              String  @id @default(cuid())
+  userId          String
+  projectId       String
+  status          String
+  project         Project    @relation(fields: [projectId], references: [id])
+  candidat        User     @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+    identifier    String
+    token         String   @unique
+    expires       DateTime
 
     @@unique([identifier, token])
 }
