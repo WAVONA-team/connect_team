@@ -1,22 +1,33 @@
-"use client";
+"use client"
 import React, { type ChangeEvent } from "react";
 import { useState } from "react";
 import Container from "@/ui/container/Container";
+import { api } from "@/trpc/react";
+import { useSession } from "next-auth/react";
+
 
 const ProjectCreate: React.FC = () => {
+  const session = useSession()
+  console.log(session)
+  const createProject = api.project.create.useMutation({ onSuccess: ( data ) => {console.log(data)}})
+  const userId = session?.data?.user.id;
+  console.log(userId)
   const [formValues, setFormValues] = useState({
-    name: "",
+    image: "https://img.razrisyika.ru/kart/2/4816-kotik-12.jpg",
+    title: "",
+    deadline: "",
+    term: "6 месяцев",
     target: "",
-    image: "",
-    date: "",
     description: "",
     email: "",
     telegram: "",
     discord: "",
     site: "",
+    status: "Проект начат",
   });
   const sendDataToServer = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    void createProject.mutate(formValues)
   };
   return (
     <Container>
@@ -53,7 +64,7 @@ const ProjectCreate: React.FC = () => {
               className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-['Inter'] text-base font-medium tracking-tight shadow"
               placeholder="Имя фамилия"
               onChange={(event) =>
-                setFormValues({ ...formValues, name: event.target.value })
+                setFormValues({ ...formValues, title: event.target.value })
               }
             ></input>
           </div>
@@ -70,7 +81,7 @@ const ProjectCreate: React.FC = () => {
               className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-['Inter'] text-base font-medium tracking-tight shadow"
               placeholder="Дата"
               onChange={(event) =>
-                setFormValues({ ...formValues, date: event.target.value })
+                setFormValues({ ...formValues, deadline: event.target.value })
               }
             ></input>
           </div>
