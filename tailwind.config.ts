@@ -20,6 +20,9 @@ export default {
           "rich-black": "#313136",
           "dark-purple": "#252031",
         },
+        onSecondary: {
+          "english-violet": "#38304B",
+        },
         accent: {
           "spring-bud": "#A3E635",
           "green-yellow": "#BEF264",
