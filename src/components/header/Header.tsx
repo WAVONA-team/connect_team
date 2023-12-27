@@ -17,7 +17,7 @@ const Header: React.FC = React.memo(async () => {
     <header
       className="
         lg:py-5
-        bg-purple-800
+        bg-surface-raisin-black
         py-2
       "
     >

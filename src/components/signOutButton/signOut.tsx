@@ -10,12 +10,6 @@ const SignOutButton: React.FC = React.memo(() => {
       className="
         w-full
         rounded
-        px-2
-        py-2
-        text-sm
-        text-black
-        hover:bg-purple-800
-        hover:text-white
       "
     >
       Выход

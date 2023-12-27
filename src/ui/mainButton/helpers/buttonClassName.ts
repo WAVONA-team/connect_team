@@ -1,6 +1,6 @@
 const buttonClassName = `
   rounded-lg
-  bg-primary-button-fill
+  bg-primary-neon-blue
   px-4
   py-3.5
   text-center
