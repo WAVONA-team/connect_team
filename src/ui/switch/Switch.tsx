@@ -5,7 +5,7 @@ import { Switch as HeadlessSwitch } from "@headlessui/react";
 
 type Props = {
   checked: boolean;
-  onChange: React.MouseEventHandler<HTMLButtonElement>;
+  onChange: (checked: boolean) => void;
   disabled?: boolean;
 };
 
@@ -14,7 +14,7 @@ const Switch: React.FC<Props> = React.memo(
     return (
       <HeadlessSwitch
         checked={checked}
-        onClick={onChange}
+        onChange={onChange}
         className={classNames(
           "relative inline-flex h-7 w-12 items-center rounded-full",
           {
