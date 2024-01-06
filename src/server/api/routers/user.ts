@@ -7,6 +7,7 @@ export const userRouter = createTRPCRouter({
       z.object({
         email: z.string().trim().email(),
         name: z.string().trim(),
+        image: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -14,6 +15,7 @@ export const userRouter = createTRPCRouter({
         data: {
           email: input.email,
           name: input.name,
+          image: input.image,
         },
       });
     }),
@@ -35,9 +37,16 @@ export const userRouter = createTRPCRouter({
   update: protectedProcedure
     .input(
       z.object({
-        email: z.string().trim().email(),
-        name: z.string().trim(),
         id: z.string().trim(),
+        name: z.string().trim(),
+        profession: z.string().trim(),
+        city: z.string().trim(),
+        age: z.string().trim(),
+        languages: z.string().trim(),
+        email: z.string().trim(),
+        telegram: z.string().trim(),
+        discord: z.string().trim(),
+        description: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -46,8 +55,15 @@ export const userRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          email: input.email,
           name: input.name,
+          profession: input.profession,
+          city: input.city,
+          age: +input.age,
+          languages: input.languages,
+          email: input.email,
+          telegram: input.telegram,
+          discord: input.discord,
+          description: input.description,
         },
       });
     }),

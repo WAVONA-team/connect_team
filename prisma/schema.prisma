@@ -49,6 +49,7 @@ model User {
     description      String?
     profession       String?
     telegram         String?
+    discord          String?
     city             String?
     age              Int?
     languages        String?
