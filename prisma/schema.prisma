@@ -48,6 +48,7 @@ model User {
     image            String
     description      String?
     profession       String?
+    isVisibleForTeam Boolean?
     telegram         String?
     discord          String?
     city             String?
@@ -82,23 +83,22 @@ model Project {
     responses      Response[]
 }
 
-model RequiredPeopleState {
-    id                     String  @id @default(cuid())
-    projectId              String
-    numberOfRequiredPeople Int
-    Profession             String
-    project                Project @relation(fields: [projectId], references: [id])
-}
-
 model Response {
     id        String   @id @default(cuid())
     userId    String
     projectId String
     date      DateTime
     status    String
-    message   String?
     project   Project  @relation(fields: [projectId], references: [id])
     candidat  User     @relation(fields: [userId], references: [id])
+}
+
+model RequiredPeopleState {
+    id                     String  @id @default(cuid())
+    projectId              String
+    numberOfRequiredPeople Int
+    Profession             String
+    project                Project @relation(fields: [projectId], references: [id])
 }
 
 model VerificationToken {
