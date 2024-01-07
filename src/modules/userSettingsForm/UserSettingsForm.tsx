@@ -10,6 +10,7 @@ import generalClassNames from "./helpers/GeneralClassNames";
 
 import Image from "next/image";
 import userNoAvatar from "../../../public/images/avatar.svg";
+import arrowDown from "../../../public/images/arrowDown.svg";
 
 import Input from "@/ui/input/Input";
 import MainButton from "@/ui/mainButton/MainButton";
@@ -31,9 +32,11 @@ const UserSettingsForm: React.FC = React.memo(() => {
       name: "",
       profession: "",
       city: "",
+      isVisibleForTeam: false,
       age: "",
       languages: "",
       email: "",
+      preferredTypeOfCommunication: "",
       telegram: "",
       discord: "",
       description: "",
@@ -47,9 +50,11 @@ const UserSettingsForm: React.FC = React.memo(() => {
       id: userData.user.id,
       name: formData.name,
       city: formData.city,
+      isVisibleForTeam: formData.isVisibleForTeam,
       age: formData.age,
       languages: formData.languages,
       email: formData.email,
+      preferredTypeOfCommunication: formData.preferredTypeOfCommunication,
       telegram: formData.telegram,
       discord: formData.discord,
       description: formData.description,
@@ -81,6 +86,31 @@ const UserSettingsForm: React.FC = React.memo(() => {
         "
       >
         <div className={generalClassNames.sectionWrapper}>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              <Image
+                src={arrowDown as string}
+                alt="Навигация назад"
+                className="rotate-90"
+              />
+            </button>
+
+            <h2 className="text-3xl text-onPrimary-anti-flash-withe">
+              Профиль
+            </h2>
+          </div>
+
+          <p className={generalClassNames.sectionAdditionalText}>
+            Здесь вы можете изменить настройки Вашего профиля
+          </p>
+        </div>
+
+        <div className={generalClassNames.sectionWrapper}>
           <h2 className={generalClassNames.sectionTitle}>
             Основная информация
           </h2>
@@ -102,43 +132,47 @@ const UserSettingsForm: React.FC = React.memo(() => {
           )}
 
           <div className={generalClassNames.inputWrapper}>
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Никнейм</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Никнейм</p>
 
-              <Controller
-                name="name"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.name?.message}
-                    placeholder="Введите никнейм"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="name"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.name?.message}
+                      placeholder="Введите никнейм"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+            </div>
 
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Профессия</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Профессия</p>
 
-              <Controller
-                name="profession"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.profession?.message}
-                    placeholder="Выберите профессию"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="profession"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.profession?.message}
+                      placeholder="Выберите профессию"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+            </div>
           </div>
         </div>
 
@@ -148,68 +182,89 @@ const UserSettingsForm: React.FC = React.memo(() => {
           </h2>
 
           <div className={generalClassNames.sectionAdditionalWrapper}>
-            <p className={generalClassNames.sectionAdditionalText}>
-              Информация видна только команде
-            </p>
+            <label className="flex justify-between sm:w-2/3 xl:w-3/4">
+              <p className={generalClassNames.sectionAdditionalText}>
+                Информация видна только команде
+              </p>
+
+              <Controller
+                name="isVisibleForTeam"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="checkbox"
+                    className="w-4"
+                    checked={field.value}
+                    onChange={(event) => field.onChange(event.target.checked)}
+                  />
+                )}
+              />
+            </label>
           </div>
 
           <div className={generalClassNames.inputWrapper}>
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Место проживания</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Место проживания</p>
 
-              <Controller
-                name="city"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.city?.message}
-                    placeholder="Город, Страна"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="city"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.city?.message}
+                      placeholder="Город, Страна"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+            </div>
 
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Возраст</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Возраст</p>
 
-              <Controller
-                name="age"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.age?.message}
-                    placeholder="Введите возраст"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="age"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.age?.message}
+                      placeholder="Введите возраст"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+            </div>
 
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Владение яззыками</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Владение яззыками</p>
 
-              <Controller
-                name="languages"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.languages?.message}
-                    placeholder="Пример: Английский, Русский"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="languages"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.languages?.message}
+                      placeholder="Пример: Английский, Русский"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+            </div>
           </div>
         </div>
 
@@ -224,62 +279,140 @@ const UserSettingsForm: React.FC = React.memo(() => {
           </div>
 
           <div className={generalClassNames.inputWrapper}>
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Электронная почта</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Электронная почта</p>
 
-              <Controller
-                name="email"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.email?.message}
-                    placeholder="email@email.com"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="email"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.email?.message}
+                      placeholder="email@email.com"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
 
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Телеграмм</p>
+              <label className={generalClassNames.labelAdditional}>
+                <Controller
+                  name="preferredTypeOfCommunication"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="radio"
+                      name="preferredTypeOfCommunication"
+                      value="email"
+                      onChange={(event) => field.onChange(event.target.value)}
+                    />
+                  )}
+                />
 
-              <Controller
-                name="telegram"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.telegram?.message}
-                    placeholder="@"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <p
+                  className={generalClassNames.labelText
+                    .split("")
+                    .slice(1)
+                    .join("")}
+                >
+                  Желаемый вид связи
+                </p>
+              </label>
+            </div>
 
-            <label className={generalClassNames.label}>
-              <p className={generalClassNames.labelText}>Дискорд</p>
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Телеграмм</p>
 
-              <Controller
-                name="discord"
-                control={control}
-                rules={{ required: "Обязательно к заполнению" }}
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={(event) => field.onChange(event.target.value)}
-                    error={errors.discord?.message}
-                    placeholder="Имя пользователя"
-                    className={generalClassNames.labelInput}
-                  />
-                )}
-              />
-            </label>
+                <Controller
+                  name="telegram"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.telegram?.message}
+                      placeholder="@"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+
+              <label className={generalClassNames.labelAdditional}>
+                <Controller
+                  name="preferredTypeOfCommunication"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="radio"
+                      name="preferredTypeOfCommunication"
+                      value="telegram"
+                      onChange={(event) => field.onChange(event.target.value)}
+                    />
+                  )}
+                />
+
+                <p
+                  className={generalClassNames.labelText
+                    .split("")
+                    .slice(1)
+                    .join("")}
+                >
+                  Желаемый вид связи
+                </p>
+              </label>
+            </div>
+
+            <div className={generalClassNames.labelWrapper}>
+              <label className={generalClassNames.label}>
+                <p className={generalClassNames.labelText}>Дискорд</p>
+
+                <Controller
+                  name="discord"
+                  control={control}
+                  rules={{ required: "Обязательно к заполнению" }}
+                  render={({ field }) => (
+                    <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.discord?.message}
+                      placeholder="Имя пользователя"
+                      className={generalClassNames.labelInput}
+                    />
+                  )}
+                />
+              </label>
+
+              <label className={generalClassNames.labelAdditional}>
+                <Controller
+                  name="preferredTypeOfCommunication"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="radio"
+                      name="preferredTypeOfCommunication"
+                      value="discord"
+                      onChange={(event) => field.onChange(event.target.value)}
+                    />
+                  )}
+                />
+
+                <p
+                  className={generalClassNames.labelText
+                    .split("")
+                    .slice(1)
+                    .join("")}
+                >
+                  Желаемый вид связи
+                </p>
+              </label>
+            </div>
           </div>
         </div>
 
