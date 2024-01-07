@@ -5,16 +5,17 @@ import buttonClassName from "./helpers/buttonClassName";
 
 type Props = {
   text: string;
+  type?: "button" | "submit";
   className?: string;
   disabled?: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const MainButton: React.FC<Props> = React.memo(
-  ({ text, className = "", disabled = false, onClick }) => {
+  ({ text, type = "button", className = "", disabled = false, onClick }) => {
     return (
       <button
-        type="button"
+        type={type}
         onClick={onClick}
         disabled={disabled}
         className={`

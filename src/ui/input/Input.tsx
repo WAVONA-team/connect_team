@@ -17,11 +17,11 @@ const Input: React.FC<Props> = React.memo(
     placeholder = "",
     disabled = false,
     className = "",
-    error,
+    error = "",
   }) => {
     return (
-      <label className="relative">
-        {error && (
+      <div className="relative">
+        {!!error && (
           <p className="absolute font-semibold text-error-imperial-red">
             {error}
           </p>
@@ -38,7 +38,7 @@ const Input: React.FC<Props> = React.memo(
             hover:text-onSecondary-platinum
             disabled:text-onSecondary-platinum
             disabled:border-onSecondary-platinum
-            mt-6
+            mt-8
             w-full
             rounded-lg
             border
@@ -56,11 +56,11 @@ const Input: React.FC<Props> = React.memo(
             focus:outline-none
             disabled:bg-secondary-cadet-grey`,
             {
-              "border-error-imperial-red": error,
+              "border-error-imperial-red": !!error,
             },
           )}
         />
-      </label>
+      </div>
     );
   },
 );
