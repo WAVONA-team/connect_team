@@ -181,8 +181,8 @@ const UserSettingsForm: React.FC = React.memo(() => {
             Дополнительная информация
           </h2>
 
-          <div className={generalClassNames.sectionAdditionalWrapper}>
-            <label className="flex justify-between sm:w-2/3 xl:w-3/4">
+          <div className="grid grid-cols-3">
+            <label className="flex justify-between col-span-2">
               <p className={generalClassNames.sectionAdditionalText}>
                 Информация видна только команде
               </p>
