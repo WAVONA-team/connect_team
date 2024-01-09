@@ -64,6 +64,7 @@ export const userRouter = createTRPCRouter({
           age: +input.age,
           languages: input.languages,
           email: input.email,
+          preferredTypeOfCommunication: input.preferredTypeOfCommunication,
           telegram: input.telegram,
           discord: input.discord,
           description: input.description,
