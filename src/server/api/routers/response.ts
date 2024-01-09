@@ -7,15 +7,19 @@ export const responseRouter = createTRPCRouter({
       z.object({
         projectId: z.string().trim(),
         status: z.string().trim(),
+        date: z.string().trim(),
+        message: z.string().trim(),
       }),
     )
 
     .mutation(async ({ ctx, input }) => {
       return ctx.db.response.create({
         data: {
-          status: input.status,
           projectId: input.projectId,
           userId: ctx.session.user.id,
+          status: input.status,
+          date: input.date,
+          message: input.message,
         },
       });
     }),
@@ -66,7 +70,7 @@ export const responseRouter = createTRPCRouter({
         },
         include: {
           project: true,
-          candidat: true,
+          candidate: true,
         },
       });
     }),
