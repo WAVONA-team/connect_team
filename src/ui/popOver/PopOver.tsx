@@ -1,7 +1,7 @@
 "use client";
 import React, { Fragment } from "react";
 import { Popover as HeadlessPopOver, Transition } from "@headlessui/react";
-import Bell from "../icons/bell/Bell";
+import BellIcon from "../icons/bell/Bell";
 
 type Props = {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ const PopOver: React.FC<Props> = React.memo(({ children }) => {
             focus:outline-none
           `}
         >
-          <Bell />
+          <BellIcon />
         </HeadlessPopOver.Button>
 
         <Transition
