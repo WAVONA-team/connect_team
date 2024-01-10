@@ -1,7 +1,10 @@
 import React from "react";
-import generalClassNames from "../helpers/generalClassNames";
+import classNames from "classnames";
 
-const gridViewIcon: React.FC = React.memo(() => {
+import generalClassNames from "../helpers/generalClassNames";
+import type Props from "../types/Props";
+
+const gridViewIcon: React.FC<Props> = React.memo(({ active = false }) => {
   return (
     <svg
       width="24"
@@ -9,7 +12,10 @@ const gridViewIcon: React.FC = React.memo(() => {
       viewBox="0 0 24 24"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className={generalClassNames.fill}
+      className={classNames({
+        "fill-secondary-cadet-grey": active,
+        [generalClassNames.fill]: !active,
+      })}
     >
       <path d="M22 8.52V3.98C22 2.57 21.36 2 19.77 2H15.73C14.14 2 13.5 2.57 13.5 3.98V8.51C13.5 9.93 14.14 10.49 15.73 10.49H19.77C21.36 10.5 22 9.93 22 8.52Z" />
 
