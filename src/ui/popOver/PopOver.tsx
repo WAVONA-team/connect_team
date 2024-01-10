@@ -1,6 +1,7 @@
 "use client";
 import React, { Fragment } from "react";
 import { Popover as HeadlessPopOver, Transition } from "@headlessui/react";
+import Bell from "../icons/bell/Bell";
 
 type Props = {
   children: React.ReactNode;
@@ -14,13 +15,11 @@ const PopOver: React.FC<Props> = React.memo(({ children }) => {
           className={`
             h-8
             w-6
-            bg-[url("/images/bell.svg")]
-            bg-contain
-            bg-center
-            bg-no-repeat
             focus:outline-none
           `}
-        />
+        >
+          <Bell />
+        </HeadlessPopOver.Button>
 
         <Transition
           as={Fragment}

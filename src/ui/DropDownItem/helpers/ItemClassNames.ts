@@ -7,7 +7,6 @@ const ItemClassNames = `
   px-5
   py-3
   text-center
-  block
   transition
   hover:bg-primary-majorelle-blue
   text-onPrimary-anti-flash-withe
