@@ -20,7 +20,7 @@ const Tabs: React.FC<Props> = React.memo(
         className={`
           h-9 border-b-2 px-3 py-2 block text-center
           ${isActive ? ' border-b-primary-majorelle-blue text-primary-majorelle-blue'
-          : 'border-b-zinc-300 text-zinc-300 hover:border-b-primary-powder-blue hover:text-primary-button-fill'
+          : 'border-b-zinc-300 text-zinc-300 hover:border-b-primary-powder-blue hover:text-primary-neon-blue'
           }`}
       >
         {title}

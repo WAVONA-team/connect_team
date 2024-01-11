@@ -52,12 +52,12 @@ const Menu: React.FC<Props> = React.memo(
               right-0
               mt-2
               origin-top-right
-              rounded
-              bg-white
+              rounded-lg
+              bg-secondary-dark-purple
               shadow-lg
             "
           >
-            <div className="px-3 py-3">{children}</div>
+            <div>{children}</div>
           </HeadlessMenu.Items>
         </Transition>
       </HeadlessMenu>

@@ -1,14 +1,15 @@
 "use client";
 import React from "react";
+import classNames from "classnames";
 import { Menu as HeadlessMenu } from "@headlessui/react";
+
+import { type MenuItem } from "./types/MenuItem";
 
 import SignOutButton from "@/components/signOutButton/signOut";
 
 import Menu from "@/ui/menu/Menu";
-import Link from "next/link";
+import DropDownItem from "@/ui/DropDownItem/DropDownItem";
 import Image from "next/image";
-
-import { type MenuItem } from "./types/MenuItem";
 
 type Props = {
   userId: string;
@@ -19,7 +20,7 @@ const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
   const menuItems: MenuItem[] = [
     {
       name: "Настройки",
-      path: "/settings",
+      path: `/user/${userId}/settings`,
     },
     {
       name: "Профиль",
@@ -36,37 +37,35 @@ const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
           alt={imgUrl ?? "avatar"}
           width={32}
           height={32}
-          className="rounded"
+          className="rounded-full"
         />
       }
     >
-      {menuItems.map((item) => {
+      {menuItems.map((item, index) => {
         const { name, path } = item;
 
         return (
-          <HeadlessMenu.Item key={name} as={"div"} className="block">
-            <Link
-              className="
-                block
-                rounded
-                px-2
-                py-2
-                text-center
-                text-sm
-                text-black
-                hover:bg-purple-800
-                hover:text-white
-              "
-              href={path}
+          <HeadlessMenu.Item
+            key={name}
+            as={"div"}
+            className="first:border-t-lg block"
+          >
+            <DropDownItem
+              link={path}
+              className={classNames({
+                "rounded-t-lg": index === 0,
+              })}
             >
               {name}
-            </Link>
+            </DropDownItem>
           </HeadlessMenu.Item>
         );
       })}
 
       <HeadlessMenu.Item>
-        <SignOutButton />
+        <DropDownItem className="rounded-b-lg">
+          <SignOutButton />
+        </DropDownItem>
       </HeadlessMenu.Item>
     </Menu>
   );
