@@ -43,7 +43,7 @@ const UserSettingsForm: React.FC = React.memo(() => {
     },
   });
 
-  const onSubmit: SubmitHandler<InputsValue> = async (formData) => {
+  const onSubmit: SubmitHandler<InputsValue> = (formData) => {
     const userData = data!;
 
     userMutation.mutate({
