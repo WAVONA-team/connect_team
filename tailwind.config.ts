@@ -22,6 +22,8 @@ export default {
         },
         onSecondary: {
           "english-violet": "#38304B",
+          "platinum": "#D4D4D9",
+          "davys-gray": "#27272A",
         },
         accent: {
           "spring-bud": "#A3E635",
@@ -36,6 +38,7 @@ export default {
         },
         surface: {
           "raisin-black": "#1C1825",
+          "black": "#2D2D2D",
         },
         onPrimary: {
           "anti-flash-withe": "#F4F4F5",
@@ -48,6 +51,9 @@ export default {
           "imperial-red": "#EF4444",
         },
       },
+    },
+    boxShadow: {
+      "surface": "0px 8px 12px 0px rgba(0, 0, 0, 0.30)",
     },
   },
   plugins: [],
