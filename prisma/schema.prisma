@@ -42,60 +42,61 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    image         String
-    description   String?
-    profession     String?
-    telegram      String?
-    city          String?
-    age           Int?
-    languages     String?
-    emailVerified DateTime?
-    createdProjects Project[] @relation("ProjectCreator")
-    memberOfProjects Project[] @relation("ProjectMembers")
-    responses     Response[]
-    accounts      Account[]
-    sessions      Session[]
+    id               String     @id @default(cuid())
+    name             String?
+    email            String?    @unique
+    image            String
+    description      String?
+    profession       String?
+    telegram         String?
+    city             String?
+    age              Int?
+    languages        String?
+    emailVerified    DateTime?
+    createdProjects  Project[]  @relation("ProjectCreator")
+    memberOfProjects Project[]  @relation("ProjectMembers")
+    responses        Response[]
+    accounts         Account[]
+    sessions         Session[]
 }
+
 model Project {
-    id              String    @id @default(cuid())
-    image           String
-    title           String
-    term            String
-    published       DateTime
-    deadline        DateTime
-    status          String
-    target          String
-    description     String
-    email           String?
-    telegram        String?
-    discord         String?
-    site            String?
-    userId          String
-    creator         User @relation(name: "ProjectCreator", fields: [userId], references: [id])
-    members         User[] @relation(name: "ProjectMembers")
-    requiredPeople  RequiredPeopleState[]
-    responses       Response[]
+    id             String                @id @default(cuid())
+    image          String
+    title          String
+    term           String
+    published      DateTime
+    deadline       DateTime
+    status         String
+    target         String
+    description    String
+    email          String?
+    telegram       String?
+    discord        String?
+    site           String?
+    userId         String
+    creator        User                  @relation(name: "ProjectCreator", fields: [userId], references: [id])
+    members        User[]                @relation(name: "ProjectMembers")
+    requiredPeople RequiredPeopleState[]
+    responses      Response[]
 }
 
 model RequiredPeopleState {
-  id            String  @id @default(cuid())
-  projectId     String
-  numberOfRequiredPeople    Int
-  Profession    String
-  project       Project   @relation(fields: [projectId], references: [id])
+    id                     String  @id @default(cuid())
+    projectId              String
+    numberOfRequiredPeople Int
+    Profession             String
+    project                Project @relation(fields: [projectId], references: [id])
 }
 
 model Response {
-  id            String  @id @default(cuid())
-  userId        String
-  projectId     String
-  date          DateTime
-  status        String
-  project       Project   @relation(fields: [projectId], references: [id])
-  candidat      User     @relation(fields: [userId], references: [id])
+    id        String   @id @default(cuid())
+    userId    String
+    projectId String
+    date      DateTime
+    status    String
+    project   Project  @relation(fields: [projectId], references: [id])
+    candidat  User     @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {

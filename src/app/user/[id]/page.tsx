@@ -16,7 +16,7 @@ const User: React.FC<Props> = async ({ params }) => {
       <nav className="mb-6 w-full border-b-2 border-gray-400">
         <div className=" flex w-3/12 flex-row justify-between">
           <a
-            href={`/user/${params.id}/projects`}
+            href={`/projects`}
             className="font-['Inter'] text-base font-medium leading-tight text-gray-500"
           >
             Проекты
@@ -28,7 +28,7 @@ const User: React.FC<Props> = async ({ params }) => {
             Профиль
           </a>
           <a
-            href={`/user/${params.id}/reviews`}
+            href={`/responses/${params.id}`}
             className="font-['Inter'] text-base font-medium leading-tight text-gray-500"
           >
             Отклики
