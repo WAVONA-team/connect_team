@@ -31,6 +31,7 @@ const PopOver: React.FC<Props> = React.memo(
             w-${width}
             focus:outline-none
           `}
+          as="div"
         >
           {button}
         </HeadlessPopOver.Button>
