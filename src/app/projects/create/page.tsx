@@ -22,10 +22,12 @@ const ProjectCreate: React.FC = () => {
     site: "",
     status: "Проект начат",
   });
+
   const sendDataToServer = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     createProject.mutate(formValues)
   };
+
   return (
     <Container>
       <form onSubmit={sendDataToServer} className="w-full rounded-2xl bg-zinc-800 p-12    ">
