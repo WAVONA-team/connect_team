@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import classNames from "classnames";
 
 import { type InitialType } from "./types/initialType";
 
@@ -19,6 +18,8 @@ const CounterMultiSelect: React.FC<Props> = React.memo(
     const selectedItems = Object.entries(allItems).filter(
       ([name, value]) => value > 0,
     );
+
+    console.log(selectedItems);
 
     return (
       <PopOver
@@ -43,16 +44,10 @@ const CounterMultiSelect: React.FC<Props> = React.memo(
           )
         }
         width="full"
-        height="min"
+        height="20"
         className={className}
-        buttonClassName="border-onSecondary-english-violet flex cursor-pointer gap-2 rounded-lg border bg-secondary-dark-purple px-4 py-3.5 transition focus:border-primary-neon-blue focus:text-onPrimary-anti-flash-withe focus:outline-none"
-        panelClassName={classNames(
-          "w-full shadow-surface rounded-lg bg-secondary-dark-purple focus:outline-none transition border-none",
-          {
-            "top-20": selectedItems.length,
-            "top-16": !selectedItems.length,
-          },
-        )}
+        buttonClassName="border-onSecondary-english-violet flex items-center cursor-pointer gap-2 rounded-lg border bg-secondary-dark-purple px-4 py-3.5 transition focus:border-primary-neon-blue focus:text-onPrimary-anti-flash-withe focus:outline-none"
+        panelClassName="w-full shadow-surface rounded-lg bg-secondary-dark-purple focus:outline-none transition border-none top-24"
       >
         {Object.entries(allItems).map(([name, value]) => (
           <div key={name}>
