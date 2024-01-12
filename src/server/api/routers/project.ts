@@ -5,28 +5,39 @@ export const projectRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
+        image: z.string().trim(),
         title: z.string().trim(),
+        target: z.string().trim(),
         description: z.string().trim(),
         status: z.string().trim(),
         term: z.string().trim(),
         deadline: z.string().trim(),
         image: z.string().trim(),
         published: z.string().trim(),
-        target: z.string().trim(),
+        email: z.string().email().trim(),
+        telegram: z.string().trim(),
+        discord: z.string().trim(),
+        site: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.project.create({
         data: {
+          image: input.image,
           title: input.title,
+          deadline: input.deadline,
+          term: input.term,
+          target: input.target,
           description: input.description,
+          email: input.email,
+          telegram: input.telegram,
+          discord: input.discord,
+          site: input.site,
+          status: input.status,
           userId: ctx.session.user.id,
           status: input.status,
-          term: input.status,
-          deadline: input.deadline,
           image: input.image,
           published: input.published,
-          target: input.target,
         },
       });
     }),
