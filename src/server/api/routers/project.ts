@@ -7,15 +7,17 @@ export const projectRouter = createTRPCRouter({
       z.object({
         image: z.string().trim(),
         title: z.string().trim(),
-        deadline: z.string().trim(),
-        term: z.string().trim(),
         target: z.string().trim(),
         description: z.string().trim(),
+        status: z.string().trim(),
+        term: z.string().trim(),
+        deadline: z.string().trim(),
+        image: z.string().trim(),
+        published: z.string().trim(),
         email: z.string().email().trim(),
         telegram: z.string().trim(),
         discord: z.string().trim(),
         site: z.string().trim(),
-        status: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -33,6 +35,9 @@ export const projectRouter = createTRPCRouter({
           site: input.site,
           status: input.status,
           userId: ctx.session.user.id,
+          status: input.status,
+          image: input.image,
+          published: input.published,
         },
       });
     }),
@@ -74,7 +79,14 @@ export const projectRouter = createTRPCRouter({
         where: {
           id: input,
         },
+        include: {
+          responses: true,
+          creator: true,
+          members: true,
+          requiredPeople: true,
+        }
       });
+
     }),
   searchByTitle: publicProcedure
     .input(z.string().trim())
