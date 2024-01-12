@@ -8,12 +8,9 @@ import { useSession } from "next-auth/react";
 
 const ProjectCreate: React.FC = () => {
   const session = useSession()
-  console.log(session)
   const createProject = api.project.create.useMutation({ onSuccess: ( data ) => {console.log(data)}})
-  const userId = session?.data?.user.id;
-  console.log(userId)
   const [formValues, setFormValues] = useState({
-    image: "https://img.razrisyika.ru/kart/2/4816-kotik-12.jpg",
+    image: "https://avatars.githubusercontent.com/u/70152685?v=4",
     title: "",
     deadline: "",
     term: "6 месяцев",
@@ -27,41 +24,41 @@ const ProjectCreate: React.FC = () => {
   });
   const sendDataToServer = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void createProject.mutate(formValues)
+    createProject.mutate(formValues)
   };
   return (
     <Container>
       <form onSubmit={sendDataToServer} className="w-full rounded-2xl bg-zinc-800 p-12    ">
-        <div className=" font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-white">
+        <div className="text-3xl leading-normal tracking-wide text-white">
           Создай проект
         </div>
-        <span className="font-['Inter'] text-base font-normal leading-normal text-red-400">
+        <span className="leading-normal text-red-400">
           *
         </span>
-        <span className="font-['Inter'] text-base font-normal leading-normal text-white">
+        <span className="leading-normal text-white">
           - поля обязательные для заполнения
         </span>
-        <div className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-white">
+        <div className="text-3xl leading-normal tracking-wide text-white">
           Основная информация
         </div>
         <div className=" w-fit      ">
           <div className="flex items-center">
             <div className=" h-64 w-64 rounded-3xl bg-white  " />
-            <button className=" ml-10 h-14 rounded-lg bg-white px-8    py-4 font-['Roboto'] text-base font-medium leading-tight tracking-wide text-stone-900">
+            <button className=" ml-10 h-14 rounded-lg bg-white px-8 py-4 font-medium leading-tight tracking-wide text-stone-900">
               Добавить
             </button>
           </div>
           <div className=" my-9 flex h-10 w-fit">
             <div className="flex w-72 ">
-              <span className=" font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
+              <span className="text-xl leading-normal tracking-wide text-white">
                 Название вашего проекта
               </span>
-              <span className="font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-red-400">
+              <span className="text-xl leading-normal tracking-wide text-red-400">
                 *
               </span>
             </div>
             <input
-              className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-['Inter'] text-base font-medium tracking-tight shadow"
+              className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-medium tracking-tight shadow"
               placeholder="Имя фамилия"
               onChange={(event) =>
                 setFormValues({ ...formValues, title: event.target.value })
@@ -70,15 +67,15 @@ const ProjectCreate: React.FC = () => {
           </div>
           <div className=" mb-9 flex h-10 w-full">
             <div className=" w-72">
-              <span className="font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
+              <span className="text-xl leading-normal tracking-wide text-white">
                 Сроки работы над проектом
               </span>
-              <span className="font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-red-400">
+              <span className="text-xl leading-normal tracking-wide text-red-400">
                 *
               </span>
             </div>
             <input
-              className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-['Inter'] text-base font-medium tracking-tight shadow"
+              className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-medium tracking-tight shadow"
               placeholder="Дата"
               onChange={(event) =>
                 setFormValues({ ...formValues, deadline: event.target.value })
@@ -88,18 +85,18 @@ const ProjectCreate: React.FC = () => {
         </div>
         <div className="  mb-9">
           <div>
-            <span className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-white">
+            <span className="text-3xl leading-normal tracking-wide text-white">
               Цель
             </span>
-            <span className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-red-400">
+            <span className="text-3xl leading-normal tracking-wide text-red-400">
               *
             </span>
           </div>
-          <div className="font-['Roboto'] text-lg font-normal leading-tight tracking-wide text-neutral-200">
+          <div className="text-lg leading-tight tracking-wide text-neutral-200">
             Напишите то, к чему стремится ваш проект
           </div>
           <textarea
-            className="h-14 w-full rounded border border-stone-300 bg-white p-2.5 font-['Inter'] text-xl font-normal leading-tight placeholder-stone-300"
+            className="h-14 w-full rounded border border-stone-300 bg-white p-2.5 text-xl leading-tight placeholder-stone-300"
             placeholder="Создание сайта"
             onChange={(event) =>
               setFormValues({ ...formValues, target: event.target.value })
@@ -109,15 +106,15 @@ const ProjectCreate: React.FC = () => {
         <div className="  mb-9">
           <div className="  ">
             <div>
-              <span className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-white">
+              <span className="text-3xl leading-normal tracking-wide text-white">
                 Описание проекта
               </span>
-              <span className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-red-400">
+              <span className="text-3xl leading-normal tracking-wide text-red-400">
                 *
               </span>
             </div>
             <div className=" h-7    ">
-              <div className="font-['Roboto'] text-lg font-normal leading-tight tracking-wide text-neutral-200">
+              <div className="text-lg leading-tight tracking-wide text-neutral-200">
                 Опишите вашу команду, кто вам требуется и какими навыками он
                 должен обладать
               </div>
@@ -136,33 +133,33 @@ const ProjectCreate: React.FC = () => {
         </div>
         <div className=" h-40    ">
           <div>
-            <span className="font-['Inter'] text-3xl font-normal leading-normal tracking-tight text-white">
+            <span className="text-3xl leading-normal tracking-tight text-white">
               Кто вам требуется в команду?
             </span>
-            <span className="font-['Inter'] text-3xl font-normal leading-normal tracking-tight text-red-400">
+            <span className="text-3xl leading-normal tracking-tight text-red-400">
               *
             </span>
           </div>
-          <div className="font-['Roboto'] text-lg font-normal leading-tight tracking-wide text-neutral-200">
+          <div className="text-lg leading-tight tracking-wide text-neutral-200">
             Укажите кто вам нужен и в каком количестве
           </div>
-          <div className=" border-gray-200 text-gray-500 w-1/3 rounded-lg border bg-white   px-6    py-3.5    font-['Inter'] text-xl font-medium tracking-tight shadow">
+          <div className=" border-gray-200 text-gray-500 w-1/3 rounded-lg border bg-white   px-6    py-3.5    text-xl font-medium tracking-tight shadow">
             Select Input
           </div>
         </div>
         <div className="      ">
           <div className="  mb-9">
             <div className="   ">
-                <span className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-zinc-100">
+                <span className="text-3xl leading-normal tracking-wide text-zinc-100">
                   Ссылки для связи
                 </span>
-                <span className="font-['Roboto'] text-3xl font-normal leading-normal tracking-wide text-red-400">
+                <span className="text-3xl leading-normal tracking-wide text-red-400">
                   *
                 </span>
             </div>
 
             <div className="pb-1    ">
-              <div className="font-['Roboto'] text-lg font-normal leading-normal tracking-wide text-neutral-200">
+              <div className="text-lg leading-normal tracking-wide text-neutral-200">
                 Обязательно укажите ссылку для связи, чтобы с вами смогли
                 связаться.
                 <br />
@@ -172,11 +169,11 @@ const ProjectCreate: React.FC = () => {
             <div className=" flex w-96 flex-col gap-6">
               <div className="w-full    ">
                 <div className=" w-full pr-8   ">
-                  <div className=" font-['Inter'] text-sm font-semibold tracking-tight text-neutral-200">
+                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
                     Электронная почта
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white font-['Inter']    text-base font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
                     placeholder="example@gmail.com"
                     type="email"
                     onChange={(event) =>
@@ -190,11 +187,11 @@ const ProjectCreate: React.FC = () => {
               </div>
               <div className="w-full    ">
                 <div className=" w-full pr-8   ">
-                  <div className=" font-['Inter'] text-sm font-semibold tracking-tight text-neutral-200">
+                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
                     Телеграм
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white font-['Inter']    text-base font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
                     placeholder="@"
                     onChange={(event) =>
                       setFormValues({
@@ -207,11 +204,11 @@ const ProjectCreate: React.FC = () => {
               </div>
               <div className="w-full    ">
                 <div className=" w-full pr-8   ">
-                  <div className=" font-['Inter'] text-sm font-semibold tracking-tight text-neutral-200">
+                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
                     Дискорд
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white font-['Inter']    text-base font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
                     onChange={(event) =>
                       setFormValues({
                         ...formValues,
@@ -223,11 +220,11 @@ const ProjectCreate: React.FC = () => {
               </div>
               <div className="w-full    ">
                 <div className=" w-full pr-8   ">
-                  <div className=" font-['Inter'] text-sm font-semibold tracking-tight text-neutral-200">
+                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
                     Другой сайт
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white font-['Inter']    text-base font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
                     placeholder="https://"
                     onChange={(event) =>
                       setFormValues({
@@ -243,13 +240,13 @@ const ProjectCreate: React.FC = () => {
           <div className=" flex gap-5">
             <button
               type="submit"
-              className="rounded-2xl bg-neutral-600 px-8 py-4     font-['Roboto'] text-base font-normal leading-normal tracking-wide text-white"
+              className="rounded-2xl bg-neutral-600 px-8 py-4    leading-normal tracking-wide text-white"
             >
               Опубликовать
             </button>
             <button
               type="reset"
-              className="rounded-2xl border border-zinc-100 px-8 py-4     font-['Roboto'] text-base font-normal leading-normal tracking-wide text-white"
+              className="rounded-2xl border border-zinc-100 px-8 py-4    leading-normal tracking-wide text-white"
             >
               Отменить
             </button>
