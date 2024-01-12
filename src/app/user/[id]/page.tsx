@@ -66,7 +66,7 @@ const User: React.FC<Props> = async ({ params }) => {
                 </p>
                 <div className="inline-flex items-center justify-end gap-2.5 rounded-xl border border-white px-3 py-0.5">
                   <p className="text-center font-['Roboto'] text-xl font-normal leading-normal tracking-wide text-white">
-                    {user?.profesion}
+                    {user?.profession}
                   </p>
                 </div>
               </div>
@@ -117,7 +117,7 @@ const User: React.FC<Props> = async ({ params }) => {
             </button>
           </div>
           <div className=" grid grid-cols-2 grid-rows-3 gap-6">
-            {user?.projects.map((project) => {
+            {user?.memberOfProjects.map((project) => {
               return (
                 <div className=" flex flex-row gap-6 rounded-2xl border  border-hidden bg-zinc-800 p-8">
                   <div className=" flex flex-col justify-between ">

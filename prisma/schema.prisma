@@ -45,29 +45,47 @@ model User {
     id            String    @id @default(cuid())
     name          String?
     email         String?   @unique
-    image         String?
+    image         String
     description   String?
-    profesion     String?
+    profession     String?
     telegram      String?
     city          String?
     age           Int?
     languages     String?
     emailVerified DateTime?
-    projects      Project[]
+    createdProjects Project[] @relation("ProjectCreator")
+    memberOfProjects Project[] @relation("ProjectMembers")
     responses     Response[]
     accounts      Account[]
     sessions      Session[]
 }
 model Project {
     id              String    @id @default(cuid())
+    image           String
     title           String
-    description     String?
-    status        String
     term            String
-    deadline      DateTime
-    userId        String
-    creator         User    @relation(fields: [userId], references: [id])
-    responses     Response[]
+    published       DateTime
+    deadline        DateTime
+    status          String
+    target          String
+    description     String
+    email           String?
+    telegram        String?
+    discord         String?
+    site            String?
+    userId          String
+    creator         User @relation(name: "ProjectCreator", fields: [userId], references: [id])
+    members         User[] @relation(name: "ProjectMembers")
+    requiredPeople  RequiredPeopleState[]
+    responses       Response[]
+}
+
+model RequiredPeopleState {
+  id            String  @id @default(cuid())
+  projectId     String
+  numberOfRequiredPeople    Int
+  Profession    String
+  project       Project   @relation(fields: [projectId], references: [id])
 }
 
 model Response {
@@ -76,7 +94,7 @@ model Response {
   projectId     String
   date          DateTime
   status        String
-  project       Project    @relation(fields: [projectId], references: [id])
+  project       Project   @relation(fields: [projectId], references: [id])
   candidat      User     @relation(fields: [userId], references: [id])
 }
 

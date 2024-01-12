@@ -64,7 +64,8 @@ export const userRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          projects: true
+          memberOfProjects: true,
+          createdProjects: true
         }
       });
     }),

@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
   text: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
   counterValue?: number;
   withCloseButton?: boolean;
