@@ -1,8 +1,6 @@
 import React from "react";
 
-import Header from "@/components/header/Header";
 import Providers from "@/components/providers/Providers";
-import Footer from "@/components/footer/Footer";
 
 import { Noto_Sans } from "next/font/google";
 import "@/styles/globals.css";
@@ -24,18 +22,8 @@ type Props = {
 
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
-    <html lang="ru">
-      <body
-        className={`${notoSans.className} flex h-screen flex-col bg-background-night`}
-      >
-        <Providers>
-          <Header />
-
-          <main className="flex-1">{children}</main>
-
-          <Footer />
-        </Providers>
-      </body>
+    <html lang="ru" className={notoSans.className}>
+      <Providers>{children}</Providers>
     </html>
   );
 });
