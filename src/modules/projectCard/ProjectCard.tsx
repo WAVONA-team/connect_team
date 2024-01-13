@@ -1,4 +1,7 @@
 import React from "react";
+
+import Link from "next/link";
+
 interface Project {
   id: string;
   title: string;
@@ -10,12 +13,13 @@ interface Project {
 
 type Props = {
   project: Project;
+  href: string;
 };
 
 const ProjectCard: React.FC<Props> = React.memo(
-({ project }) => {
+({ project, href }) => {
   return (
-    <div className="inline-flex items-start justify-start gap-8 self-stretch">
+    <Link href={`./projects/${href}`} className="inline-flex items-start justify-start gap-8 self-stretch">
       <div className="inline-flex shrink grow basis-0 flex-col items-end justify-start gap-7">
         <div className="flex  flex-col items-start justify-start gap-5 self-stretch rounded-2xl bg-zinc-800 p-8">
           <div className="flex flex-col items-start justify-start gap-5 self-stretch">
@@ -90,7 +94,7 @@ const ProjectCard: React.FC<Props> = React.memo(
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 )

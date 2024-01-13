@@ -1,6 +1,9 @@
-import Image from "next/image";
-import { api } from "@/trpc/server";
 import { type Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+
+import { api } from "@/trpc/server";
+
 import Container from "@/ui/container/Container";
 
 interface Props {
@@ -10,6 +13,7 @@ interface Props {
 }
 
 const User: React.FC<Props> = async ({ params }) => {
+
   const user = await api.user.get.query({ id: params.id });
 
   return (
@@ -120,7 +124,7 @@ const User: React.FC<Props> = async ({ params }) => {
           <div className=" grid grid-cols-2 grid-rows-3 gap-6">
             {user?.memberOfProjects.map((project) => {
               return (
-                <div className=" flex flex-row gap-6 rounded-2xl border  border-hidden bg-zinc-800 p-8">
+                <Link href={`/projects/${project.id}`}className=" flex flex-row gap-6 rounded-2xl border  border-hidden bg-zinc-800 p-8">
                   <div className=" flex flex-col justify-between ">
                     <div>
                       <p className="font-['Inter'] text-2xl font-normal leading-7 tracking-tight text-white">
@@ -150,7 +154,7 @@ const User: React.FC<Props> = async ({ params }) => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

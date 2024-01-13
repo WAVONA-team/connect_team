@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const projectRouter = createTRPCRouter({
+
   create: protectedProcedure
     .input(
       z.object({
@@ -12,7 +13,6 @@ export const projectRouter = createTRPCRouter({
         status: z.string().trim(),
         term: z.string().trim(),
         deadline: z.string().trim(),
-        image: z.string().trim(),
         published: z.string().trim(),
         email: z.string().email().trim(),
         telegram: z.string().trim(),
@@ -35,8 +35,6 @@ export const projectRouter = createTRPCRouter({
           site: input.site,
           status: input.status,
           userId: ctx.session.user.id,
-          status: input.status,
-          image: input.image,
           published: input.published,
         },
       });
@@ -86,8 +84,8 @@ export const projectRouter = createTRPCRouter({
           requiredPeople: true,
         }
       });
-
     }),
+
   searchByTitle: publicProcedure
     .input(z.string().trim())
     .query(async ({ ctx, input }) => {
@@ -97,8 +95,9 @@ export const projectRouter = createTRPCRouter({
         },
       });
     }),
+
   getAll: publicProcedure
     .query(async ({ ctx }) => {
       return ctx.db.project.findMany();
     })
-});
+  });

@@ -105,7 +105,7 @@ const Project: React.FC<Props> = async ({ params }) => {
               <p className="text-xl font-bold">Участники команды</p>
               <div className="mt-8">
                 <div className="flex w-full flex-col gap-3">
-                  <div className="flex flex-row justify-between">
+                  <Link href={`/user/${project.creator.id}`} className="flex flex-row justify-between">
                     <div className="flex flex-row gap-3">
                       <Image
                         src={project.creator.image}
@@ -117,10 +117,10 @@ const Project: React.FC<Props> = async ({ params }) => {
                       <p>{project.creator.name}</p>
                     </div>
                     <p>Создатель/{project.creator.profession}</p>
-                  </div>
+                  </Link>
                   {project.members.map((member) => {
                     return (
-                      <div className="flex flex-row justify-between">
+                      <Link href={`/user/${member.id}`} className="flex flex-row justify-between">
                         <div className="flex flex-row gap-3">
                           <Image
                             src={member.image}
@@ -132,7 +132,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                           <p>{member.name}</p>
                         </div>
                         <p>{member.profession}</p>
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

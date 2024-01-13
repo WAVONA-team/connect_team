@@ -1,9 +1,12 @@
-import { api } from "@/trpc/server";
 import React from "react";
-import Container from "@/ui/container/Container";
+import { api } from "@/trpc/server";
+
 import ProjectsCard from "@/modules/projectCard/ProjectCard";
 
+import Container from "@/ui/container/Container";
+
 const Projects: React.FC = async () => {
+
   const projects = await api.project.getAll.query();
 
   return (
@@ -121,7 +124,7 @@ const Projects: React.FC = async () => {
               <div className="flex flex-col items-start justify-start gap-5 ">
                 {projects.map((project) => {
                   return (
-                    <ProjectsCard project={project}/>
+                    <ProjectsCard project={project} href={project.id}/>
                   );
                 })}
               </div>

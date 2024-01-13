@@ -1,7 +1,11 @@
-import { api } from "@/trpc/server";
 import { type Metadata } from "next";
+import Link from "next/link";
+
+import { api } from "@/trpc/server";
+
 import Container from "@/ui/container/Container";
 import Tabs from "@/ui/tabs/tabs";
+
 interface Props {
   params: {
     id: string;
@@ -9,7 +13,9 @@ interface Props {
 }
 
 const Responses: React.FC<Props> = async ({ params }) => {
+
   const response = await api.response.findByUserId.query(params.id);
+
   return (
     <Container>
       <nav className=" flex flex-row">
@@ -36,7 +42,7 @@ const Responses: React.FC<Props> = async ({ params }) => {
         <div className=" mt-8 flex flex-col gap-6">
           {response?.map((response) => {
             return (
-              <div className=" rounded-2xl border-2 border-secondary-dark-purple bg-surface-raisin-black p-12 text-onPrimary-anti-flash-withe">
+              <Link href={`/projects/${response.project.id}`} className=" rounded-2xl border-2 border-secondary-dark-purple bg-surface-raisin-black p-12 text-onPrimary-anti-flash-withe">
                 <div className="flex flex-row justify-between">
                   <div className="flex flex-row gap-3">
                     <div className=" flex h-10 w-fit items-center rounded-full border-2 border-onPrimary-anti-flash-withe px-3 py-1">
@@ -75,7 +81,7 @@ const Responses: React.FC<Props> = async ({ params }) => {
                     <p className="text-sm">Статус: {response.project.status}</p>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
