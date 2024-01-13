@@ -13,13 +13,13 @@ const NavBar: React.FC = React.memo(() => {
     <nav className="relative">
       <div className="flex">
         <Tabs
-          link="/projects"
+          link="/pages/projects"
           title="Проекты"
           isActive={pathName === "/projects"}
         />
 
         <Tabs
-          link={`/responses/${session.data?.user.id}`}
+          link={`/pages/responses/${session.data?.user.id}`}
           title="Отклики"
           isActive={pathName === `/responses/${session.data?.user.id}`}
         />
