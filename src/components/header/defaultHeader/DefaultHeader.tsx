@@ -9,7 +9,7 @@ import SignInButton from "@/components/signInButton/signIn";
 
 import Container from "@/ui/container/Container";
 
-const Header: React.FC = React.memo(async () => {
+const DefaultHeader: React.FC = React.memo(async () => {
   const session = await getServerAuthSession();
 
   return (
@@ -44,4 +44,4 @@ const Header: React.FC = React.memo(async () => {
   );
 });
 
-export default Header;
+export default DefaultHeader;
