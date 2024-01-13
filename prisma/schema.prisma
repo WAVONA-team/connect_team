@@ -42,24 +42,25 @@ model Session {
 }
 
 model User {
-    id               String     @id @default(cuid())
-    name             String?
-    email            String?    @unique
-    image            String
-    description      String?
-    profession       String?
-    isVisibleForTeam Boolean?
-    telegram         String?
-    discord          String?
-    city             String?
-    age              Int?
-    languages        String?
-    emailVerified    DateTime?
-    createdProjects  Project[]  @relation("ProjectCreator")
-    memberOfProjects Project[]  @relation("ProjectMembers")
-    responses        Response[]
-    accounts         Account[]
-    sessions         Session[]
+    id                           String     @id @default(cuid())
+    name                         String?
+    email                        String?    @unique
+    image                        String
+    description                  String?
+    profession                   String?
+    isVisibleForTeam             Boolean?
+    telegram                     String?
+    discord                      String?
+    city                         String?
+    age                          Int?
+    preferredTypeOfCommunication String?
+    languages                    String?
+    emailVerified                DateTime?
+    createdProjects              Project[]  @relation("ProjectCreator")
+    memberOfProjects             Project[]  @relation("ProjectMembers")
+    responses                    Response[]
+    accounts                     Account[]
+    sessions                     Session[]
 }
 
 model Project {
