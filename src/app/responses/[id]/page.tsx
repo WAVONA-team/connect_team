@@ -2,7 +2,7 @@ import Image from "next/image";
 import { api } from "@/trpc/server";
 import { type Metadata } from "next";
 import Container from "@/ui/container/Container";
-import Tabs from "@/ui/tab/Tab";
+import Tabs from "@/ui/tabs/tabs";
 interface Props {
   params: {
     id: string;

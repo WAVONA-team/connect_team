@@ -70,7 +70,7 @@ export const responseRouter = createTRPCRouter({
         },
         include: {
           project: true,
-          candidate: true,
+          candidat: true,
         },
       });
     }),
