@@ -1,14 +1,15 @@
-"use client"
+"use client";
 import React, { type ChangeEvent } from "react";
 import { useState } from "react";
 import Container from "@/ui/container/Container";
-import { api } from "@/trpc/react";
-import { useSession } from "next-auth/react";
-
+// import { api } from "@/trpc/react";
 
 const ProjectCreate: React.FC = () => {
-  const session = useSession()
-  const createProject = api.project.create.useMutation({ onSuccess: ( data ) => {console.log(data)}})
+  // const createProject = api.project.create.useMutation({
+  //   onSuccess: (data) => {
+  //     console.log(data);
+  //   },
+  // });
   const [formValues, setFormValues] = useState({
     image: "https://avatars.githubusercontent.com/u/70152685?v=4",
     title: "",
@@ -25,18 +26,19 @@ const ProjectCreate: React.FC = () => {
 
   const sendDataToServer = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    createProject.mutate(formValues)
+    // createProject.mutate(formValues);
   };
 
   return (
     <Container>
-      <form onSubmit={sendDataToServer} className="w-full rounded-2xl bg-zinc-800 p-12    ">
+      <form
+        onSubmit={sendDataToServer}
+        className="w-full rounded-2xl bg-zinc-800 p-12    "
+      >
         <div className="text-3xl leading-normal tracking-wide text-white">
           Создай проект
         </div>
-        <span className="leading-normal text-red-400">
-          *
-        </span>
+        <span className="leading-normal text-red-400">*</span>
         <span className="leading-normal text-white">
           - поля обязательные для заполнения
         </span>
@@ -60,7 +62,7 @@ const ProjectCreate: React.FC = () => {
               </span>
             </div>
             <input
-              className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-medium tracking-tight shadow"
+              className=" shadow ml-20 h-10 w-64 rounded-lg border border-gray-200 bg-white pl-1 font-medium tracking-tight text-gray-500"
               placeholder="Имя фамилия"
               onChange={(event) =>
                 setFormValues({ ...formValues, title: event.target.value })
@@ -77,7 +79,7 @@ const ProjectCreate: React.FC = () => {
               </span>
             </div>
             <input
-              className=" border-gray-200 text-gray-500 ml-20 h-10 w-64 rounded-lg border bg-white pl-1 font-medium tracking-tight shadow"
+              className=" shadow ml-20 h-10 w-64 rounded-lg border border-gray-200 bg-white pl-1 font-medium tracking-tight text-gray-500"
               placeholder="Дата"
               onChange={(event) =>
                 setFormValues({ ...formValues, deadline: event.target.value })
@@ -123,7 +125,7 @@ const ProjectCreate: React.FC = () => {
             </div>
           </div>
           <textarea
-            className="border-gray-200 h-72 w-full rounded-xl border bg-white p-3    "
+            className="h-72 w-full rounded-xl border border-gray-200 bg-white p-3    "
             placeholder="Мы молодая развивающаяся команда. Сейчас работаем над крупным проектом. Очень нужен фронтенд разработчик. Требуются хорошие знания HTML и CSS, а остальному можно обучиться в процессе. Будем рады видеть тебя в нашей комнде!"
             onChange={(event) =>
               setFormValues({
@@ -145,19 +147,19 @@ const ProjectCreate: React.FC = () => {
           <div className="text-lg leading-tight tracking-wide text-neutral-200">
             Укажите кто вам нужен и в каком количестве
           </div>
-          <div className=" border-gray-200 text-gray-500 w-1/3 rounded-lg border bg-white   px-6    py-3.5    text-xl font-medium tracking-tight shadow">
+          <div className=" shadow w-1/3 rounded-lg border border-gray-200 bg-white   px-6    py-3.5    text-xl font-medium tracking-tight text-gray-500">
             Select Input
           </div>
         </div>
         <div className="      ">
           <div className="  mb-9">
             <div className="   ">
-                <span className="text-3xl leading-normal tracking-wide text-zinc-100">
-                  Ссылки для связи
-                </span>
-                <span className="text-3xl leading-normal tracking-wide text-red-400">
-                  *
-                </span>
+              <span className="text-3xl leading-normal tracking-wide text-zinc-100">
+                Ссылки для связи
+              </span>
+              <span className="text-3xl leading-normal tracking-wide text-red-400">
+                *
+              </span>
             </div>
 
             <div className="pb-1    ">
@@ -175,7 +177,7 @@ const ProjectCreate: React.FC = () => {
                     Электронная почта
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
                     placeholder="example@gmail.com"
                     type="email"
                     onChange={(event) =>
@@ -193,7 +195,7 @@ const ProjectCreate: React.FC = () => {
                     Телеграм
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
                     placeholder="@"
                     onChange={(event) =>
                       setFormValues({
@@ -210,7 +212,7 @@ const ProjectCreate: React.FC = () => {
                     Дискорд
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
                     onChange={(event) =>
                       setFormValues({
                         ...formValues,
@@ -226,7 +228,7 @@ const ProjectCreate: React.FC = () => {
                     Другой сайт
                   </div>
                   <input
-                    className="border-gray-200 h-11  w-full rounded-lg border bg-white    font-medium tracking-tight placeholder-stone-300 shadow"
+                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
                     placeholder="https://"
                     onChange={(event) =>
                       setFormValues({

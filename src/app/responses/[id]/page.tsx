@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { api } from "@/trpc/server";
 import { type Metadata } from "next";
 import Container from "@/ui/container/Container";

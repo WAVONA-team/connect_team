@@ -11,6 +11,7 @@ interface Props {
 
 const User: React.FC<Props> = async ({ params }) => {
   const user = await api.user.get.query({ id: params.id });
+
   return (
     <Container>
       <nav className="mb-6 w-full border-b-2 border-gray-400">
