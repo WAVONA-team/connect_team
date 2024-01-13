@@ -16,6 +16,7 @@ type Props = {
 const CounterMultiSelect: React.FC<Props> = React.memo(
   ({ allItems, onNumberChange, className = "", placeholder }) => {
     const selectedItems = Object.entries(allItems).filter(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([name, value]) => value > 0,
     );
 
