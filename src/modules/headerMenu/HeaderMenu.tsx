@@ -20,11 +20,11 @@ const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
   const menuItems: MenuItem[] = [
     {
       name: "Настройки",
-      path: `/user/${userId}/settings`,
+      path: `/pages/user/${userId}/settings`,
     },
     {
       name: "Профиль",
-      path: `/user/${userId}`,
+      path: `/pages/user/${userId}`,
     },
   ];
 
