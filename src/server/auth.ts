@@ -1,18 +1,24 @@
 import { env } from "@/env";
 import { db } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { getServerSession, type NextAuthOptions } from "next-auth";
+
+import {
+  getServerSession,
+  type NextAuthOptions,
+  type DefaultSession,
+} from "next-auth";
+import { type JWT } from "next-auth/jwt";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { type DefaultSession } from "next-auth";
 
 declare module "next-auth" {
-  interface Session extends DefaultSession {
+  interface Session {
     user: {
       id: string;
-    } & DefaultSession["user"];
+    } & JWT & DefaultSession["user"];
   }
 }
+
 export const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db),
@@ -32,6 +38,19 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user = {
+        ...token,
+        id: token.sub!,
+      };
+
+      return session;
+    },
+  },
 };
 
 export const getServerAuthSession = () => getServerSession(authOptions);
