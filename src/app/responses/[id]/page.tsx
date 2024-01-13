@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { api } from "@/trpc/server";
 
+import NavBar from "@/components/navBar/NavBar";
 import Container from "@/ui/container/Container";
-import Tabs from "@/ui/tabs/tabs";
 
 interface Props {
   params: {
@@ -13,17 +13,11 @@ interface Props {
 }
 
 const Responses: React.FC<Props> = async ({ params }) => {
-
   const response = await api.response.findByUserId.query(params.id);
 
   return (
     <Container>
-      <nav className=" flex flex-row">
-        <Tabs title="Проекты" link="/projects"></Tabs>
-        <Tabs title="Профиль" link="/"></Tabs>
-        <Tabs title="Отклики" isActive={true} link="/"></Tabs>
-        <div className=" w-full border-b-2 border-b-zinc-300" />
-      </nav>
+      <NavBar />
       <div className=" mt-12">
         <div className="flex flex-row justify-between text-onPrimary-anti-flash-withe">
           <p className=" text-3xl">Отклики</p>
