@@ -6,7 +6,11 @@ const SignOutButton: React.FC = React.memo(() => {
   return (
     <button
       type="button"
-      onClick={() => signOut()}
+      onClick={() =>
+        signOut({
+          callbackUrl: "/",
+        })
+      }
       className="
         w-full
         rounded
