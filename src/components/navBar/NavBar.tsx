@@ -10,7 +10,7 @@ const NavBar: React.FC = React.memo(() => {
   const session = useSession();
 
   return (
-    <nav className="relative">
+    <nav className="relative -z-10">
       <div className="flex">
         <Tabs
           link="/pages/projects"
@@ -25,7 +25,7 @@ const NavBar: React.FC = React.memo(() => {
         />
       </div>
 
-      <div className="absolute bottom-0 -z-10 w-full border border-onPrimary-anti-flash-withe" />
+      <div className="absolute bottom-0 -z-20 w-full border border-onPrimary-anti-flash-withe" />
     </nav>
   );
 });
