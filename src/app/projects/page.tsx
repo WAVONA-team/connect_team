@@ -4,6 +4,7 @@ import { api } from "@/trpc/server";
 import ProjectsCard from "@/modules/projectCard/ProjectCard";
 
 import Container from "@/ui/container/Container";
+import NavBar from "@/components/navBar/NavBar";
 
 const Projects: React.FC = async () => {
 
@@ -12,20 +13,8 @@ const Projects: React.FC = async () => {
   return (
     <Container>
       <div className=" items-start justify-start gap-8 pt-9">
-        <div className=" h-9  items-start justify-start gap-2.5 ">
-          <div className="relative w-full">
-            <div className=" bg-gray-200 absolute left-0 top-[37px] h-px w-full" />
-            <div className="absolute left-0 top-0  items-center justify-center gap-8">
-              <div className=" items-center justify-center">
-                <div className=" items-center justify-center px-1 pb-4">
-                  <div className="font-['Inter'] text-base font-medium leading-tight text-zinc-100">
-                    Проекты
-                  </div>
-                </div>
-                <div className="h-0.5  bg-zinc-100" />
-              </div>
-            </div>
-          </div>
+        <div className="items-start justify-start gap-2.5 ">
+          <NavBar />
         </div>
         <div className=" items-start justify-start gap-6 ">
           <div className="  items-center justify-start gap-2.5 ">
