@@ -7,6 +7,7 @@ const generalClassNames = {
   labelWrapper: "grid grid-cols-3 gap-x-9",
   label: "grid grid-cols-2 items-center col-span-2",
   labelAdditional: "flex items-center gap-4 mt-6",
+  radioLabel: "flex items-center gap-4",
   labelText: "mt-8 text-base text-onPrimary-anti-flash-withe",
   labelInput: "",
 };

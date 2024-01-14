@@ -13,9 +13,11 @@ import userNoAvatar from "../../../public/images/avatar.svg";
 import arrowDown from "../../../public/images/arrowDown.svg";
 
 import Input from "@/ui/input/Input";
+import Switch from "@/ui/switch/Switch";
+import RadioButton from "@/ui/radioButton/RadioButton";
+import MarkdownEditor from "@/ui/markdown/MarkdownEditor";
 import MainButton from "@/ui/mainButton/MainButton";
 import SecondaryButton from "@/ui/secondaryButton/SecondaryButton";
-import MarkdownEditor from "@/ui/markdown/MarkdownEditor";
 
 const UserSettingsForm: React.FC = React.memo(() => {
   const { data } = useSession();
@@ -60,12 +62,12 @@ const UserSettingsForm: React.FC = React.memo(() => {
       description: formData.description,
       profession: formData.profession,
     });
-    router.push(`/user/${data?.user.id}`);
+    router.push(`/pages/user/${data?.user.id}`);
     reset();
   };
 
   const onCancel = () => {
-    router.push(`/user/${data?.user.id}`);
+    router.push(`/pages/user/${data?.user.id}`);
     reset();
   };
 
@@ -182,7 +184,7 @@ const UserSettingsForm: React.FC = React.memo(() => {
           </h2>
 
           <div className="grid grid-cols-3">
-            <label className="flex justify-between col-span-2">
+            <label className="col-span-2 flex justify-between">
               <p className={generalClassNames.sectionAdditionalText}>
                 Информация видна только команде
               </p>
@@ -191,11 +193,9 @@ const UserSettingsForm: React.FC = React.memo(() => {
                 name="isVisibleForTeam"
                 control={control}
                 render={({ field }) => (
-                  <input
-                    type="checkbox"
-                    className="w-4"
+                  <Switch
                     checked={field.value}
-                    onChange={(event) => field.onChange(event.target.checked)}
+                    onChange={(checked) => field.onChange(checked)}
                   />
                 )}
               />
@@ -304,23 +304,15 @@ const UserSettingsForm: React.FC = React.memo(() => {
                   name="preferredTypeOfCommunication"
                   control={control}
                   render={({ field }) => (
-                    <input
-                      type="radio"
-                      name="preferredTypeOfCommunication"
-                      value="email"
+                    <RadioButton
+                      labelText="Желаемый вид связи"
+                      labelClassName={generalClassNames.radioLabel}
+                      radioName="preferredTypeOfCommunication"
+                      radioValue="email"
                       onChange={(event) => field.onChange(event.target.value)}
                     />
                   )}
                 />
-
-                <p
-                  className={generalClassNames.labelText
-                    .split("")
-                    .slice(1)
-                    .join("")}
-                >
-                  Желаемый вид связи
-                </p>
               </label>
             </div>
 
@@ -349,23 +341,15 @@ const UserSettingsForm: React.FC = React.memo(() => {
                   name="preferredTypeOfCommunication"
                   control={control}
                   render={({ field }) => (
-                    <input
-                      type="radio"
-                      name="preferredTypeOfCommunication"
-                      value="telegram"
+                    <RadioButton
+                      labelText="Желаемый вид связи"
+                      labelClassName={generalClassNames.radioLabel}
+                      radioName="preferredTypeOfCommunication"
+                      radioValue="telegram"
                       onChange={(event) => field.onChange(event.target.value)}
                     />
                   )}
                 />
-
-                <p
-                  className={generalClassNames.labelText
-                    .split("")
-                    .slice(1)
-                    .join("")}
-                >
-                  Желаемый вид связи
-                </p>
               </label>
             </div>
 
@@ -394,23 +378,15 @@ const UserSettingsForm: React.FC = React.memo(() => {
                   name="preferredTypeOfCommunication"
                   control={control}
                   render={({ field }) => (
-                    <input
-                      type="radio"
-                      name="preferredTypeOfCommunication"
-                      value="discord"
+                    <RadioButton
+                      labelText="Желаемый вид связи"
+                      labelClassName={generalClassNames.radioLabel}
+                      radioName="preferredTypeOfCommunication"
+                      radioValue="discord"
                       onChange={(event) => field.onChange(event.target.value)}
                     />
                   )}
                 />
-
-                <p
-                  className={generalClassNames.labelText
-                    .split("")
-                    .slice(1)
-                    .join("")}
-                >
-                  Желаемый вид связи
-                </p>
               </label>
             </div>
           </div>
