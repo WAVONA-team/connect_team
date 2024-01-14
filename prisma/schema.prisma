@@ -42,22 +42,25 @@ model Session {
 }
 
 model User {
-    id               String     @id @default(cuid())
-    name             String?
-    email            String?    @unique
-    image            String
-    description      String?
-    profession       String?
-    telegram         String?
-    city             String?
-    age              Int?
-    languages        String?
-    emailVerified    DateTime?
-    createdProjects  Project[]  @relation("ProjectCreator")
-    memberOfProjects Project[]  @relation("ProjectMembers")
-    responses        Response[]
-    accounts         Account[]
-    sessions         Session[]
+    id                           String     @id @default(cuid())
+    name                         String?
+    email                        String?    @unique
+    image                        String
+    description                  String?
+    profession                   String?
+    isVisibleForTeam             Boolean?
+    telegram                     String?
+    discord                      String?
+    city                         String?
+    age                          Int?
+    preferredTypeOfCommunication String?
+    languages                    String?
+    emailVerified                DateTime?
+    createdProjects              Project[]  @relation("ProjectCreator")
+    memberOfProjects             Project[]  @relation("ProjectMembers")
+    responses                    Response[]
+    accounts                     Account[]
+    sessions                     Session[]
 }
 
 model Project {
@@ -81,23 +84,22 @@ model Project {
     responses      Response[]
 }
 
-model RequiredPeopleState {
-    id                     String  @id @default(cuid())
-    projectId              String
-    numberOfRequiredPeople Int
-    Profession             String
-    project                Project @relation(fields: [projectId], references: [id])
-}
-
 model Response {
     id        String   @id @default(cuid())
     userId    String
     projectId String
     date      DateTime
     status    String
-    message   String?
     project   Project  @relation(fields: [projectId], references: [id])
     candidat  User     @relation(fields: [userId], references: [id])
+}
+
+model RequiredPeopleState {
+    id                     String  @id @default(cuid())
+    projectId              String
+    numberOfRequiredPeople Int
+    Profession             String
+    project                Project @relation(fields: [projectId], references: [id])
 }
 
 model VerificationToken {
