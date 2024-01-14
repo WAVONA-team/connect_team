@@ -15,13 +15,13 @@ const NavBar: React.FC = React.memo(() => {
         <Tabs
           link="/pages/projects"
           title="Проекты"
-          isActive={pathName === "/projects"}
+          isActive={pathName === "/pages/projects"}
         />
 
         <Tabs
           link={`/pages/responses/${session.data?.user.id}`}
           title="Отклики"
-          isActive={pathName === `/responses/${session.data?.user.id}`}
+          isActive={pathName === `/pages/responses/${session.data?.user.id}`}
         />
       </div>
 
