@@ -20,8 +20,6 @@ const CounterMultiSelect: React.FC<Props> = React.memo(
       ([name, value]) => value > 0,
     );
 
-    console.log(selectedItems);
-
     return (
       <PopOver
         button={

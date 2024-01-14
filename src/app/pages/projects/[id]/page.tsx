@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import { api } from "@/trpc/server";
 
-import Tabs from "@/ui/tabs/tabs";
 import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
 
@@ -11,6 +10,7 @@ import userNoAvatar from "../../../../public/images/avatar.svg";
 
 import { type Metadata } from "next";
 import Link from "next/link";
+import NavBar from "@/components/navBar/NavBar";
 
 interface Props {
   params: {
@@ -28,12 +28,7 @@ const Project: React.FC<Props> = async ({ params }) => {
   return (
     <Container>
       <div className="text-onPrimary-anti-flash-withe">
-        <nav className=" flex">
-          <Tabs link="./projects" title="Проекты" isActive={true} />
-          <Tabs link="./profile" title="Профиль" />
-          <Tabs link="./" title="Отклики" />
-          <div className="w-full border-b-2 border-zinc-300" />
-        </nav>
+        <NavBar />
         <div className="mt-8 flex flex-col gap-6">
           <div className="flex">
             <Link href="/projects" className=" flex">
@@ -105,7 +100,10 @@ const Project: React.FC<Props> = async ({ params }) => {
               <p className="text-xl font-bold">Участники команды</p>
               <div className="mt-8">
                 <div className="flex w-full flex-col gap-3">
-                  <Link href={`/user/${project.creator.id}`} className="flex flex-row justify-between">
+                  <Link
+                    href={`/user/${project.creator.id}`}
+                    className="flex flex-row justify-between"
+                  >
                     <div className="flex flex-row gap-3">
                       <Image
                         src={project.creator.image}
@@ -120,7 +118,10 @@ const Project: React.FC<Props> = async ({ params }) => {
                   </Link>
                   {project.members.map((member) => {
                     return (
-                      <Link href={`/user/${member.id}`} className="flex flex-row justify-between">
+                      <Link
+                        href={`/user/${member.id}`}
+                        className="flex flex-row justify-between"
+                      >
                         <div className="flex flex-row gap-3">
                           <Image
                             src={member.image}
