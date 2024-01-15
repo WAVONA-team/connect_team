@@ -5,12 +5,12 @@ import { api } from "@/trpc/server";
 import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
 
-import arrowDown from "../../../../public/images/arrowLeft.svg";
-import userNoAvatar from "../../../../public/images/avatar.svg";
+import userNoAvatar from "../../../../../public/images/avatar.svg";
 
 import { type Metadata } from "next";
 import Link from "next/link";
 import NavBar from "@/components/navBar/NavBar";
+import BackButton from "@/ui/backButton/BackButton";
 
 interface Props {
   params: {
@@ -31,14 +31,8 @@ const Project: React.FC<Props> = async ({ params }) => {
         <NavBar />
         <div className="mt-8 flex flex-col gap-6">
           <div className="flex">
-            <Link href="/projects" className=" flex">
-              <Image
-                src={arrowDown as string}
-                alt="arrowDown"
-                width={24}
-                height={24}
-              />
-            </Link>
+            <BackButton />
+
             <p className="ml-4 text-3xl">Проект</p>
           </div>
           <div className="flex border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
@@ -89,7 +83,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                 {project.requiredPeople.map((requiredPeople) => {
                   return (
                     <Badge
-                      text={requiredPeople.Profession}
+                      text={requiredPeople.profession}
                       counterValue={requiredPeople.numberOfRequiredPeople}
                     />
                   );
