@@ -5,12 +5,13 @@ import { api } from "@/trpc/server";
 import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
 
-import arrowDown from "../../../../public/images/arrowLeft.svg";
-import userNoAvatar from "../../../../public/images/avatar.svg";
+import arrowLeft from "../../.../../../../../public/images/arrowLeft.svg";
+import userNoAvatar from "../../../../../public/images/avatar.svg";
 
 import { type Metadata } from "next";
 import Link from "next/link";
 import NavBar from "@/components/navBar/NavBar";
+import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 
 interface Props {
   params: {
@@ -25,6 +26,8 @@ const Project: React.FC<Props> = async ({ params }) => {
     return <p>error</p>;
   }
 
+  const response = await api.response.findByProjectId.query(project?.id)
+
   return (
     <Container>
       <div className="text-onPrimary-anti-flash-withe">
@@ -33,7 +36,7 @@ const Project: React.FC<Props> = async ({ params }) => {
           <div className="flex">
             <Link href="/projects" className=" flex">
               <Image
-                src={arrowDown as string}
+                src={arrowLeft as string}
                 alt="arrowDown"
                 width={24}
                 height={24}
@@ -138,6 +141,39 @@ const Project: React.FC<Props> = async ({ params }) => {
                   })}
                 </div>
               </div>
+            </div>
+          </div>
+          <div>
+            <p className=" text-3xl">Отклики</p>
+            <div className="flex justify-between item-center mt-8">
+              <div className=" flex gap-5 items-center">
+                <p>По тегам:</p>
+                <Badge text="Frontend"></Badge>
+                <Badge text="Backend"></Badge>
+                <Badge text="Design"></Badge>
+              </div>
+              <div className=" flex items-center">
+                <p>За всё время</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 grid-rows-3 gap-6 mt-6">
+              {response.map((response) => {
+                return(
+                  <SectionWrapper className="flex flex-col gap-6">
+                    <div className=" flex justify-between items-center">
+                      <p>{response.project.title}</p>
+                      <Badge text='Frontend'/>
+                    </div>
+                    <div className=" flex gap-3 items-center">
+                      <Image src={response.candidat.image} width={38} height={38} alt='не найдено' className=" rounded-full"/>
+                      <p>{response.candidat.name}</p>
+                    </div>
+                    <div className=" flex justify-between items-center">
+                      <p>{response.date.toString()}</p>
+                    </div>
+                  </SectionWrapper>
+                )
+              })}
             </div>
           </div>
         </div>
