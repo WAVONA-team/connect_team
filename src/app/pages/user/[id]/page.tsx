@@ -1,18 +1,24 @@
+
 import { type Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import { api } from "@/trpc/server";
 
+import UserProjectCard from "@/modules/userProjectCard/UserProjectCard"
+
+import NavBar from "@/components/navBar/NavBar";
+
 import Container from "@/ui/container/Container";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import Badge from "@/ui/badge/Badge";
-
-import NavBar from "@/components/navBar/NavBar";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 import ProfileImage from "@/ui/profileImage/ProfileImage";
+import UserDescription from "@/components/userDescription/UserDescription";
+
 import arrowLeft from "../../../../../public/images/arrowLeft.svg";
-import UserProjectCard from "../../../../modules/userProjectCard/UserProjectCard"
+import { use } from "react";
+
 interface Props {
   params: {
     id: string;
@@ -39,7 +45,7 @@ const User: React.FC<Props> = async ({ params }) => {
                 height={24}
               />
             </Link>
-            <p className="ml-4 text-3xl">Профиль</p>
+            <h2 className="ml-4 text-3xl">Профиль</h2>
           </div>
           <MainButtonLink
             text="Редактировать"
@@ -76,12 +82,12 @@ const User: React.FC<Props> = async ({ params }) => {
           </div>
         </SectionWrapper>
         <SectionWrapper className="mb-6 flex w-full flex-col gap-6">
-          <p className="text-xl font-bold">Обо мне</p>
-          <p className=" w-3/4">{user.description}</p>
+          <h2 className="text-xl font-bold">Обо мне</h2>
+          <UserDescription description={user.description ?? ""}/>
         </SectionWrapper>
         <div>
           <div className=" mb-6 flex  justify-between">
-            <p className="text-3xl ">Мои проекты</p>
+            <h2 className="text-3xl ">Мои проекты</h2>
             <MainButtonLink
               text="Создать проект"
               path={`/pages/projects/create`}
@@ -89,14 +95,14 @@ const User: React.FC<Props> = async ({ params }) => {
             />
           </div>
           <div className=" grid grid-cols-2 grid-rows-3 gap-6">
-            {user.memberOfProjects.map((project) => {
-              return (
-                <UserProjectCard project={project} role="Создатель"/>
-              );
-            })}
             {user.createdProjects.map((project) => {
               return (
                 <UserProjectCard project={project} role="Участник"/>
+              );
+            })}
+            {user.memberOfProjects.map((project) => {
+              return (
+                <UserProjectCard project={project} role="Создатель"/>
               );
             })}
           </div>
