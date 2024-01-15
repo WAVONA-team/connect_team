@@ -26,6 +26,7 @@ const DropDownItem: React.FC<Props> = React.memo(
           ${className}
           ${ItemClassNames}
           w-${width}
+          cursor-pointer
         `,
         {
           "pointer-events-none bg-secondary-cadet-grey": isDisabled,

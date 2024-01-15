@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import classNames from "classnames";
 
 type Props = {
   text: string;
@@ -7,36 +8,47 @@ type Props = {
   className?: string;
   counterValue?: number;
   withCloseButton?: boolean;
+  isActive?: boolean;
 };
 
 const Badge: React.FC<Props> = React.memo(
-  ({ text, onClick, className = "", counterValue, withCloseButton }) => {
+  ({
+    text,
+    onClick,
+    className = "",
+    counterValue,
+    withCloseButton,
+    isActive = false,
+  }) => {
     return (
       <button
         type="button"
         onClick={onClick}
-        className={`
-          ${className}
-          flex
-          h-10
-          items-center
-          justify-center
-          gap-2
-          rounded-full
-          border
-          border-white
-          px-3
-          text-base
-          text-white
-          transition
-          hover:border-accent-green-yellow
-          hover:text-accent-green-yellow
-          active:border-accent-spring-bud
-          active:text-accent-spring-bud
-        `}
+        className={classNames(`
+            ${className}
+            flex
+            h-10
+            items-center
+            justify-center
+            gap-2
+            rounded-full
+            border
+            px-3
+            text-base
+            transition
+            hover:border-accent-green-yellow
+            hover:text-accent-green-yellow
+            active:border-accent-spring-bud
+            active:text-accent-spring-bud
+          `,
+          {
+            "border-accent-spring-bud text-accent-spring-bud": isActive,
+            "border-white text-white": !isActive,
+          },
+        )}
       >
         {counterValue && (
-          <div className="text-onAccent-pakistan-green rounded-full bg-accent-green-yellow px-1 text-center text-xs">
+          <div className="rounded-full bg-accent-green-yellow px-1 text-center text-xs text-onAccent-pakistan-green">
             {counterValue}
           </div>
         )}

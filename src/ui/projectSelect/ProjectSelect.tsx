@@ -1,20 +1,21 @@
 import React from "react";
 import { Listbox } from "@headlessui/react";
 import classNames from "classnames";
+import DropDownItem from "../DropDownItem/DropDownItem";
 
 type Props = {
   selectedItem: string;
-  setSelectedItem: React.Dispatch<React.SetStateAction<string>>;
+  onChange: (value: string) => void;
   allItems: string[];
   className?: string;
 };
 
 const ProjectSelect: React.FC<Props> = React.memo(
-  ({ selectedItem, setSelectedItem, allItems, className }) => {
+  ({ selectedItem, onChange, allItems, className }) => {
     return (
       <Listbox
         value={selectedItem}
-        onChange={setSelectedItem}
+        onChange={(value) => onChange(value)}
         as="div"
         className={`${className} relative`}
       >
@@ -24,13 +25,14 @@ const ProjectSelect: React.FC<Props> = React.memo(
             block
             w-full
             p-2
+            pr-14
             text-left
             text-base
             text-onPrimary-anti-flash-withe
             content-[""]
             after:absolute
             after:right-0
-            after:top-1/4
+            after:top-2
             after:block
             after:h-6
             after:w-6
@@ -43,17 +45,21 @@ const ProjectSelect: React.FC<Props> = React.memo(
         <Listbox.Options className="absolute top-12 z-10 w-full">
           {allItems.map((item, index) => (
             <Listbox.Option
-              className={classNames(
-                "cursor-pointer bg-zinc-700 px-5 py-2 text-onPrimary-anti-flash-withe hover:bg-secondary-cadet-grey",
-                {
-                  "rounded-t": index === 0,
-                  "rounded-b": index === allItems.length - 1,
-                },
-              )}
+              className={classNames("bg-secondary-dark-purple", {
+                "rounded-t": index === 0,
+                "rounded-b": index === allItems.length - 1,
+              })}
               key={item}
               value={item}
             >
-              {item}
+              <DropDownItem
+                className={classNames({
+                  "rounded-t": index === 0,
+                  "rounded-b": index === allItems.length - 1,
+                })}
+              >
+                {item}
+              </DropDownItem>
             </Listbox.Option>
           ))}
         </Listbox.Options>
