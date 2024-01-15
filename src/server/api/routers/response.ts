@@ -60,6 +60,10 @@ export const responseRouter = createTRPCRouter({
         where: {
           id: input,
         },
+        include: {
+          project: true,
+          candidate: true,
+        },
       });
     }),
   findByUserId: publicProcedure
@@ -71,7 +75,7 @@ export const responseRouter = createTRPCRouter({
         },
         include: {
           project: true,
-          candidat: true,
+          candidate: true,
         },
       });
     }),
@@ -81,6 +85,10 @@ export const responseRouter = createTRPCRouter({
       return ctx.db.response.findMany({
         where: {
           projectId: input,
+        },
+        include: {
+          project: true,
+          candidate: true,
         },
       });
     }),
