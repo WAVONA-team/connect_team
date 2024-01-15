@@ -98,7 +98,7 @@ model RequiredPeopleState {
     id                     String  @id @default(cuid())
     projectId              String
     numberOfRequiredPeople Int
-    Profession             String
+    profession             String
     project                Project @relation(fields: [projectId], references: [id])
 }
 
