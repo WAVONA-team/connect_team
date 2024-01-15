@@ -30,7 +30,6 @@ const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
 
   return (
     <Menu
-      withArrow
       menuButton={
         <Image
           src={imgUrl ?? ""}
