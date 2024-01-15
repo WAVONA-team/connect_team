@@ -17,7 +17,6 @@ import ProfileImage from "@/ui/profileImage/ProfileImage";
 import UserDescription from "@/components/userDescription/UserDescription";
 
 import arrowLeft from "../../../../../public/images/arrowLeft.svg";
-import { use } from "react";
 
 interface Props {
   params: {
