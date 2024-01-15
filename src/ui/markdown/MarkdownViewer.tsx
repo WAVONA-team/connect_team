@@ -12,7 +12,7 @@ const MarkdownViewer: React.FC<Props> = React.memo(
       <MDEditor.Markdown
         className={`
           ${className}
-          !bg-secondary-dark-purple
+          !bg-transparent
         `}
         source={source}
       />

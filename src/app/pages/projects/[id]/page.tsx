@@ -5,8 +5,8 @@ import { api } from "@/trpc/server";
 import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
 
-import arrowDown from "../../../../public/images/arrowLeft.svg";
-import userNoAvatar from "../../../../public/images/avatar.svg";
+import arrowLeft from "../../../../../public/images/arrowLeft.svg";
+import userNoAvatar from "../../../../../public/images/avatar.svg";
 
 import { type Metadata } from "next";
 import Link from "next/link";
@@ -33,13 +33,13 @@ const Project: React.FC<Props> = async ({ params }) => {
           <div className="flex">
             <Link href="/projects" className=" flex">
               <Image
-                src={arrowDown as string}
+                src={arrowLeft as string}
                 alt="arrowDown"
                 width={24}
                 height={24}
               />
             </Link>
-            <p className="ml-4 text-3xl">Проект</p>
+            <h2 className="ml-4 text-3xl">Проект</h2>
           </div>
           <div className="flex border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
             {project.image && project.title ? (
@@ -61,7 +61,7 @@ const Project: React.FC<Props> = async ({ params }) => {
             )}
             <div className="ml-8 flex w-full flex-row justify-between">
               <div>
-                <p className="text-xl font-bold">{project.title}</p>
+                <h2 className="text-xl font-bold">{project.title}</h2>
                 <p className="mb-2 mt-8 text-secondary-cadet-grey">
                   Длительность
                 </p>
@@ -75,16 +75,16 @@ const Project: React.FC<Props> = async ({ params }) => {
             </div>
           </div>
           <div className="border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
-            <p className="text-xl font-bold">Цель</p>
+            <h2 className="text-xl font-bold">Цель</h2>
             <p>{project.target}</p>
           </div>
           <div className="border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
-            <p className="text-xl font-bold">Описание</p>
+            <h2 className="text-xl font-bold">Описание</h2>
             <p className="mt-6">{project.description}</p>
           </div>
           <div className="flex flex-row gap-6">
             <div className="w-1/2 border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
-              <p className="text-xl font-bold">Кто требуется</p>
+              <h2 className="text-xl font-bold">Кто требуется</h2>
               <div className="mt-8 flex w-fit flex-col  gap-3">
                 {project.requiredPeople.map((requiredPeople) => {
                   return (
@@ -97,7 +97,7 @@ const Project: React.FC<Props> = async ({ params }) => {
               </div>
             </div>
             <div className="w-1/2 border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
-              <p className="text-xl font-bold">Участники команды</p>
+              <h2 className="text-xl font-bold">Участники команды</h2>
               <div className="mt-8">
                 <div className="flex w-full flex-col gap-3">
                   <Link
