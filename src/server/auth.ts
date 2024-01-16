@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/login",
     signOut: "/",
-    newUser: "/pages/user/[id]/settings"
+    newUser: "/user/[id]/settings"
   },
   providers: [
     Google({
