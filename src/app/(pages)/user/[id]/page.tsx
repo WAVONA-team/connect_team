@@ -1,11 +1,10 @@
-
 import { type Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import { api } from "@/trpc/server";
 
-import UserProjectCard from "@/modules/userProjectCard/UserProjectCard"
+import UserProjectCard from "@/modules/userProjectCard/UserProjectCard";
 
 import NavBar from "@/components/navBar/NavBar";
 
@@ -48,7 +47,7 @@ const User: React.FC<Props> = async ({ params }) => {
           </div>
           <MainButtonLink
             text="Редактировать"
-            path={`/pages/user/${user.id}/settings`}
+            path={`/user/${user.id}/settings`}
             target="_self"
           />
         </div>
@@ -82,27 +81,23 @@ const User: React.FC<Props> = async ({ params }) => {
         </SectionWrapper>
         <SectionWrapper className="mb-6 flex w-full flex-col gap-6">
           <h2 className="text-xl font-bold">Обо мне</h2>
-          <UserDescription description={user.description ?? ""}/>
+          <UserDescription description={user.description ?? ""} />
         </SectionWrapper>
         <div>
           <div className=" mb-6 flex  justify-between">
             <h2 className="text-3xl ">Мои проекты</h2>
             <MainButtonLink
               text="Создать проект"
-              path={`/pages/projects/create`}
+              path={`/projects/create`}
               target="_self"
             />
           </div>
           <div className=" grid grid-cols-2 grid-rows-3 gap-6">
             {user.createdProjects.map((project) => {
-              return (
-                <UserProjectCard project={project} role="Участник"/>
-              );
+              return <UserProjectCard project={project} role="Участник" />;
             })}
             {user.memberOfProjects.map((project) => {
-              return (
-                <UserProjectCard project={project} role="Создатель"/>
-              );
+              return <UserProjectCard project={project} role="Создатель" />;
             })}
           </div>
         </div>
