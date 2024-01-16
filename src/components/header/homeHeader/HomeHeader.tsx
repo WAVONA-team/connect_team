@@ -18,7 +18,7 @@ const HomeHeader: React.FC = React.memo(async () => {
 
           {session ? (
             <Link
-              href="/pages/projects"
+              href="/projects"
               className="px-4 py-3.5 text-base text-onPrimary-anti-flash-withe"
             >
               Вход
