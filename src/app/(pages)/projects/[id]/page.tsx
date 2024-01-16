@@ -5,13 +5,13 @@ import { api } from "@/trpc/server";
 import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
 
-import arrowLeft from "../../../../../public/images/arrowLeft.svg";
 import userNoAvatar from "../../../../../public/images/avatar.svg";
 
 import { type Metadata } from "next";
 import Link from "next/link";
 import NavBar from "@/components/navBar/NavBar";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
+import BackButton from "@/ui/backButton/BackButton";
 
 interface Props {
   params: {
@@ -34,15 +34,9 @@ const Project: React.FC<Props> = async ({ params }) => {
         <NavBar />
         <div className="mt-8 flex flex-col gap-6">
           <div className="flex">
-            <Link href="/projects" className=" flex">
-              <Image
-                src={arrowLeft as string}
-                alt="arrowDown"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <h2 className="ml-4 text-3xl">Проект</h2>
+            <BackButton />
+
+            <p className="ml-4 text-3xl">Проект</p>
           </div>
           <div className="flex border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
             {project.image && project.title ? (

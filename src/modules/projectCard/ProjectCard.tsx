@@ -1,101 +1,105 @@
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import React from "react";
+import classNames from "classnames";
 
+import type NewProject from "@/shared/types/extendedModels/NewProject";
+
+import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
+import Badge from "@/ui/badge/Badge";
+import Status from "@/shared/types/projectFilter/Status";
 import Link from "next/link";
-
-interface Project {
-  id: string;
-  title: string;
-  description: string | null;
-  userId: string;
-  term: string;
-  status: string;
-}
+import { useSession } from "next-auth/react";
+import MainButton from "@/ui/mainButton/MainButton";
 
 type Props = {
-  project: Project;
+  project: NewProject;
   href: string;
 };
 
-const ProjectCard: React.FC<Props> = React.memo(
-({ project, href }) => {
+const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
+  const { requiredPeople, title, status, target, creator, responses } = project;
+  const { data: session } = useSession();
+
+  const SubmitResponseClick = () => {
+    console.log("response");
+  };
+
   return (
-    <Link href={`./projects/${href}`} className="inline-flex items-start justify-start gap-8 self-stretch">
-      <div className="inline-flex shrink grow basis-0 flex-col items-end justify-start gap-7">
-        <div className="flex  flex-col items-start justify-start gap-5 self-stretch rounded-2xl bg-zinc-800 p-8">
-          <div className="flex flex-col items-start justify-start gap-5 self-stretch">
-            <div className="inline-flex items-start justify-start gap-3 self-stretch">
-              <div className="flex items-center justify-end gap-6">
-                <div className="flex items-start justify-start gap-3">
-                  <div className="flex items-center justify-end gap-2.5 rounded-xl border border-white px-3 py-0.5">
-                    <p className="text-center font-['Roboto'] text-lg font-normal leading-normal tracking-wide text-white">
-                      Frontend
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-end gap-2.5 rounded-xl border border-white px-3 py-0.5">
-                    <p className="text-center font-['Roboto'] text-lg font-normal leading-normal tracking-wide text-white">
-                      Design
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex shrink grow  basis-0 items-center justify-end gap-2.5">
-                <p className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
-                  Создатель
-                </p>
-              </div>
-            </div>
-            <div className="flex  flex-col items-start justify-start gap-5 self-stretch">
-              <div className="flex  flex-col items-start justify-start gap-4 self-stretch">
-                <div className="flex  flex-col items-start justify-start gap-4 self-stretch">
-                  <div className="inline-flex items-center justify-center gap-2.5 self-stretch">
-                    <p className="shrink grow basis-0 font-['Inter'] text-2xl font-normal leading-tight tracking-tight text-white">
-                      {project?.title}
-                    </p>
-                  </div>
-                  <div className=" inline-flex items-start justify-start gap-4">
-                    <div className="  relative">
-                      <p className="absolute left-0 top-0 font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
-                        Описание
-                      </p>
-                    </div>
-                  </div>
-                  <div className="inline-flex items-center justify-center gap-2.5 self-stretch">
-                    <p className="shrink grow basis-0 font-['Inter'] text-2xl font-normal leading-tight tracking-tight text-white">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="inline-flex items-center justify-end gap-2.5">
-                <p className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
-                  {project.term}
-                </p>
-              </div>
-              <div className="inline-flex items-center justify-center gap-2.5">
-                <div className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
-                  {project.status}
-                </div>
-              </div>
+    <Link href={`/pages/projects/${href}`}>
+      <SectionWrapper className="h-full">
+        <div className="flex items-center gap-3">
+          {[...new Set(requiredPeople)]
+            .sort((a, b) => a.profession.localeCompare(b.profession))
+            .map((person) => {
+              const { profession, numberOfRequiredPeople, id } = person;
+
+              return (
+                <Badge
+                  key={id}
+                  text={profession}
+                  counterValue={numberOfRequiredPeople}
+                  className="pointer-events-none"
+                />
+              );
+            })}
+        </div>
+
+        <h2 className="mt-6 block text-xl font-semibold text-onPrimary-anti-flash-withe">
+          {title}
+        </h2>
+
+        <div className="mt-4">
+          <p className="text-base text-secondary-cadet-grey">Цель</p>
+
+          <p className="mt-4 block text-base text-onPrimary-anti-flash-withe">
+            {target}
+          </p>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <p className="text-base text-secondary-cadet-grey">Длительность:</p>
+
+            <div className="flex items-center gap-2 text-onPrimary-anti-flash-withe">
+              <p>{project.published.toLocaleDateString()}</p>
+              <p>-</p>
+              <p>{project.deadline.toLocaleDateString()}</p>
             </div>
           </div>
-          <div className="inline-flex items-center justify-start gap-16 self-stretch">
-            <div className="flex items-start justify-start">
-              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-zinc-100 px-8 py-4">
-                <button className="font-['Roboto'] text-base font-medium leading-tight tracking-wide text-stone-900">
-                  Откликнуться
-                </button>
-              </div>
-            </div>
-            <div className="flex shrink grow basis-0 items-center justify-end gap-2.5">
-              <div className="font-['Inter'] text-base font-normal leading-tight tracking-tight text-zinc-100">
-                Не могу вывести
-              </div>
-            </div>
+
+          <div className="flex items-center gap-3">
+            <p className="text-base text-secondary-cadet-grey">Статус:</p>
+            <p
+              className={classNames({
+                "text-orange-500":
+                  status === Status.InProgress || status === Status.Planning,
+                "text-accent-spring-bud": status === Status.Completed,
+              })}
+            >
+              {status}
+            </p>
           </div>
         </div>
-      </div>
+
+        <div className="mt-6 flex items-center justify-between">
+          {session?.user.id === creator.id ? (
+            <p className="py-3.5 text-sm text-onPrimary-anti-flash-withe">
+              {responses.length} откликов
+            </p>
+          ) : (
+            <MainButton
+              text="Откликнуться"
+              disabled={!session}
+              onClick={SubmitResponseClick}
+            />
+          )}
+
+          <p className="text-base text-onPrimary-anti-flash-withe">
+            {project.published.toLocaleDateString()}
+          </p>
+        </div>
+      </SectionWrapper>
     </Link>
   );
-}
-)
+});
 export default ProjectCard;

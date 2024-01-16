@@ -10,9 +10,9 @@ import generalClassNames from "./helpers/GeneralClassNames";
 
 import Image from "next/image";
 import userNoAvatar from "../../../public/images/avatar.svg";
-import arrowDown from "../../../public/images/arrowDown.svg";
 
 import Input from "@/ui/input/Input";
+import BackButton from "@/ui/backButton/BackButton";
 import Switch from "@/ui/switch/Switch";
 import RadioButton from "@/ui/radioButton/RadioButton";
 import MarkdownEditor from "@/ui/markdown/MarkdownEditor";
@@ -89,18 +89,7 @@ const UserSettingsForm: React.FC = React.memo(() => {
       >
         <div className={generalClassNames.sectionWrapper}>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                router.back();
-              }}
-            >
-              <Image
-                src={arrowDown as string}
-                alt="Навигация назад"
-                className="rotate-90"
-              />
-            </button>
+            <BackButton />
 
             <h2 className="text-3xl text-onPrimary-anti-flash-withe">
               Профиль

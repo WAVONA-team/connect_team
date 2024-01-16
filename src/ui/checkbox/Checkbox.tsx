@@ -7,14 +7,16 @@ type Props = {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   disabled?: boolean;
   className?: string;
+  value?: string;
 };
 
 const Checkbox: React.FC<Props> = React.memo(
-  ({ labelText, isChecked, onChange, disabled = false, className = "" }) => {
+  ({ labelText, isChecked, onChange, disabled = false, className = "", value = "" }) => {
     return (
       <label className="flex items-center gap-2">
         <input
           checked={isChecked}
+          value={value}
           onChange={onChange}
           type="checkbox"
           disabled={disabled}
@@ -23,8 +25,7 @@ const Checkbox: React.FC<Props> = React.memo(
             h-4
             w-4
             appearance-none
-            rounded
-            bg-white
+            bg-transparent
             bg-[url("/images/checkbox/off.svg")]
             bg-contain
             bg-center

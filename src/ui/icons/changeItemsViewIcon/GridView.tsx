@@ -4,7 +4,7 @@ import classNames from "classnames";
 import generalClassNames from "../helpers/generalClassNames";
 import type Props from "../types/Props";
 
-const gridViewIcon: React.FC<Props> = React.memo(({ active = false }) => {
+const GridViewIcon: React.FC<Props> = React.memo(({ active = false }) => {
   return (
     <svg
       width="24"
@@ -28,4 +28,4 @@ const gridViewIcon: React.FC<Props> = React.memo(({ active = false }) => {
   );
 });
 
-export default gridViewIcon;
+export default GridViewIcon;
