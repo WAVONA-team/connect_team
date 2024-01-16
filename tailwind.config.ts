@@ -1,7 +1,10 @@
 import { type Config } from "tailwindcss";
 
 export default {
-  content: ["./src/**/*.tsx"],
+  content: [
+    "./src/**/*.tsx",
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -22,7 +25,7 @@ export default {
         },
         onSecondary: {
           "english-violet": "#38304B",
-          "platinum": "#D4D4D9",
+          platinum: "#D4D4D9",
           "davys-gray": "#27272A",
         },
         accent: {
@@ -33,16 +36,16 @@ export default {
           "pakistan-green": "#1A2E05",
         },
         background: {
-          "night": "#100E16",
+          night: "#100E16",
           "taupe-gray": "#65656E",
         },
         surface: {
           "raisin-black": "#1C1825",
-          "black": "#2D2D2D",
+          black: "#2D2D2D",
         },
         onPrimary: {
           "anti-flash-withe": "#F4F4F5",
-          "lavender": "#EBEFFF",
+          lavender: "#EBEFFF",
         },
         success: {
           "dark-pastel-green": "#22C55E",
@@ -53,7 +56,7 @@ export default {
       },
     },
     boxShadow: {
-      "surface": "0px 8px 12px 0px rgba(0, 0, 0, 0.30)",
+      surface: "0px 8px 12px 0px rgba(0, 0, 0, 0.30)",
     },
   },
   plugins: [],
