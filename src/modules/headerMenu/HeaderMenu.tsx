@@ -40,34 +40,32 @@ const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
         />
       }
     >
-      <HeadlessMenu.Items>
-        {menuItems.map((item, index) => {
-          const { name, path } = item;
+      {menuItems.map((item, index) => {
+        const { name, path } = item;
 
-          return (
-            <HeadlessMenu.Item
-              key={name}
-              as={"div"}
-              className="first:border-t-lg block"
+        return (
+          <HeadlessMenu.Item
+            key={name}
+            as={"div"}
+            className="first:border-t-lg block"
+          >
+            <DropDownItem
+              link={path}
+              className={classNames({
+                "rounded-t-lg": index === 0,
+              })}
             >
-              <DropDownItem
-                link={path}
-                className={classNames({
-                  "rounded-t-lg": index === 0,
-                })}
-              >
-                {name}
-              </DropDownItem>
-            </HeadlessMenu.Item>
-          );
-        })}
+              {name}
+            </DropDownItem>
+          </HeadlessMenu.Item>
+        );
+      })}
 
-        <HeadlessMenu.Item>
-          <DropDownItem className="rounded-b-lg">
-            <SignOutButton />
-          </DropDownItem>
-        </HeadlessMenu.Item>
-      </HeadlessMenu.Items>
+      <HeadlessMenu.Item>
+        <DropDownItem className="rounded-b-lg">
+          <SignOutButton />
+        </DropDownItem>
+      </HeadlessMenu.Item>
     </Menu>
   );
 });

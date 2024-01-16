@@ -49,6 +49,7 @@ const Menu: React.FC<Props> = React.memo(
           <HeadlessMenu.Items
             className="
               absolute
+              z-10
               -left-12
               mt-2
               origin-top-right
