@@ -7,17 +7,9 @@ const SignInButton: React.FC = React.memo(() => {
     <button
       type="button"
       onClick={() => signIn()}
-      className="
-        w-full
-        rounded
-        px-2
-        py-2
-        text-sm
-      text-white
-        hover:bg-purple-800
-      "
+      className="px-4 py-3.5 text-base text-onPrimary-anti-flash-withe"
     >
-      Регистрация/Вход
+      Регистрация
     </button>
   );
 });

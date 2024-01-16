@@ -1,15 +1,14 @@
 import React from "react";
 
-import Header from "@/components/header/Header";
 import Providers from "@/components/providers/Providers";
-import Footer from "@/components/footer/Footer";
 
-import { Noto_Sans_Kannada } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import "@/styles/globals.css";
 
-const kannada = Noto_Sans_Kannada({
+const notoSans = Noto_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
@@ -23,20 +22,8 @@ type Props = {
 
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (
-    <html lang="ru">
-      <body
-        className={`${kannada.className} flex h-screen flex-col bg-black`}
-      >
-        <Providers>
-          <Header />
-
-          <main className="flex-1">
-            <div className="m-auto w-3/5">{children}</div>
-          </main>
-
-          <Footer />
-        </Providers>
-      </body>
+    <html lang="ru" className={notoSans.className}>
+      <Providers>{children}</Providers>
     </html>
   );
 });

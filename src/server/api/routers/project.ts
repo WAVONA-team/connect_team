@@ -2,19 +2,40 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const projectRouter = createTRPCRouter({
+
   create: protectedProcedure
     .input(
       z.object({
+        image: z.string().trim(),
         title: z.string().trim(),
+        target: z.string().trim(),
         description: z.string().trim(),
+        status: z.string().trim(),
+        term: z.string().trim(),
+        deadline: z.string().trim(),
+        published: z.string().trim(),
+        email: z.string().email().trim(),
+        telegram: z.string().trim(),
+        discord: z.string().trim(),
+        site: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.project.create({
         data: {
+          image: input.image,
           title: input.title,
+          deadline: input.deadline,
+          term: input.term,
+          target: input.target,
           description: input.description,
+          email: input.email,
+          telegram: input.telegram,
+          discord: input.discord,
+          site: input.site,
+          status: input.status,
           userId: ctx.session.user.id,
+          published: input.published,
         },
       });
     }),
@@ -56,8 +77,15 @@ export const projectRouter = createTRPCRouter({
         where: {
           id: input,
         },
+        include: {
+          responses: true,
+          creator: true,
+          members: true,
+          requiredPeople: true,
+        }
       });
     }),
+
   searchByTitle: publicProcedure
     .input(z.string().trim())
     .query(async ({ ctx, input }) => {
@@ -67,8 +95,9 @@ export const projectRouter = createTRPCRouter({
         },
       });
     }),
+
   getAll: publicProcedure
     .query(async ({ ctx }) => {
       return ctx.db.project.findMany();
     })
-});
+  });

@@ -1,5 +1,4 @@
 import React from "react";
-
 import { getServerAuthSession } from "@/server/auth";
 
 import NotificationPopOver from "@/modules/notificationPopOver/NotificationPopOver";
@@ -10,14 +9,14 @@ import SignInButton from "@/components/signInButton/signIn";
 
 import Container from "@/ui/container/Container";
 
-const Header: React.FC = React.memo(async () => {
+const DefaultHeader: React.FC = React.memo(async () => {
   const session = await getServerAuthSession();
 
   return (
     <header
       className="
-        desktop:py-5
-        bg-purple-800
+        lg:py-5
+        bg-surface-raisin-black
         py-2
       "
     >
@@ -45,4 +44,4 @@ const Header: React.FC = React.memo(async () => {
   );
 });
 
-export default Header;
+export default DefaultHeader;
