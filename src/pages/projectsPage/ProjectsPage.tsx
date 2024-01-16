@@ -59,7 +59,7 @@ const ProjectsPage: React.FC = React.memo(async () => {
           {[...new Set(tags)]
             .sort((a, b) => a.localeCompare(b))
             .map((tag) => (
-              <FilterBadge key={tag} text={tag} />
+              <FilterBadge key={tag} text={tag} paramName="professions" />
             ))}
         </div>
       </div>
