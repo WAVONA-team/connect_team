@@ -12,7 +12,7 @@ type Props = {
 
 const AuthButton: React.FC<Props> = ({ image, text, provider }) => {
   const handleClick = async () => {
-    await signIn(provider, { callbackUrl: `/pages/projects` });
+    await signIn(provider, { callbackUrl: `/projects` });
   };
 
   return (
