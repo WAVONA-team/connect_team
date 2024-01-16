@@ -22,13 +22,13 @@ const HomePage: React.FC = React.memo(() => {
       <div className="flex items-center gap-8">
         <MainButtonLink
           text="Найти команду"
-          path="/pages/projects"
+          path="/projects"
           target="_self"
         />
 
         <SecondaryButtonLink
           text="Создать проект"
-          path="/pages/projects/create"
+          path="/projects/create"
           target="_self"
         />
       </div>
