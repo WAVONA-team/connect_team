@@ -5,20 +5,23 @@ type Props = {
   className?: string;
 };
 
-const SectionWrapper: React.FC<Props> = React.memo(({ children, className = "" }) => {
-  return (
-    <div
-      className={`
+const SectionWrapper: React.FC<Props> = React.memo(
+  ({ children, className = "" }) => {
+    return (
+      <div
+        className={`
         ${className}
         rounded-2xl
         border
         border-secondary-dark-purple
         bg-surface-raisin-black p-12
       `}
-    >
-      {children}
-    </div>
-  );
-});
+        onClick={(event) => event.stopPropagation()}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
 export default SectionWrapper;

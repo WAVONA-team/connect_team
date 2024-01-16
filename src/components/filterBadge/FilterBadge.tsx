@@ -8,13 +8,14 @@ import Badge from "@/ui/badge/Badge";
 
 type Props = {
   text: string;
+  paramName: string;
 };
 
-const FilterBadge: React.FC<Props> = React.memo(({ text }) => {
+const FilterBadge: React.FC<Props> = React.memo(({ text, paramName }) => {
   const router = useRouter();
   const searchParams = useSearchParams()!;
 
-  const professions = searchParams.getAll("professions") ?? [];
+  const professions = searchParams.getAll(paramName) ?? [];
 
   const toggleBadge = (ch: string) => {
     const newProfessions = professions.includes(ch)
@@ -22,7 +23,7 @@ const FilterBadge: React.FC<Props> = React.memo(({ text }) => {
       : [...professions, ch];
 
     router.push(
-      createSearchParams({ professions: newProfessions }, searchParams),
+      createSearchParams({ [paramName]: newProfessions }, searchParams),
     );
   };
 
@@ -30,7 +31,10 @@ const FilterBadge: React.FC<Props> = React.memo(({ text }) => {
     <Badge
       text={text}
       isActive={professions.includes(text)}
-      onClick={() => toggleBadge(text)}
+      onClick={(event) => {
+        event.preventDefault();
+        toggleBadge(text);
+      }}
     />
   );
 });
