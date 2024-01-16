@@ -10,7 +10,7 @@ const NavBar: React.FC = React.memo(() => {
   const session = useSession();
 
   return (
-    <nav className="relative -z-10">
+    <nav className="relative">
       <div className="flex">
         <Tabs
           link="/pages/projects"
