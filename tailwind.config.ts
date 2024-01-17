@@ -22,7 +22,7 @@ export default {
           "raisin-black": "#333335",
           "rich-black": "#313136",
           "dark-purple": "#252031",
-          "black-opacity": "rgba(0, 0, 0, 0.5)",
+          "black-opacity": "rgba(0, 0, 0, 0.6)",
         },
         onSecondary: {
           "english-violet": "#38304B",
@@ -33,6 +33,7 @@ export default {
           "spring-bud": "#A3E635",
           "green-yellow": "#BEF264",
           azure: "#5484FF",
+          tomato: "#FC624D",
         },
         onAccent: {
           "pakistan-green": "#1A2E05",
