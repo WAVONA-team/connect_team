@@ -10,12 +10,22 @@ type Props = {
     state?: ContextStore,
   ) => void;
   className?: string;
+  withoutToolBar?: boolean;
+  withDragBar?: boolean;
+  placeholder?: string;
 };
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const MarkdownEditor: React.FC<Props> = React.memo(
-  ({ source, setSource, className = "" }) => {
+  ({
+    source,
+    setSource,
+    className = "",
+    withoutToolBar = false,
+    withDragBar = true,
+    placeholder = "",
+  }) => {
     return (
       <MDEditor
         className={`
@@ -25,6 +35,11 @@ const MarkdownEditor: React.FC<Props> = React.memo(
         value={source}
         onChange={setSource}
         preview="edit"
+        hideToolbar={withoutToolBar}
+        visibleDragbar={withDragBar}
+        textareaProps={{
+          placeholder,
+        }}
       />
     );
   },
