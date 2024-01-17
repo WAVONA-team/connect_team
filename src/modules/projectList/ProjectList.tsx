@@ -6,7 +6,9 @@ import { useSession } from "next-auth/react";
 
 import getFilteredProjects from "./helpers/getFilteredProjects";
 import type NewProject from "@/shared/types/extendedModels/NewProject";
-import ProjectCard from "../projectCard/ProjectCard";
+
+import ProjectCard from "@/modules/projectCard/ProjectCard";
+import ResponseModal from "@/modules/responseModal/ResponseModal";
 
 import MainButton from "@/ui/mainButton/MainButton";
 
@@ -25,6 +27,7 @@ const ProjectList: React.FC<Props> = React.memo(({ projects }) => {
   const duration = searchParams.get("duration") ?? "";
   const status = searchParams.get("status") ?? "";
   const view = searchParams.get("view") ?? "grid";
+  const projectId = searchParams.get("responseProjectId") ?? "";
 
   const filteredProjects = getFilteredProjects(
     projects,
@@ -57,9 +60,17 @@ const ProjectList: React.FC<Props> = React.memo(({ projects }) => {
 
           <MainButton
             text="Сбросить фильтры"
-            onClick={() => router.push("/pages/projects")}
+            onClick={() => router.push("/projects")}
           />
         </div>
+      )}
+
+      {projectId.length && (
+        <ResponseModal
+          projectId={projectId}
+          projects={projects}
+          active={true}
+        />
       )}
     </div>
   );

@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const responseRouter = createTRPCRouter({
-
   create: protectedProcedure
     .input(
       z.object({
@@ -10,6 +9,7 @@ export const responseRouter = createTRPCRouter({
         status: z.string().trim(),
         date: z.string().trim(),
         message: z.string().trim(),
+        profession: z.string().trim(),
       }),
     )
 
@@ -21,6 +21,7 @@ export const responseRouter = createTRPCRouter({
           status: input.status,
           date: input.date,
           message: input.message,
+          profession: input.profession,
         },
       });
     }),

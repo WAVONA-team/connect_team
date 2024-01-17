@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import React from "react";
 import classNames from "classnames";
+import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import type NewProject from "@/shared/types/extendedModels/NewProject";
 
+import Status from "@/shared/types/projectFilter/Status";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import Badge from "@/ui/badge/Badge";
-import Status from "@/shared/types/projectFilter/Status";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
 import MainButton from "@/ui/mainButton/MainButton";
+import Link from "next/link";
+import createSearchParams from "@/shared/helpers/createSearchParams";
 
 type Props = {
   project: NewProject;
@@ -20,12 +22,11 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
   const { requiredPeople, title, status, target, creator, responses } = project;
   const { data: session } = useSession();
 
-  const SubmitResponseClick = () => {
-    console.log("response");
-  };
+  const router = useRouter();
+  const searchParams = useSearchParams()!;
 
   return (
-    <Link href={`/pages/projects/${href}`}>
+    <Link href={`/projects/${href}`}>
       <SectionWrapper className="h-full">
         <div className="flex items-center gap-3">
           {[...new Set(requiredPeople)]
@@ -90,7 +91,15 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
             <MainButton
               text="Откликнуться"
               disabled={!session}
-              onClick={SubmitResponseClick}
+              onClick={(event) => {
+                event.preventDefault();
+                router.push(
+                  createSearchParams(
+                    { responseProjectId: project.id },
+                    searchParams,
+                  ),
+                );
+              }}
             />
           )}
 
