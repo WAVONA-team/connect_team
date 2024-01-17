@@ -135,6 +135,8 @@ const ResponseModal: React.FC<Props> = React.memo(
                     <MarkdownEditor
                       source={field.value}
                       setSource={(value) => field.onChange(value)}
+                      withoutToolBar
+                      withDragBar={false}
                     />
                   )}
                 />

@@ -19,7 +19,8 @@ type Props = {
 };
 
 const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
-  const { requiredPeople, title, status, target, creator, responses } = project;
+  const { requiredPeople, title, status, target, creator, responses, members } =
+    project;
   const { data: session } = useSession();
 
   const router = useRouter();
@@ -28,21 +29,26 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
   return (
     <Link href={`/projects/${href}`}>
       <SectionWrapper className="h-full">
-        <div className="flex items-center gap-3">
-          {[...new Set(requiredPeople)]
-            .sort((a, b) => a.profession.localeCompare(b.profession))
-            .map((person) => {
-              const { profession, numberOfRequiredPeople, id } = person;
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {[...new Set(requiredPeople)]
+              .sort((a, b) => a.profession.localeCompare(b.profession))
+              .map((person) => {
+                const { profession, numberOfRequiredPeople, id } = person;
+                return (
+                  <Badge
+                    key={id}
+                    text={profession}
+                    counterValue={numberOfRequiredPeople}
+                    className="pointer-events-none"
+                  />
+                );
+              })}
+          </div>
 
-              return (
-                <Badge
-                  key={id}
-                  text={profession}
-                  counterValue={numberOfRequiredPeople}
-                  className="pointer-events-none"
-                />
-              );
-            })}
+          {session?.user.id === creator.id && (
+            <p className="text-sm text-onPrimary-anti-flash-withe">Создатель</p>
+          )}
         </div>
 
         <h2 className="mt-6 block text-xl font-semibold text-onPrimary-anti-flash-withe">
@@ -72,9 +78,9 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
             <p className="text-base text-secondary-cadet-grey">Статус:</p>
             <p
               className={classNames({
-                "text-orange-500":
-                  status === Status.InProgress || status === Status.Planning,
-                "text-accent-spring-bud": status === Status.Completed,
+                "text-accent-azure": status === Status.Planning,
+                "text-accent-green-yellow": status === Status.InProgress,
+                "text-accent-tomato": status === Status.Completed,
               })}
             >
               {status}
@@ -83,11 +89,19 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
         </div>
 
         <div className="mt-6 flex items-center justify-between">
-          {session?.user.id === creator.id ? (
+          {status === Status.Completed && (
+            <p className="py-3.5 text-sm text-onPrimary-anti-flash-withe">
+              {members.length} участников
+            </p>
+          )}
+
+          {session?.user.id === creator.id && (
             <p className="py-3.5 text-sm text-onPrimary-anti-flash-withe">
               {responses.length} откликов
             </p>
-          ) : (
+          )}
+
+          {status !== Status.Completed && session?.user.id !== creator.id && (
             <MainButton
               text="Откликнуться"
               disabled={!session}
