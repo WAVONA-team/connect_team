@@ -65,7 +65,7 @@ const ProjectList: React.FC<Props> = React.memo(({ projects }) => {
         </div>
       )}
 
-      {projectId.length && (
+      {!!projectId.length && (
         <ResponseModal
           projectId={projectId}
           projects={projects}
