@@ -38,7 +38,7 @@ const Project: React.FC<Props> = async ({ params }) => {
 
             <p className="ml-4 text-3xl">Проект</p>
           </div>
-          <div className="flex border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
+          <SectionWrapper className="flex">
             {project.image && project.title ? (
               <Image
                 src={project.image}
@@ -70,17 +70,20 @@ const Project: React.FC<Props> = async ({ params }) => {
               </div>
               <p>{project.status}</p>
             </div>
-          </div>
-          <div className="border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
+          </SectionWrapper>
+
+          <SectionWrapper>
             <h2 className="text-xl font-bold">Цель</h2>
             <p>{project.target}</p>
-          </div>
-          <div className="border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
+          </SectionWrapper>
+
+          <SectionWrapper>
             <h2 className="text-xl font-bold">Описание</h2>
             <p className="mt-6">{project.description}</p>
-          </div>
+          </SectionWrapper>
+
           <div className="flex flex-row gap-6">
-            <div className="w-1/2 border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
+            <SectionWrapper className="w-1/2">
               <h2 className="text-xl font-bold">Кто требуется</h2>
               <div className="mt-8 flex w-fit flex-col  gap-3">
                 {project.requiredPeople.map((requiredPeople) => {
@@ -92,8 +95,9 @@ const Project: React.FC<Props> = async ({ params }) => {
                   );
                 })}
               </div>
-            </div>
-            <div className="w-1/2 border-2 border-secondary-dark-purple bg-surface-raisin-black p-12">
+            </SectionWrapper>
+
+            <SectionWrapper className="w-1/2">
               <h2 className="text-xl font-bold">Участники команды</h2>
               <div className="mt-8">
                 <div className="flex w-full flex-col gap-3">
@@ -135,7 +139,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                   })}
                 </div>
               </div>
-            </div>
+            </SectionWrapper>
           </div>
           <div>
             <p className=" text-3xl">Отклики</p>
