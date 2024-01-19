@@ -94,10 +94,22 @@ const User: React.FC<Props> = async ({ params }) => {
           </div>
           <div className=" grid grid-cols-2 grid-rows-3 gap-6">
             {user.createdProjects.map((project) => {
-              return <UserProjectCard project={project} role="Участник" />;
+              return (
+                <UserProjectCard
+                  key={project.id}
+                  project={project}
+                  role="Участник"
+                />
+              );
             })}
             {user.memberOfProjects.map((project) => {
-              return <UserProjectCard project={project} role="Создатель" />;
+              return (
+                <UserProjectCard
+                  key={project.id}
+                  project={project}
+                  role="Создатель"
+                />
+              );
             })}
           </div>
         </div>
