@@ -73,6 +73,7 @@ model Project {
     status         String
     target         String
     description    String
+    preferredTypeOfCommunication String?
     email          String?
     telegram       String?
     discord        String?
@@ -99,8 +100,7 @@ model Response {
 model RequiredPeopleState {
     id                     String  @id @default(cuid())
     projectId              String
-    numberOfRequiredPeople Int
-    profession             String
+    requiredPeople         String
     project                Project @relation(fields: [projectId], references: [id])
 }
 

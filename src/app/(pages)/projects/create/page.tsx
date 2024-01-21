@@ -1,262 +1,318 @@
 "use client";
-import React, { type ChangeEvent } from "react";
-import { useState } from "react";
+import React, { type ChangeEvent, useState } from "react";
+import { useForm, Controller, type SubmitHandler } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { api } from "@/trpc/react";
+
 import Container from "@/ui/container/Container";
-// import { api } from "@/trpc/react";
+import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
+import NavBar from "@/components/navBar/NavBar";
+import Input from "@/ui/input/Input";
+import DatePicker from "@/ui/datepicker/DatePicker";
+import MarkdownEditor from "@/ui/markdown/MarkdownEditor";
+import ProfileImage from "@/ui/profileImage/ProfileImage";
+import BackButton from "@/ui/backButton/BackButton";
+import MainButton from "@/ui/mainButton/MainButton";
+import CounterMultiSelect from "@/ui/counterMultiSelect/CounterMultiSelect";
+import RadioButton from "@/ui/radioButton/RadioButton";
+import SecondaryButton from "@/ui/secondaryButton/SecondaryButton";
+import { InitialType } from "@/ui/counterMultiSelect/types/initialType";
+import makeInitialState from "@/ui/counterMultiSelect/helpers/makeInitialState";
 
+type InputsValue = {
+  image: string,
+  title: string,
+  term: string,
+  published: Date,
+  deadline: Date,
+  status: string,
+  target: string,
+  description: string,
+  preferredTypeOfCommunication: string,
+  email: string,
+  telegram: string,
+  discord: string,
+  site: string,
+  requiredPeopleState: InitialType
+};
+const calculateMonthDifference = (startDate: Date, endDate: Date) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  const diffInMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+
+  return diffInMonths;
+};
 const ProjectCreate: React.FC = () => {
-  // const createProject = api.project.create.useMutation({
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //   },
-  // });
-  const [formValues, setFormValues] = useState({
-    image: "https://avatars.githubusercontent.com/u/70152685?v=4",
-    title: "",
-    deadline: "",
-    term: "6 месяцев",
-    target: "",
-    description: "",
-    email: "",
-    telegram: "",
-    discord: "",
-    site: "",
-    status: "Проект начат",
+  const allItems = ['Frontend', 'Backend', 'UI']
+  const projectMutation = api.project.create.useMutation();
+  const requiredPeopleMutation = api.requiredPeople.create.useMutation();
+  const [selectedItems, setSelectedItems] = useState<InitialType>(makeInitialState(allItems))
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
   });
+  const setDateRangefunction = (e: any) =>{
+    setDateRange(e)
+  }
+  const terms = calculateMonthDifference(dateRange.startDate, dateRange.endDate)
+  const termsValue = terms + ' Месяцев'
+  console.log(termsValue)
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<InputsValue>({
+    defaultValues: {
+      image: "",
+      title: "",
+      term: "",
+      published: new Date(dateRange.startDate),
+      deadline: new Date(dateRange.endDate),
+      status: "Не начат",
+      target: "",
+      description: "",
+      email: "",
+      telegram: "",
+      discord: "",
+      site: "",
+      preferredTypeOfCommunication: "",
+      requiredPeopleState: {  },
+    },
+  });
+  const onSubmit: SubmitHandler<InputsValue> = (formData) => {
+    console.log(formData)
+    projectMutation.mutateAsync({
+      image: formData.image,
+      title: formData.title,
+      term: `${termsValue}`,
+      published: new Date(formData.published),
+      deadline: new Date(formData.deadline),
+      status: formData.status,
+      target: formData.target,
+      description: formData.description,
+      preferredTypeOfCommunication: formData.preferredTypeOfCommunication,
+      email: formData.email,
+      telegram: formData.telegram,
+      discord: formData.discord,
+      site: formData.site,
+    })
+    .then((createdProject) => {
+      requiredPeopleMutation.mutate({
+        projectId: createdProject?.id as string,
+        requiredPeople: JSON.stringify(selectedItems),
+      })
+    })
 
-  const sendDataToServer = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // createProject.mutate(formValues);
+    reset();
+  };
+
+  const onCancel = () => {
+    reset();
   };
 
   return (
     <Container>
-      <form
-        onSubmit={sendDataToServer}
-        className="w-full rounded-2xl bg-zinc-800 p-12    "
-      >
-        <div className="text-3xl leading-normal tracking-wide text-white">
-          Создай проект
-        </div>
-        <span className="leading-normal text-red-400">*</span>
-        <span className="leading-normal text-white">
-          - поля обязательные для заполнения
-        </span>
-        <div className="text-3xl leading-normal tracking-wide text-white">
-          Основная информация
-        </div>
-        <div className=" w-fit      ">
-          <div className="flex items-center">
-            <div className=" h-64 w-64 rounded-3xl bg-white  " />
-            <button className=" ml-10 h-14 rounded-lg bg-white px-8 py-4 font-medium leading-tight tracking-wide text-stone-900">
-              Добавить
-            </button>
-          </div>
-          <div className=" my-9 flex h-10 w-fit">
-            <div className="flex w-72 ">
-              <span className="text-xl leading-normal tracking-wide text-white">
-                Название вашего проекта
-              </span>
-              <span className="text-xl leading-normal tracking-wide text-red-400">
-                *
-              </span>
-            </div>
-            <input
-              className=" shadow ml-20 h-10 w-64 rounded-lg border border-gray-200 bg-white pl-1 font-medium tracking-tight text-gray-500"
-              placeholder="Имя фамилия"
-              onChange={(event) =>
-                setFormValues({ ...formValues, title: event.target.value })
-              }
-            ></input>
-          </div>
-          <div className=" mb-9 flex h-10 w-full">
-            <div className=" w-72">
-              <span className="text-xl leading-normal tracking-wide text-white">
-                Сроки работы над проектом
-              </span>
-              <span className="text-xl leading-normal tracking-wide text-red-400">
-                *
-              </span>
-            </div>
-            <input
-              className=" shadow ml-20 h-10 w-64 rounded-lg border border-gray-200 bg-white pl-1 font-medium tracking-tight text-gray-500"
-              placeholder="Дата"
-              onChange={(event) =>
-                setFormValues({ ...formValues, deadline: event.target.value })
-              }
-            ></input>
-          </div>
-        </div>
-        <div className="  mb-9">
-          <div>
-            <span className="text-3xl leading-normal tracking-wide text-white">
-              Цель
-            </span>
-            <span className="text-3xl leading-normal tracking-wide text-red-400">
-              *
-            </span>
-          </div>
-          <div className="text-lg leading-tight tracking-wide text-neutral-200">
-            Напишите то, к чему стремится ваш проект
-          </div>
-          <textarea
-            className="h-14 w-full rounded border border-stone-300 bg-white p-2.5 text-xl leading-tight placeholder-stone-300"
-            placeholder="Создание сайта"
-            onChange={(event) =>
-              setFormValues({ ...formValues, target: event.target.value })
-            }
-          ></textarea>
-        </div>
-        <div className="  mb-9">
-          <div className="  ">
+      <NavBar></NavBar>
+      <SectionWrapper className=' text-onPrimary-anti-flash-withe mt-12'>
+        <form
+          action="#"
+          method="POST"
+          onSubmit={handleSubmit(onSubmit)}
+        >
             <div>
-              <span className="text-3xl leading-normal tracking-wide text-white">
-                Описание проекта
-              </span>
-              <span className="text-3xl leading-normal tracking-wide text-red-400">
-                *
-              </span>
-            </div>
-            <div className=" h-7    ">
-              <div className="text-lg leading-tight tracking-wide text-neutral-200">
-                Опишите вашу команду, кто вам требуется и какими навыками он
-                должен обладать
+              <div className=" flex">
+                <BackButton></BackButton>
+                <h2>Создание проекта</h2>
+              </div>
+              <div>
+                <p className=" mb-8 mt-7"><span className=" text-error-imperial-red">*</span> - поля обязательные для заполнения</p>
               </div>
             </div>
-          </div>
-          <textarea
-            className="h-72 w-full rounded-xl border border-gray-200 bg-white p-3    "
-            placeholder="Мы молодая развивающаяся команда. Сейчас работаем над крупным проектом. Очень нужен фронтенд разработчик. Требуются хорошие знания HTML и CSS, а остальному можно обучиться в процессе. Будем рады видеть тебя в нашей комнде!"
-            onChange={(event) =>
-              setFormValues({
-                ...formValues,
-                description: event.target.value,
-              })
-            }
-          ></textarea>
-        </div>
-        <div className=" h-40    ">
-          <div>
-            <span className="text-3xl leading-normal tracking-tight text-white">
-              Кто вам требуется в команду?
-            </span>
-            <span className="text-3xl leading-normal tracking-tight text-red-400">
-              *
-            </span>
-          </div>
-          <div className="text-lg leading-tight tracking-wide text-neutral-200">
-            Укажите кто вам нужен и в каком количестве
-          </div>
-          <div className=" shadow w-1/3 rounded-lg border border-gray-200 bg-white   px-6    py-3.5    text-xl font-medium tracking-tight text-gray-500">
-            Select Input
-          </div>
-        </div>
-        <div className="      ">
-          <div className="  mb-9">
-            <div className="   ">
-              <span className="text-3xl leading-normal tracking-wide text-zinc-100">
-                Ссылки для связи
-              </span>
-              <span className="text-3xl leading-normal tracking-wide text-red-400">
-                *
-              </span>
-            </div>
-
-            <div className="pb-1    ">
-              <div className="text-lg leading-normal tracking-wide text-neutral-200">
-                Обязательно укажите ссылку для связи, чтобы с вами смогли
-                связаться.
-                <br />
-                Должна быть заполнена хотя бы одна ссылка
-              </div>
-            </div>
-            <div className=" flex w-96 flex-col gap-6">
-              <div className="w-full    ">
-                <div className=" w-full pr-8   ">
-                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
-                    Электронная почта
+            <div className=" flex flex-col gap-12">
+              <h2 className=" font-bold">Основная информация</h2>
+              <div>
+                  <div>
+                    <div className=" flex items-center">
+                      <ProfileImage imageSrc="https://avatars.githubusercontent.com/u/70152685?v=4" alt="ded"></ProfileImage>
+                      <MainButton text="Редактировать" className=" h-12 ml-8"></MainButton>
+                    </div>
+                    <div className=" flex items-center">
+                      <p className=" mt-8 w-72 mr-24">Название вашего проекта<span className=" text-error-imperial-red">*</span></p>
+                      <Controller
+                        name="title"
+                        control={control}
+                        rules={{ required: "Обязательно к заполнению" }}
+                        render={({ field }) => (
+                        <Input
+                        value={field.value}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        error={errors.title?.message}
+                        className=" !w-96"
+                        placeholder="Connet Team" />
+                      )}
+                      />
+                    </div>
+                    <div className=" flex items-center">
+                      <p className=" mt-8 w-72 mr-24">Сроки работы над проектом<span className=" text-error-imperial-red">*</span></p>
+                      <div className=" w-96">
+                      <Controller
+                        name="target"
+                        control={control}
+                        rules={{ required: "Обязательно к заполнению" }}
+                        render={({ field }) => (
+                          <DatePicker date={dateRange} onDateChange={setDateRangefunction}></DatePicker>
+                        )}
+                      />
+                      </div>
+                    </div>
                   </div>
-                  <input
-                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
-                    placeholder="example@gmail.com"
-                    type="email"
-                    onChange={(event) =>
-                      setFormValues({
-                        ...formValues,
-                        email: event.target.value,
-                      })
-                    }
-                  ></input>
                 </div>
-              </div>
-              <div className="w-full    ">
-                <div className=" w-full pr-8   ">
-                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
-                    Телеграм
+                <div>
+                  <div>
+                    <h2 className=" font-bold mb-6">Цель<span className=" text-error-imperial-red">*</span></h2>
                   </div>
-                  <input
-                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
-                    placeholder="@"
-                    onChange={(event) =>
-                      setFormValues({
-                        ...formValues,
-                        telegram: event.target.value,
-                      })
-                    }
-                  ></input>
+                  <p className=" text-secondary-cadet-grey">Опишите цель проекта (макс 300 символов 0/200)</p>
+                  <Controller
+                    name="target"
+                    control={control}
+                    rules={{ required: "Обязательно к заполнению" }}
+                    render={({ field }) => (
+                      <Input
+                      value={field.value}
+                      onChange={(event) => field.onChange(event.target.value)}
+                      error={errors.target?.message}
+                      className=" !w-96"
+                      placeholder="Опишите цель" />
+                    )}
+                  />
                 </div>
-              </div>
-              <div className="w-full    ">
-                <div className=" w-full pr-8   ">
-                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
-                    Дискорд
+                <div>
+                  <h2 className=" font-bold">Описание проекта<span className=" text-error-imperial-red">*</span></h2>
+                  <p className=" text-secondary-cadet-grey mt-4 mb-8">Добавьте описание проекта,  чтобы соискатели быстрее  нашли ваш проект</p>
+                  {errors.description && (<p>{errors.description.message}</p>)}
+                  <Controller
+                    name="description"
+                    control={control}
+                    rules={{ required: "Обязательно к заполнению" }}
+                    render={({ field }) => (
+                      <MarkdownEditor
+                        source={field.value}
+                        setSource={(event) => {
+                          field.onChange(event);
+                        }}
+                        placeholder="Оформите описание так, как вам нравится: сделайте текст полужирным, курсивом или выделите его подчеркиванием.
+                        Создайте списки, чтобы структурировать свои мысли,
+                        добавьте разделы и заголовки,
+                        чтобы все выглядело аккуратно и организовано.
+                        Можете также добавить ссылки"
+                      />
+                  )}
+                />
+                </div>
+                <div>
+                  <h2 className=" font-bold">Кто вам требуеться в команду?<span className=" text-error-imperial-red">*</span></h2>
+                  <p className=" text-secondary-cadet-grey mt-4 mb-8">Добавьте того, кто вам требуется</p>
+                  {errors.requiredPeopleState && ('Обязательно к заполнению')}
+                  <Controller
+                    name="target"
+                    control={control}
+                    rules={{ required: "Обязательно к заполнению" }}
+                    render={({ field }) => (
+                      <CounterMultiSelect allItems={selectedItems ?? []} onNumberChange={setSelectedItems} placeholder="Выберите профессию" className=" w-fit h-12"/>
+                    )}
+                  />
+                </div>
+                <div>
+                  <p className=" font-bold">Ссылки на связи<span className=" text-error-imperial-red">*</span></p>
+                  <p className=" text-secondary-cadet-grey mt-4 mb-8">Добавьте хотя бы один контакт</p>
+                  <div className=" flex items-center">
+                    <p className=" mt-8 w-72">Электронная почта</p>
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                        value={field.value}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        error={errors.email?.message}
+                        className=" !w-96"
+                        placeholder="example@mail.com" />
+                      )}
+                    />
+                    <Controller
+                      name="preferredTypeOfCommunication"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioButton labelText="Желаемый вид связи" radioName="links"  onChange={(event) => field.onChange(event.target.value)} radioValue='email' labelClassName=" ml-9 flex mt-10 gap-4"/>
+                      )}
+                    />
                   </div>
-                  <input
-                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
-                    onChange={(event) =>
-                      setFormValues({
-                        ...formValues,
-                        discord: event.target.value,
-                      })
-                    }
-                  ></input>
-                </div>
-              </div>
-              <div className="w-full    ">
-                <div className=" w-full pr-8   ">
-                  <div className=" text-sm font-semibold tracking-tight text-neutral-200">
-                    Другой сайт
+                  <div className=" flex items-center">
+                    <p className=" mt-8 w-72">Телеграмм</p>
+                    <Controller
+                      name="telegram"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                        value={field.value}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        className=" !w-96"
+                        placeholder="@example" />
+                      )}
+                    />
+                    <Controller
+                      name="preferredTypeOfCommunication"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioButton labelText="Желаемый вид связи" radioName="links"  onChange={(event) => field.onChange(event.target.value)} radioValue='telegram' labelClassName=" ml-9 flex mt-10 gap-4"/>
+                      )}
+                    />                  </div>
+                  <div className=" flex items-center">
+                    <p className=" mt-8 w-72">Дискорд</p>
+                    <Controller
+                      name="discord"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                        value={field.value}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        className=" !w-96"
+                        placeholder="https://discord.gg/" />
+                      )}
+                    />
+                    <Controller
+                      name="preferredTypeOfCommunication"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioButton labelText="Желаемый вид связи" radioName="links"  onChange={(event) => field.onChange(event.target.value)} radioValue='discord' labelClassName=" ml-9 flex mt-10 gap-4"/>
+                      )}
+                    />
                   </div>
-                  <input
-                    className="shadow h-11  w-full rounded-lg border border-gray-200    bg-white font-medium tracking-tight placeholder-stone-300"
-                    placeholder="https://"
-                    onChange={(event) =>
-                      setFormValues({
-                        ...formValues,
-                        site: event.target.value,
-                      })
-                    }
-                  ></input>
+                  <div className=" flex items-center">
+                    <p className=" mt-8 w-72">Другой сайт</p>
+                    <Controller
+                      name="site"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                        value={field.value}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        className=" !w-96"
+                        placeholder="https://" />
+                      )}
+                    />
+                  </div>
                 </div>
-              </div>
+                <div className=" flex gap-6">
+                  <MainButton text='Опубликовать' type="submit"></MainButton>
+                  <SecondaryButton text='Отменить' onClick={onCancel}></SecondaryButton>
+                </div>
             </div>
-          </div>
-          <div className=" flex gap-5">
-            <button
-              type="submit"
-              className="rounded-2xl bg-neutral-600 px-8 py-4    leading-normal tracking-wide text-white"
-            >
-              Опубликовать
-            </button>
-            <button
-              type="reset"
-              className="rounded-2xl border border-zinc-100 px-8 py-4    leading-normal tracking-wide text-white"
-            >
-              Отменить
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </SectionWrapper>
     </Container>
   );
 };
