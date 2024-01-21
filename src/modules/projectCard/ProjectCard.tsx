@@ -18,6 +18,8 @@ type Props = {
   href: string;
 };
 
+type RequiredPeople = Record<string, number>;
+
 const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
   const { requiredPeople, title, status, target, creator, responses, members } =
     project;
@@ -31,7 +33,19 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
       <SectionWrapper className="h-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {[...new Set(requiredPeople)]}
+            {[
+              ...new Set(
+                Object.entries(
+                  JSON.parse(
+                    requiredPeople?.requiredPeople ?? "",
+                  ) as RequiredPeople,
+                ).map((item) => {
+                  const [key, value] = item;
+
+                  return <Badge text={key} counterValue={value} />;
+                }),
+              ),
+            ]}
           </div>
 
           {session?.user.id === creator.id && (
