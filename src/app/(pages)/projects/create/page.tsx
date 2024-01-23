@@ -1,8 +1,6 @@
 "use client";
-import React, { type ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 
 import Container from "@/ui/container/Container";
@@ -17,8 +15,10 @@ import MainButton from "@/ui/mainButton/MainButton";
 import CounterMultiSelect from "@/ui/counterMultiSelect/CounterMultiSelect";
 import RadioButton from "@/ui/radioButton/RadioButton";
 import SecondaryButton from "@/ui/secondaryButton/SecondaryButton";
-import { InitialType } from "@/ui/counterMultiSelect/types/initialType";
+import type { InitialType } from "@/ui/counterMultiSelect/types/initialType";
+
 import makeInitialState from "@/ui/counterMultiSelect/helpers/makeInitialState";
+import type { DateValueType } from "react-tailwindcss-datepicker";
 
 type InputsValue = {
   image: string,
@@ -49,16 +49,21 @@ const ProjectCreate: React.FC = () => {
   const projectMutation = api.project.create.useMutation();
   const requiredPeopleMutation = api.requiredPeople.create.useMutation();
   const [selectedItems, setSelectedItems] = useState<InitialType>(makeInitialState(allItems))
+
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
   });
-  const setDateRangefunction = (e: any) =>{
-    setDateRange(e)
+  const setDateRangefunction = (e: DateValueType) =>{
+    if (e === null) return;
+    setDateRange({
+      startDate: new Date(e.startDate ?? Date.now()),
+      endDate: new Date(e.endDate ?? Date.now()),
+    })
   }
+
   const terms = calculateMonthDifference(dateRange.startDate, dateRange.endDate)
   const termsValue = terms + ' Месяцев'
-  console.log(termsValue)
   const {
     control,
     formState: { errors },
@@ -69,8 +74,8 @@ const ProjectCreate: React.FC = () => {
       image: "",
       title: "",
       term: "",
-      published: new Date(dateRange.startDate),
-      deadline: new Date(dateRange.endDate),
+      published: (dateRange.startDate),
+      deadline: (dateRange.endDate),
       status: "Не начат",
       target: "",
       description: "",
@@ -82,32 +87,35 @@ const ProjectCreate: React.FC = () => {
       requiredPeopleState: {  },
     },
   });
-  const onSubmit: SubmitHandler<InputsValue> = (formData) => {
-    console.log(formData)
-    projectMutation.mutateAsync({
-      image: formData.image,
-      title: formData.title,
-      term: `${termsValue}`,
-      published: new Date(formData.published),
-      deadline: new Date(formData.deadline),
-      status: formData.status,
-      target: formData.target,
-      description: formData.description,
-      preferredTypeOfCommunication: formData.preferredTypeOfCommunication,
-      email: formData.email,
-      telegram: formData.telegram,
-      discord: formData.discord,
-      site: formData.site,
-    })
-    .then((createdProject) => {
-      requiredPeopleMutation.mutate({
-        projectId: createdProject?.id as string,
-        requiredPeople: JSON.stringify(selectedItems),
-      })
-    })
+  const onSubmit: SubmitHandler<InputsValue> = async (formData) => {
+    try {
+      const createdProject = await projectMutation.mutateAsync({
+        image: formData.image,
+        title: formData.title,
+        term: `${termsValue}`,
+        published: dateRange.startDate,
+        deadline: dateRange.endDate,
+        status: formData.status,
+        target: formData.target,
+        description: formData.description,
+        preferredTypeOfCommunication: formData.preferredTypeOfCommunication,
+        email: formData.email,
+        telegram: formData.telegram,
+        discord: formData.discord,
+        site: formData.site,
+      });
 
-    reset();
+      requiredPeopleMutation.mutate({
+        projectId: createdProject!.id,
+        requiredPeople: JSON.stringify(selectedItems),
+      });
+
+      reset();
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   };
+
 
   const onCancel = () => {
     reset();
@@ -162,7 +170,7 @@ const ProjectCreate: React.FC = () => {
                         name="target"
                         control={control}
                         rules={{ required: "Обязательно к заполнению" }}
-                        render={({ field }) => (
+                        render={() => (
                           <DatePicker date={dateRange} onDateChange={setDateRangefunction}></DatePicker>
                         )}
                       />
@@ -220,7 +228,7 @@ const ProjectCreate: React.FC = () => {
                     name="target"
                     control={control}
                     rules={{ required: "Обязательно к заполнению" }}
-                    render={({ field }) => (
+                    render={() => (
                       <CounterMultiSelect allItems={selectedItems ?? []} onNumberChange={setSelectedItems} placeholder="Выберите профессию" className=" w-fit h-12"/>
                     )}
                   />
