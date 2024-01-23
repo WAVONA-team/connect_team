@@ -93,7 +93,28 @@ const AboutUs: React.FC = React.memo(() => {
             return (
               <div
                 key={url}
-                className="hover:via-[rgba(37, 32, 49, 0.00)] flex flex-col items-center gap-9 rounded-2xl px-12 py-8 hover:bg-gradient-to-b hover:from-transparent hover:to-[#4F46E5]"
+                className="
+                  relative
+                  flex
+                  flex-col
+                  items-center
+                  gap-9
+                  rounded-2xl
+                  px-12
+                  py-8
+                  after:absolute
+                  after:-z-10
+                  after:block
+                  after:h-full
+                  after:w-full
+                  after:rounded-2xl
+                  after:bg-gradient-to-t
+                  after:from-primary-majorelle-blue
+                  after:opacity-0
+                  after:transition-all
+                  after:content-['']
+                  hover:after:opacity-100
+                "
               >
                 <div
                   className={`${url} h-64 w-64 rounded-full bg-contain bg-center bg-no-repeat`}
