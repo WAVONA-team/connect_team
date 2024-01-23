@@ -18,8 +18,6 @@ type Props = {
   href: string;
 };
 
-type RequiredPeople = Record<string, number>;
-
 const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
   const { requiredPeople, title, status, target, creator, responses, members } =
     project;
@@ -38,7 +36,7 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
                 Object.entries(
                   JSON.parse(
                     requiredPeople?.requiredPeople ?? "",
-                  ) as RequiredPeople,
+                  ) as Record<string, number>,
                 ).map((item) => {
                   const [key, value] = item;
 

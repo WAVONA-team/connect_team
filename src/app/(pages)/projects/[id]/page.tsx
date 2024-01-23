@@ -85,14 +85,15 @@ const Project: React.FC<Props> = async ({ params }) => {
           <div className="flex flex-row gap-6">
             <SectionWrapper className="w-1/2">
               <h2 className="text-xl font-bold">Кто требуется</h2>
-              <div className="mt-8 flex w-fit flex-col  gap-3">
-                {project.requiredPeople.map((requiredPeople) => {
-                  return (
-                    <Badge
-                      text={requiredPeople.profession}
-                      counterValue={requiredPeople.numberOfRequiredPeople}
-                    />
-                  );
+              <div className="mt-8 flex w-fit flex-col gap-3">
+                {Object.entries(
+                  JSON.parse(
+                    project.requiredPeople?.requiredPeople ?? "",
+                  ) as Record<string, number>,
+                ).map((item) => {
+                  const [key, value] = item;
+
+                  return <Badge text={key} counterValue={value} />;
                 })}
               </div>
             </SectionWrapper>

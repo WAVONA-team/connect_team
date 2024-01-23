@@ -17,7 +17,7 @@ const getFilteredProjects = (projects: NewProject[], filterParams: Filter, sessi
     const projectPublishedDate = new Date(published);
 
     const professionMatch = professions.length ?
-      Object.keys(JSON.parse(requiredPeople?.requiredPeople ?? "") as string).some(requiredProfession => professions.includes(requiredProfession))
+      Object.keys(JSON.parse(requiredPeople?.requiredPeople ?? "") as Record<string, number>).some(requiredProfession => professions.includes(requiredProfession))
       : true;
 
     const whosProjectMatch = () => {
