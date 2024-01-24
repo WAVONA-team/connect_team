@@ -4,8 +4,7 @@ import { api } from "@/trpc/server";
 
 import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
-
-import userNoAvatar from "../../../../../public/images/avatar.svg";
+import ProfileImage from "@/ui/profileImage/ProfileImage";
 
 import { type Metadata } from "next";
 import Link from "next/link";
@@ -39,23 +38,10 @@ const Project: React.FC<Props> = async ({ params }) => {
             <p className="ml-4 text-3xl">Проект</p>
           </div>
           <SectionWrapper className="flex">
-            {project.image && project.title ? (
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={208}
-                height={208}
-                className=" rounded-lg"
+              <ProfileImage
+              imageSrc={project.image}
+              alt={project.title}
               />
-            ) : (
-              <Image
-                src={userNoAvatar as string}
-                alt="Изображение проекта"
-                width={208}
-                height={208}
-                className="rounded-lg"
-              />
-            )}
             <div className="ml-8 flex w-full flex-row justify-between">
               <div>
                 <h2 className="text-xl font-bold">{project.title}</h2>
@@ -107,13 +93,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                     className="flex flex-row justify-between"
                   >
                     <div className="flex flex-row gap-3">
-                      <Image
-                        src={project.creator.image}
-                        alt="Изображение не загружено"
-                        width={26}
-                        height={26}
-                        className="rounded-full"
-                      />
+                    <ProfileImage imageSrc={project.creator.image} alt="не найдено" width={38} height={38}/>
                       <p>{project.creator.name}</p>
                     </div>
                     <p>Создатель/{project.creator.profession}</p>
@@ -125,13 +105,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                         className="flex flex-row justify-between"
                       >
                         <div className="flex flex-row gap-3">
-                          <Image
-                            src={member.image}
-                            alt="Изображение не загружено"
-                            width={26}
-                            height={26}
-                            className="rounded-full"
-                          />
+                          <ProfileImage imageSrc={member.image} alt="не найдено" width={38} height={38}/>
                           <p>{member.name}</p>
                         </div>
                         <p>{member.profession}</p>
@@ -147,9 +121,9 @@ const Project: React.FC<Props> = async ({ params }) => {
             <div className="item-center mt-8 flex justify-between">
               <div className=" flex items-center gap-5">
                 <p>По тегам:</p>
-                <Badge text="Frontend"></Badge>
-                <Badge text="Backend"></Badge>
-                <Badge text="Design"></Badge>
+                <Badge text="Frontend"/>
+                <Badge text="Backend"/>
+                <Badge text="Design"/>
               </div>
               <div className=" flex items-center">
                 <p>За всё время</p>
@@ -164,13 +138,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                       <Badge text="Frontend" />
                     </div>
                     <div className=" flex items-center gap-3">
-                      <Image
-                        src={response.candidate.image}
-                        width={38}
-                        height={38}
-                        alt="не найдено"
-                        className="rounded-full"
-                      />
+                      <ProfileImage imageSrc={response.candidate.image} alt="не найдено" width={38} height={38}/>
                       <p>{response.candidate.name}</p>
                     </div>
                     <div className=" flex items-center justify-between">

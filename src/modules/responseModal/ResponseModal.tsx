@@ -93,9 +93,7 @@ const ResponseModal: React.FC<Props> = React.memo(
               {[
                 ...new Set(
                   Object.entries(
-                    JSON.parse(
-                      project?.requiredPeople?.requiredPeople ?? "",
-                    ) as Record<string, number>,
+                    JSON.parse(project?.requiredPeople?.requiredPeople ?? "") as Record<string, number>,
                   ),
                 ),
               ]

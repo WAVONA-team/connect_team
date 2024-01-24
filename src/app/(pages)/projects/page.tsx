@@ -26,13 +26,12 @@ const Projects: React.FC = async () => {
   const tags = projects.flatMap((project) => {
     const { requiredPeople } = project;
 
-    return Object.keys(
-      JSON.parse(requiredPeople?.requiredPeople ?? "") as Record<
-        string,
-        number
-      >,
-    );
+    // Use optional chaining and provide a default value
+    const parsedRequiredPeople = JSON.parse(requiredPeople?.requiredPeople ?? "{}") as Record<string, number>;
+
+    return Object.keys(parsedRequiredPeople);
   });
+
 
   return (
     <Container>
