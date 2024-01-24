@@ -8,7 +8,7 @@ import {
 type NewProject = Project & {
   creator: User;
   members: User[];
-  requiredPeople: RequiredPeopleState[];
+  requiredPeople: RequiredPeopleState | null;
   responses: Response[];
 };
 

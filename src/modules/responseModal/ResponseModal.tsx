@@ -90,19 +90,32 @@ const ResponseModal: React.FC<Props> = React.memo(
                 </p>
               )}
 
-              {[...new Set(project?.requiredPeople)]
-                .sort((a, b) => a.profession.localeCompare(b.profession))
-                .map((requiredPerson) => {
-                  const { profession, id } = requiredPerson;
+              {[
+                ...new Set(
+                  Object.entries(
+                    JSON.parse(
+                      project?.requiredPeople?.requiredPeople ?? "",
+                    ) as Record<string, number>,
+                  ),
+                ),
+              ]
+                .sort((a, b) => {
+                  const [keyA] = a;
+                  const [keyB] = b;
+
+                  return keyA.localeCompare(keyB);
+                })
+                .map((item) => {
+                  const [key] = item;
 
                   return (
                     <Badge
-                      text={profession}
-                      key={id}
-                      isActive={badgeValue === profession}
+                      text={key}
+                      key={key}
+                      isActive={badgeValue === key}
                       onClick={() => {
-                        setValue("profession", profession);
-                        setBadgeValue(profession);
+                        setValue("profession", key);
+                        setBadgeValue(key);
                       }}
                     />
                   );
@@ -144,7 +157,7 @@ const ResponseModal: React.FC<Props> = React.memo(
             ) : (
               <button
                 type="button"
-                className="text-accent-azure border-accent-azure mt-8 block border-b-2 border-dashed pb-1"
+                className="mt-8 block border-b-2 border-dashed border-accent-azure pb-1 text-accent-azure"
                 onClick={() => setIsMarkdownShowed(true)}
               >
                 Сопроводительное письмо

@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
+import React from "react";
+import Datepicker from "react-tailwindcss-datepicker";
+import type { DateValueType } from "react-tailwindcss-datepicker";
 
 type Props = {
   isDisabled?: boolean;

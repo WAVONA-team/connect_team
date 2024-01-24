@@ -64,24 +64,25 @@ model User {
 }
 
 model Project {
-    id             String                @id @default(cuid())
-    image          String
-    title          String
-    term           String
-    published      DateTime
-    deadline       DateTime
-    status         String
-    target         String
-    description    String
-    email          String?
-    telegram       String?
-    discord        String?
-    site           String?
-    userId         String
-    creator        User                  @relation(name: "ProjectCreator", fields: [userId], references: [id])
-    members        User[]                @relation(name: "ProjectMembers")
-    requiredPeople RequiredPeopleState[]
-    responses      Response[]
+    id                           String               @id @default(cuid())
+    image                        String
+    title                        String
+    term                         String
+    published                    DateTime
+    deadline                     DateTime
+    status                       String
+    target                       String
+    description                  String
+    preferredTypeOfCommunication String?
+    email                        String?
+    telegram                     String?
+    discord                      String?
+    site                         String?
+    userId                       String
+    creator                      User                 @relation(name: "ProjectCreator", fields: [userId], references: [id])
+    members                      User[]               @relation(name: "ProjectMembers")
+    requiredPeople               RequiredPeopleState?
+    responses                    Response[]
 }
 
 model Response {
@@ -97,11 +98,10 @@ model Response {
 }
 
 model RequiredPeopleState {
-    id                     String  @id @default(cuid())
-    projectId              String
-    numberOfRequiredPeople Int
-    profession             String
-    project                Project @relation(fields: [projectId], references: [id])
+    id             String  @id @default(cuid())
+    projectId      String  @unique
+    requiredPeople String
+    project        Project @relation(fields: [projectId], references: [id])
 }
 
 model VerificationToken {

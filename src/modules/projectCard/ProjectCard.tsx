@@ -31,19 +31,19 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
       <SectionWrapper className="h-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {[...new Set(requiredPeople)]
-              .sort((a, b) => a.profession.localeCompare(b.profession))
-              .map((person) => {
-                const { profession, numberOfRequiredPeople, id } = person;
-                return (
-                  <Badge
-                    key={id}
-                    text={profession}
-                    counterValue={numberOfRequiredPeople}
-                    className="pointer-events-none"
-                  />
-                );
-              })}
+            {[
+              ...new Set(
+                Object.entries(
+                  JSON.parse(
+                    requiredPeople?.requiredPeople ?? "",
+                  ) as Record<string, number>,
+                ).map((item) => {
+                  const [key, value] = item;
+
+                  return <Badge text={key} counterValue={value} />;
+                }),
+              ),
+            ]}
           </div>
 
           {session?.user.id === creator.id && (

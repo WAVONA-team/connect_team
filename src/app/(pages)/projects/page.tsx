@@ -24,7 +24,14 @@ const Projects: React.FC = async () => {
   const projects = await api.project.getAll.query();
 
   const tags = projects.flatMap((project) => {
-    return project.requiredPeople.map((person) => person.profession);
+    const { requiredPeople } = project;
+
+    return Object.keys(
+      JSON.parse(requiredPeople?.requiredPeople ?? "") as Record<
+        string,
+        number
+      >,
+    );
   });
 
   return (

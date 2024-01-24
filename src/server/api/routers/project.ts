@@ -11,16 +11,17 @@ export const projectRouter = createTRPCRouter({
         description: z.string().trim(),
         status: z.string().trim(),
         term: z.string().trim(),
-        deadline: z.string().trim(),
-        published: z.string().trim(),
-        email: z.string().email().trim(),
+        deadline: z.date(),
+        published: z.date(),
+        preferredTypeOfCommunication: z.string().trim(),
+        email: z.string().trim(),
         telegram: z.string().trim(),
         discord: z.string().trim(),
         site: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.project.create({
+      await ctx.db.project.create({
         data: {
           image: input.image,
           title: input.title,
@@ -28,6 +29,7 @@ export const projectRouter = createTRPCRouter({
           term: input.term,
           target: input.target,
           description: input.description,
+          preferredTypeOfCommunication: input.preferredTypeOfCommunication,
           email: input.email,
           telegram: input.telegram,
           discord: input.discord,
@@ -37,7 +39,16 @@ export const projectRouter = createTRPCRouter({
           published: input.published,
         },
       });
+
+      const lastCreatedProject = ctx.db.project.findFirst({
+        orderBy: {
+          published: 'desc'
+        }
+      })
+
+      return lastCreatedProject;
     }),
+
 
   delete: protectedProcedure
     .input(z.string().trim())
