@@ -25,6 +25,7 @@ interface Props {
 
 const User: React.FC<Props> = async ({ params }) => {
   const user = await api.user.get.query({ id: params.id });
+
   if (!user) {
     return <p>error</p>;
   }
