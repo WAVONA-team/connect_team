@@ -8,16 +8,29 @@ import Duration from "@/shared/types/projectFilter/Duration";
 import calculateDurationInMonths from "./calculateDurationMonths";
 import Status from "@/shared/types/projectFilter/Status";
 
-const getFilteredProjects = (projects: NewProject[], filterParams: Filter, session: Session | null) => {
-  const { professions, whosProjects, timeFrame, duration, status } = filterParams;
+const getFilteredProjects = (
+  projects: NewProject[],
+  filterParams: Filter,
+  session: Session | null,
+) => {
+  const { professions, whosProjects, timeFrame, duration, status } =
+    filterParams;
   const currentDate = new Date();
 
   const filteredProjects = projects.filter((project) => {
-    const { published, deadline, requiredPeople, creator, status: projectStatus } = project;
+    const {
+      published,
+      deadline,
+      requiredPeople,
+      creator,
+      status: projectStatus,
+    } = project;
     const projectPublishedDate = new Date(published);
 
-    const professionMatch = professions.length ?
-      Object.keys(JSON.parse(requiredPeople?.requiredPeople ?? "") as Record<string, number>).some(requiredProfession => professions.includes(requiredProfession))
+    const professionMatch = professions.length
+      ? Object.keys(requiredPeople).some((requiredProfession) =>
+          professions.includes(requiredProfession),
+        )
       : true;
 
     const whosProjectMatch = () => {
@@ -102,10 +115,18 @@ const getFilteredProjects = (projects: NewProject[], filterParams: Filter, sessi
       }
     };
 
-    return professionMatch && whosProjectMatch() && timeFrameMatch() && durtationMatch() && statusMatch();
+    return (
+      professionMatch &&
+      whosProjectMatch() &&
+      timeFrameMatch() &&
+      durtationMatch() &&
+      statusMatch()
+    );
   });
 
-  return filteredProjects.sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime());
+  return filteredProjects.sort(
+    (a, b) => new Date(b.published).getTime() - new Date(a.published).getTime(),
+  );
 };
 
 export default getFilteredProjects;

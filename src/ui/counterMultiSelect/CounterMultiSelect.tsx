@@ -50,7 +50,7 @@ const CounterMultiSelect: React.FC<Props> = React.memo(
       >
         {Object.entries(allItems).map(([name, value]) => (
           <div key={name}>
-            <div className="hover:bg-onSecondary-english-violet hover:text-onSecondary-platinum flex cursor-pointer items-center justify-between px-4 py-3.5 text-base text-onPrimary-anti-flash-withe transition">
+            <div className="flex cursor-pointer items-center justify-between px-4 py-3.5 text-base text-onPrimary-anti-flash-withe transition hover:bg-onSecondary-english-violet hover:text-onSecondary-platinum">
               <p>{name}</p>
 
               <div className="flex items-center gap-2">
@@ -62,6 +62,7 @@ const CounterMultiSelect: React.FC<Props> = React.memo(
                         [name]: value - 1,
                       }));
                     }}
+                    type="button"
                   >
                     -
                   </button>
@@ -77,6 +78,7 @@ const CounterMultiSelect: React.FC<Props> = React.memo(
                         [name]: value + 1,
                       }));
                     }}
+                    type="button"
                   >
                     +
                   </button>

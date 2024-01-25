@@ -26,12 +26,7 @@ const Projects: React.FC = async () => {
   const tags = projects.flatMap((project) => {
     const { requiredPeople } = project;
 
-    return Object.keys(
-      JSON.parse(requiredPeople?.requiredPeople ?? "") as Record<
-        string,
-        number
-      >,
-    );
+    return Object.keys(requiredPeople);
   });
 
   return (
@@ -61,7 +56,7 @@ const Projects: React.FC = async () => {
 
           <MainButtonLink
             text="Создать проект"
-            path="/pages/projects/create"
+            path="/projects/create"
             target="_self"
             disabled={!session}
           />

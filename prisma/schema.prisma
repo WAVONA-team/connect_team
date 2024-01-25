@@ -81,7 +81,7 @@ model Project {
     userId                       String
     creator                      User                 @relation(name: "ProjectCreator", fields: [userId], references: [id])
     members                      User[]               @relation(name: "ProjectMembers")
-    requiredPeople               RequiredPeopleState?
+    requiredPeople               String
     responses                    Response[]
 }
 
@@ -95,13 +95,6 @@ model Response {
     message    String?
     project    Project  @relation(fields: [projectId], references: [id])
     candidate  User     @relation(fields: [userId], references: [id])
-}
-
-model RequiredPeopleState {
-    id             String  @id @default(cuid())
-    projectId      String  @unique
-    requiredPeople String
-    project        Project @relation(fields: [projectId], references: [id])
 }
 
 model VerificationToken {

@@ -90,15 +90,7 @@ const ResponseModal: React.FC<Props> = React.memo(
                 </p>
               )}
 
-              {[
-                ...new Set(
-                  Object.entries(
-                    JSON.parse(
-                      project?.requiredPeople?.requiredPeople ?? "",
-                    ) as Record<string, number>,
-                  ),
-                ),
-              ]
+              {[...new Set(Object.entries(project?.requiredPeople ?? {}))]
                 .sort((a, b) => {
                   const [keyA] = a;
                   const [keyB] = b;

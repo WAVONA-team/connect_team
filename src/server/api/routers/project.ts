@@ -18,10 +18,11 @@ export const projectRouter = createTRPCRouter({
         telegram: z.string().trim(),
         discord: z.string().trim(),
         site: z.string().trim(),
+        requiredPeople: z.string().trim(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.project.create({
+      return ctx.db.project.create({
         data: {
           image: input.image,
           title: input.title,
@@ -37,18 +38,10 @@ export const projectRouter = createTRPCRouter({
           status: input.status,
           userId: ctx.session.user.id,
           published: input.published,
+          requiredPeople: input.requiredPeople,
         },
       });
-
-      const lastCreatedProject = ctx.db.project.findFirst({
-        orderBy: {
-          published: 'desc'
-        }
-      })
-
-      return lastCreatedProject;
     }),
-
 
   delete: protectedProcedure
     .input(z.string().trim())
@@ -83,7 +76,7 @@ export const projectRouter = createTRPCRouter({
   findById: publicProcedure
     .input(z.string().trim())
     .query(async ({ ctx, input }) => {
-      return ctx.db.project.findUnique({
+      const project = await ctx.db.project.findUnique({
         where: {
           id: input,
         },
@@ -91,9 +84,20 @@ export const projectRouter = createTRPCRouter({
           responses: true,
           creator: true,
           members: true,
-          requiredPeople: true,
-        }
+        },
       });
+
+      if (project === null) {
+        return null;
+      }
+
+      return {
+        ...project,
+        requiredPeople: JSON.parse(project.requiredPeople) as Record<
+          string,
+          number
+        >,
+      };
     }),
 
   searchByTitle: publicProcedure
@@ -106,17 +110,21 @@ export const projectRouter = createTRPCRouter({
       });
     }),
 
-  getAll: publicProcedure
-    .query(async ({ ctx }) => {
-      const allProjects = await ctx.db.project.findMany({
-        include: {
-          creator: true,
-          members: true,
-          requiredPeople: true,
-          responses: true,
-        }
-      });
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const allProjects = await ctx.db.project.findMany({
+      include: {
+        creator: true,
+        members: true,
+        responses: true,
+      },
+    });
 
-      return allProjects;
-    }),
+    return allProjects.map((project) => ({
+      ...project,
+      requiredPeople: JSON.parse(project.requiredPeople) as Record<
+        string,
+        number
+      >,
+    }));
+  }),
 });

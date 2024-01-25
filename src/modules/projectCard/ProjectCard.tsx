@@ -33,15 +33,13 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
           <div className="flex items-center gap-3">
             {[
               ...new Set(
-                Object.entries(
-                  JSON.parse(
-                    requiredPeople?.requiredPeople ?? "",
-                  ) as Record<string, number>,
-                ).map((item) => {
-                  const [key, value] = item;
+                Object.entries(requiredPeople)
+                  .filter(([_key, value]) => value !== 0)
+                  .map((item) => {
+                    const [key, value] = item;
 
-                  return <Badge text={key} counterValue={value} />;
-                }),
+                    return <Badge text={key} counterValue={value} />;
+                  }),
               ),
             ]}
           </div>

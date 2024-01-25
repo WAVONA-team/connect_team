@@ -86,15 +86,13 @@ const Project: React.FC<Props> = async ({ params }) => {
             <SectionWrapper className="w-1/2">
               <h2 className="text-xl font-bold">Кто требуется</h2>
               <div className="mt-8 flex w-fit flex-col gap-3">
-                {Object.entries(
-                  JSON.parse(
-                    project.requiredPeople?.requiredPeople ?? "",
-                  ) as Record<string, number>,
-                ).map((item) => {
-                  const [key, value] = item;
+                {Object.entries(project.requiredPeople)
+                  .filter(([_key, value]) => value !== 0)
+                  .map((item) => {
+                    const [key, value] = item;
 
-                  return <Badge text={key} counterValue={value} />;
-                })}
+                    return <Badge text={key} counterValue={value} />;
+                  })}
               </div>
             </SectionWrapper>
 
