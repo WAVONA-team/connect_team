@@ -1,15 +1,10 @@
-import {
-  type User,
-  type Project,
-  type RequiredPeopleState,
-  type Response,
-} from "@prisma/client";
+import { type User, type Project, type Response } from "@prisma/client";
 
-type NewProject = Project & {
+type NewProject = Omit<Project, "requiredPeople"> & {
   creator: User;
   members: User[];
-  requiredPeople: RequiredPeopleState | null;
   responses: Response[];
+  requiredPeople: Record<string, number>;
 };
 
 export default NewProject;
