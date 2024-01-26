@@ -79,7 +79,7 @@ model Project {
     discord                      String?
     site                         String?
     userId                       String
-    creator                      User                 @relation(name: "ProjectCreator", fields: [userId], references: [id])
+    creator                      User                 @relation(name: "ProjectCreator", fields: [userId], references: [id], onDelete: Cascade)
     members                      User[]               @relation(name: "ProjectMembers")
     requiredPeople               String
     responses                    Response[]
