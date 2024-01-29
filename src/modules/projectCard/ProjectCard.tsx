@@ -43,7 +43,6 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
               ),
             ]}
           </div>
-
           {session?.user.id === creator.id && (
             <p className="text-sm text-onPrimary-anti-flash-withe">Создатель</p>
           )}
