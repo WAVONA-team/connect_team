@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { User } from "@prisma/client";
 
 export const responseRouter = createTRPCRouter({
   create: protectedProcedure
@@ -26,6 +27,11 @@ export const responseRouter = createTRPCRouter({
       });
     }),
 
+  getAll: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.db.response.findMany();
+    }),
+
   delete: protectedProcedure
     .input(z.string().trim())
     .mutation(async ({ ctx, input }) => {
@@ -36,7 +42,44 @@ export const responseRouter = createTRPCRouter({
       });
     }),
 
-  change: protectedProcedure
+  accept: protectedProcedure
+    .input(z.object({
+      responseId: z.string().trim(),
+      projectId: z.string().trim(),
+      userId: z.string().trim(),
+      status: z.string().trim(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.response.update({
+        where: {
+          id: input.responseId,
+        },
+        data: {
+          status: input.status,
+        }
+      })
+
+      const projectToUpdate = await ctx.db.project
+        .findUnique({
+          where: { id: input.projectId },
+          include: { members: true }
+        });
+
+      const newMember = await ctx.db.user.findUnique({ where: { id: input.userId } });
+
+      return await ctx.db.project.update({
+        where: {
+          id: input.projectId,
+        },
+        data: {
+          members: {
+            set: [...projectToUpdate.members, newMember],
+          }
+        }
+      });
+    }),
+
+  reject: protectedProcedure
     .input(
       z.object({
         status: z.string().trim(),
@@ -44,7 +87,7 @@ export const responseRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.response.update({
+      return await ctx.db.response.update({
         where: {
           id: input.id,
         },

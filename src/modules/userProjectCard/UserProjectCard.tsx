@@ -18,7 +18,7 @@ type Props = {
 
 const ProjectCard: React.FC<Props> = React.memo(({project, role}) => {
   return (
-    <Link href={`/pages/projects/${project.id}`} className=" wflex  gap-6">
+    <Link href={`/projects/${project.id}`} className=" wflex  gap-6">
       <SectionWrapper className="flex flex-col gap-4">
         <div className=" flex justify-between">
           <p className="text-xl font-bold">{project.title}</p>

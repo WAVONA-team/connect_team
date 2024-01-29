@@ -57,6 +57,7 @@ const ProjectCreate: React.FC = () => {
     startDate: new Date(),
     endDate: new Date(),
   });
+
   const setDateRangefunction = (e: DateValueType) => {
     if (e === null) return;
     setDateRange({

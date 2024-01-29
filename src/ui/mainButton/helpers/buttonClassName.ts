@@ -9,6 +9,7 @@ const buttonClassName = `
   transition
   hover:bg-primary-majorelle-blue
   active:bg-primary-palatinate-blue
+  disabled:bg-secondary-cadet-grey
 `;
 
 export default buttonClassName;
