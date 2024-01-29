@@ -25,11 +25,8 @@ const Projects: React.FC = async () => {
 
   const tags = projects.flatMap((project) => {
     const { requiredPeople } = project;
-
-    // Use optional chaining and provide a default value
-    const parsedRequiredPeople = JSON.parse(requiredPeople?.requiredPeople ?? "{}") as Record<string, number>;
-
-    return Object.keys(parsedRequiredPeople);
+    
+    return Object.keys(requiredPeople);
   });
 
 
@@ -60,7 +57,7 @@ const Projects: React.FC = async () => {
 
           <MainButtonLink
             text="Создать проект"
-            path="/pages/projects/create"
+            path="/projects/create"
             target="_self"
             disabled={!session}
           />

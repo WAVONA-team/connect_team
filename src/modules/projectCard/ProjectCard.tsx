@@ -30,15 +30,19 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
     <Link href={`/projects/${href}`}>
       <SectionWrapper className="h-full">
         <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-  {Object.entries(
-    JSON.parse(requiredPeople?.requiredPeople ?? "{}") as Record<string, number>
-  ).map((item) => {
-    const [key, value] = item;
+          <div className="flex items-center gap-3">
+            {[
+              ...new Set(
+                Object.entries(requiredPeople)
+                  .filter(([_key, value]) => value !== 0)
+                  .map((item) => {
+                    const [key, value] = item;
 
-    return <Badge text={key} counterValue={value} />;
-  })}
-</div>
+                    return <Badge text={key} counterValue={value} />;
+                  }),
+              ),
+            ]}
+          </div>
           {session?.user.id === creator.id && (
             <p className="text-sm text-onPrimary-anti-flash-withe">Создатель</p>
           )}

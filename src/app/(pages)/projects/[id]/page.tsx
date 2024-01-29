@@ -11,6 +11,9 @@ import Link from "next/link";
 import NavBar from "@/components/navBar/NavBar";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import BackButton from "@/ui/backButton/BackButton";
+import MainButtonLink from "@/ui/mainButton/MainButtonLink";
+import { getServerAuthSession } from "@/server/auth";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -19,24 +22,38 @@ interface Props {
 }
 
 const Project: React.FC<Props> = async ({ params }) => {
+  const sessionPromise = getServerAuthSession();
   const project = await api.project.findById.query(params.id);
 
   if (!project) {
-    return <p>error</p>;
+    return notFound();
   }
 
-  const response = await api.response.findByProjectId.query(project?.id);
+  const response = await api.response.findByProjectId.query(project.id);
+  const session = await sessionPromise;
+
+  const isAuthor = project.userId === session?.user.id;
 
   return (
     <Container>
       <div className="text-onPrimary-anti-flash-withe">
         <NavBar />
         <div className="mt-8 flex flex-col gap-6">
-          <div className="flex">
-            <BackButton />
+          <div className="flex w-full justify-between">
+            <div className="flex items-center">
+              <BackButton />
 
-            <p className="ml-4 text-3xl">Проект</p>
+              <p className="ml-4 text-3xl">Проект</p>
+            </div>
+            {isAuthor && (
+              <MainButtonLink
+                text="Редактировать"
+                path={`/projects/${params.id}/edit`}
+                target="_self"
+              />
+            )}
           </div>
+
           <SectionWrapper className="flex">
               <ProfileImage
               imageSrc={project.image}
@@ -72,15 +89,13 @@ const Project: React.FC<Props> = async ({ params }) => {
             <SectionWrapper className="w-1/2">
               <h2 className="text-xl font-bold">Кто требуется</h2>
               <div className="mt-8 flex w-fit flex-col gap-3">
-                {Object.entries(
-                  JSON.parse(
-                    project.requiredPeople?.requiredPeople ?? "",
-                  ) as Record<string, number>,
-                ).map((item) => {
-                  const [key, value] = item;
+                {Object.entries(project.requiredPeople)
+                  .filter(([_key, value]) => value !== 0)
+                  .map((item) => {
+                    const [key, value] = item;
 
-                  return <Badge text={key} counterValue={value} />;
-                })}
+                    return <Badge text={key} counterValue={value} key={key} />;
+                  })}
               </div>
             </SectionWrapper>
 
