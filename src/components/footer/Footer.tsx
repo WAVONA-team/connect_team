@@ -28,7 +28,7 @@ const Footer: React.FC = React.memo(async () => {
   ];
 
   return (
-    <footer className="py-8 bg-surface-raisin-black">
+    <footer className="py-8 bg-surface-raisin-black mt-40">
       <Container>
         <div className="grid grid-cols-3 justify-items-center">
           <div className="flex flex-col gap-4">
