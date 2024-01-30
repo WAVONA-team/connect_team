@@ -1,21 +1,20 @@
 import React from "react";
 import Image from "next/image";
 import { api } from "@/trpc/server";
+import { notFound } from "next/navigation";
 import { getServerAuthSession } from "@/server/auth";
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
-
-import userNoAvatar from "../../../../../public/images/avatar.svg";
 
 import Link from "next/link";
 import NavBar from "@/components/navBar/NavBar";
 import OpenModalButton from "@/components/openModalButton/OpenModalButtont";
 
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
-import Badge from "@/ui/badge/Badge";
 import BackButton from "@/ui/backButton/BackButton";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
+import Badge from "@/ui/badge/Badge";
 import Container from "@/ui/container/Container";
+import ProfileImage from "@/ui/profileImage/ProfileImage";
 
 interface Props {
   params: {
@@ -24,7 +23,7 @@ interface Props {
 }
 
 const Project: React.FC<Props> = async ({ params }) => {
-  const sessionPromise = getServerAuthSession();
+  const session = await getServerAuthSession();
   const project = await api.project.findById.query(params.id);
   const projects = await api.project.getAll.query();
 
@@ -33,7 +32,6 @@ const Project: React.FC<Props> = async ({ params }) => {
   }
 
   const response = await api.response.findByProjectId.query(project.id);
-  const session = await sessionPromise;
 
   const isAuthor = project.userId === session?.user.id;
 
@@ -58,23 +56,7 @@ const Project: React.FC<Props> = async ({ params }) => {
           </div>
 
           <SectionWrapper className="flex">
-            {project.image && project.title ? (
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={208}
-                height={208}
-                className=" rounded-lg"
-              />
-            ) : (
-              <Image
-                src={userNoAvatar as string}
-                alt="Изображение проекта"
-                width={208}
-                height={208}
-                className="rounded-lg"
-              />
-            )}
+            <ProfileImage imageSrc={project.image} alt={project.title} />
             <div className="ml-8 flex w-full flex-row justify-between">
               <div>
                 <h2 className="text-xl font-bold">{project.title}</h2>
@@ -101,115 +83,149 @@ const Project: React.FC<Props> = async ({ params }) => {
             <p className="mt-6">{project.description}</p>
           </SectionWrapper>
 
-          <div>
-            <div className="flex flex-row gap-6">
-              <SectionWrapper className="w-1/2">
-                <h2 className="text-xl font-bold">Кто требуется</h2>
-                <div className="mt-8 flex w-fit flex-col gap-3">
-                  {Object.entries(project.requiredPeople)
-                    .filter(([_key, value]) => value !== 0)
-                    .map((item) => {
-                      const [key, value] = item;
-                      return (
-                        <Badge text={key} counterValue={value} key={key} />
-                      );
-                    })}
-                </div>
-              </SectionWrapper>
+          <div className="flex flex-row gap-6">
+            <SectionWrapper className="w-1/2">
+              <h2 className="text-xl font-bold">Кто требуется</h2>
+              <div className="mt-8 flex w-fit flex-col gap-3">
+                {Object.entries(project.requiredPeople)
+                  .filter(([_key, value]) => value !== 0)
+                  .map((item) => {
+                    const [key, value] = item;
 
-              <SectionWrapper className="w-1/2">
-                <h2 className="text-xl font-bold">Участники команды</h2>
-                <div className="mt-8">
-                  <div className="flex w-full flex-col gap-3">
-                    <Link
-                      href={`/user/${project.creator.id}`}
-                      className="flex flex-row justify-between"
-                    >
-                      <div className="flex flex-row gap-3">
-                        <Image
-                          src={project.creator.image}
-                          alt="Изображение не загружено"
-                          width={26}
-                          height={26}
-                          className="rounded-full"
-                        />
-                        <p>{project.creator.name}</p>
-                      </div>
-                      <p>Создатель/{project.creator.profession}</p>
-                    </Link>
-                    {project.members.map((member) => {
-                      return (
-                        <Link
-                          href={`/user/${member.id}`}
-                          className="flex flex-row justify-between"
-                        >
-                          <div className="flex flex-row gap-3">
-                            <Image
-                              src={member.image}
-                              alt="Изображение не загружено"
-                              width={26}
-                              height={26}
-                              className="rounded-full"
-                            />
-                            <p>{member.name}</p>
-                          </div>
-                          <p>{member.profession}</p>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              </SectionWrapper>
-            </div>
+                    return <Badge text={key} counterValue={value} key={key} />;
+                  })}
+              </div>
+            </SectionWrapper>
 
-            <OpenModalButton
-              projectId={project.id}
-              projects={projects}
-              className="mt-6"
-            />
-          </div>
-          <div>
-            <p className=" text-3xl">Отклики</p>
-            <div className="item-center mt-8 flex justify-between">
-              <div className=" flex items-center gap-5">
-                <p>По тегам:</p>
-                <Badge text="Frontend" />
-                <Badge text="Backend" />
-                <Badge text="Design" />
-              </div>
-              <div className=" flex items-center">
-                <p>За всё время</p>
-              </div>
-            </div>
-            <div className="mt-6 grid grid-cols-2 grid-rows-3 gap-6">
-              {response.map((response) => {
-                return (
+            <SectionWrapper className="w-1/2">
+              <h2 className="text-xl font-bold">Участники команды</h2>
+              <div className="mt-8">
+                <div className="flex w-full flex-col gap-3">
                   <Link
-                    href={`/projects/${params.id}/response/${response.id}/${response.userId}`}
+                    href={`/user/${project.creator.id}`}
+                    className="flex flex-row justify-between"
                   >
-                    <SectionWrapper className="flex flex-col gap-6">
-                      <div className=" flex items-center justify-between">
-                        <p>{response.project.title}</p>
-                        <Badge text="Frontend" />
-                      </div>
-                      <div className=" flex items-center gap-3">
-                        <Image
-                          src={response.candidate.image}
-                          width={38}
-                          height={38}
-                          alt="не найдено"
-                          className="rounded-full"
-                        />
-                        <p>{response.candidate.name}</p>
-                      </div>
-                      <div className=" flex items-center justify-between">
-                        <p>{response.date.toString()}</p>
-                      </div>
-                    </SectionWrapper>
+                    <div className="flex flex-row gap-3">
+                      <ProfileImage
+                        imageSrc={project.creator.image}
+                        alt="не найдено"
+                        width={38}
+                        height={38}
+                      />
+                      <p>{project.creator.name}</p>
+                    </div>
+                    <p>Создатель/{project.creator.profession}</p>
                   </Link>
-                );
-              })}
+                  {project.members.map((member) => {
+                    return (
+                      <Link
+                        href={`/user/${member.id}`}
+                        className="flex flex-row justify-between"
+                      >
+                        <div className="flex flex-row gap-3">
+                          <ProfileImage
+                            imageSrc={member.image}
+                            alt="не найдено"
+                            width={38}
+                            height={38}
+                          />
+                          <p>{member.name}</p>
+                        </div>
+                        <p>{member.profession}</p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </SectionWrapper>
+
+            <SectionWrapper className="w-1/2">
+              <h2 className="text-xl font-bold">Участники команды</h2>
+              <div className="mt-8">
+                <div className="flex w-full flex-col gap-3">
+                  <Link
+                    href={`/user/${project.creator.id}`}
+                    className="flex flex-row justify-between"
+                  >
+                    <div className="flex flex-row gap-3">
+                      <Image
+                        src={project.creator.image}
+                        alt="Изображение не загружено"
+                        width={26}
+                        height={26}
+                        className="rounded-full"
+                      />
+                      <p>{project.creator.name}</p>
+                    </div>
+                    <p>Создатель/{project.creator.profession}</p>
+                  </Link>
+                  {project.members.map((member) => {
+                    return (
+                      <Link
+                        href={`/user/${member.id}`}
+                        className="flex flex-row justify-between"
+                      >
+                        <div className="flex flex-row gap-3">
+                          <Image
+                            src={member.image}
+                            alt="Изображение не загружено"
+                            width={26}
+                            height={26}
+                            className="rounded-full"
+                          />
+                          <p>{member.name}</p>
+                        </div>
+                        <p>{member.profession}</p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </SectionWrapper>
+          </div>
+
+          <OpenModalButton
+            projectId={project.id}
+            projects={projects}
+            className="mt-6"
+          />
+        </div>
+        <div>
+          <p className=" text-3xl">Отклики</p>
+          <div className="item-center mt-8 flex justify-between">
+            <div className=" flex items-center gap-5">
+              <p>По тегам:</p>
+              <Badge text="Frontend" />
+              <Badge text="Backend" />
+              <Badge text="Design" />
             </div>
+            <div className=" flex items-center">
+              <p>За всё время</p>
+            </div>
+          </div>
+          <div className="mt-6 grid grid-cols-2 grid-rows-3 gap-6">
+            {response.map((response) => {
+              return (
+                <SectionWrapper className="flex flex-col gap-6">
+                  <div className=" flex items-center justify-between">
+                    <p>{response.project.title}</p>
+                    <Badge text="Frontend" />
+                  </div>
+                  <div className=" flex items-center gap-3">
+                    <ProfileImage
+                      imageSrc={response.candidate.image}
+                      alt="не найдено"
+                      width={38}
+                      height={38}
+                    />
+                    <p>{response.candidate.name}</p>
+                  </div>
+                  <div className=" flex items-center justify-between">
+                    <p>{response.date.toString()}</p>
+                  </div>
+                </SectionWrapper>
+              );
+            })}
           </div>
         </div>
       </div>
