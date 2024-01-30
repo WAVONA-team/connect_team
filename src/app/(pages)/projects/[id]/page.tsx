@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { api } from "@/trpc/server";
 import { notFound } from "next/navigation";
 import { getServerAuthSession } from "@/server/auth";
@@ -39,6 +38,7 @@ const Project: React.FC<Props> = async ({ params }) => {
     <Container>
       <div className="text-onPrimary-anti-flash-withe">
         <NavBar />
+
         <div className="mt-8 flex flex-col gap-6">
           <div className="flex w-full justify-between">
             <div className="flex items-center">
@@ -138,59 +138,16 @@ const Project: React.FC<Props> = async ({ params }) => {
                 </div>
               </div>
             </SectionWrapper>
-
-            <SectionWrapper className="w-1/2">
-              <h2 className="text-xl font-bold">Участники команды</h2>
-              <div className="mt-8">
-                <div className="flex w-full flex-col gap-3">
-                  <Link
-                    href={`/user/${project.creator.id}`}
-                    className="flex flex-row justify-between"
-                  >
-                    <div className="flex flex-row gap-3">
-                      <Image
-                        src={project.creator.image}
-                        alt="Изображение не загружено"
-                        width={26}
-                        height={26}
-                        className="rounded-full"
-                      />
-                      <p>{project.creator.name}</p>
-                    </div>
-                    <p>Создатель/{project.creator.profession}</p>
-                  </Link>
-                  {project.members.map((member) => {
-                    return (
-                      <Link
-                        href={`/user/${member.id}`}
-                        className="flex flex-row justify-between"
-                      >
-                        <div className="flex flex-row gap-3">
-                          <Image
-                            src={member.image}
-                            alt="Изображение не загружено"
-                            width={26}
-                            height={26}
-                            className="rounded-full"
-                          />
-                          <p>{member.name}</p>
-                        </div>
-                        <p>{member.profession}</p>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </SectionWrapper>
           </div>
 
           <OpenModalButton
             projectId={project.id}
             projects={projects}
-            className="mt-6"
+            className="mt-6 w-min"
           />
         </div>
-        <div>
+
+        <div className="mt-12">
           <p className=" text-3xl">Отклики</p>
           <div className="item-center mt-8 flex justify-between">
             <div className=" flex items-center gap-5">
@@ -206,24 +163,28 @@ const Project: React.FC<Props> = async ({ params }) => {
           <div className="mt-6 grid grid-cols-2 grid-rows-3 gap-6">
             {response.map((response) => {
               return (
-                <SectionWrapper className="flex flex-col gap-6">
-                  <div className=" flex items-center justify-between">
-                    <p>{response.project.title}</p>
-                    <Badge text="Frontend" />
-                  </div>
-                  <div className=" flex items-center gap-3">
-                    <ProfileImage
-                      imageSrc={response.candidate.image}
-                      alt="не найдено"
-                      width={38}
-                      height={38}
-                    />
-                    <p>{response.candidate.name}</p>
-                  </div>
-                  <div className=" flex items-center justify-between">
-                    <p>{response.date.toString()}</p>
-                  </div>
-                </SectionWrapper>
+                <Link
+                  href={`/projects/${params.id}/response/${response.id}/${response.userId}`}
+                >
+                  <SectionWrapper className="flex flex-col gap-6">
+                    <div className=" flex items-center justify-between">
+                      <p>{response.project.title}</p>
+                      <Badge text="Frontend" />
+                    </div>
+                    <div className=" flex items-center gap-3">
+                      <ProfileImage
+                        imageSrc={response.candidate.image}
+                        alt="не найдено"
+                        width={38}
+                        height={38}
+                      />
+                      <p>{response.candidate.name}</p>
+                    </div>
+                    <div className=" flex items-center justify-between">
+                      <p>{response.date.toString()}</p>
+                    </div>
+                  </SectionWrapper>
+                </Link>
               );
             })}
           </div>

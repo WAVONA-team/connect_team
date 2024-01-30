@@ -85,43 +85,49 @@ const UserPage: React.FC<Props> = React.memo(
           <UserDescription description={user.description ?? ""} />
         </SectionWrapper>
 
-        <div>
-          <div className=" mb-6 flex  justify-between">
-            <h2 className="text-3xl">
-              {session?.user.id === user.id
-                ? "Мои проекты"
-                : `Проекты ${user.name}`}
-            </h2>
+        {!!user.createdProjects.length ||
+          (!!user.memberOfProjects.length && (
+            <div>
+              <div className="mb-6 flex  justify-between">
+                <h2 className="text-3xl">
+                  {session?.user.id === user.id
+                    ? "Мои проекты"
+                    : `Проекты ${user.name}`}
+                </h2>
 
-            {session?.user.id === user.id && (
-              <MainButtonLink
-                text="Создать проект"
-                path={`/projects/create`}
-                target="_self"
-              />
-            )}
-          </div>
-          <div className="grid grid-cols-2 grid-rows-3 gap-6">
-            {user.createdProjects.map((project) => {
-              return (
-                <UserProjectCard
-                  key={project.id}
-                  project={project}
-                  role="Участник"
-                />
-              );
-            })}
-            {user.memberOfProjects.map((project) => {
-              return (
-                <UserProjectCard
-                  key={project.id}
-                  project={project}
-                  role="Создатель"
-                />
-              );
-            })}
-          </div>
-        </div>
+                {session?.user.id === user.id && (
+                  <MainButtonLink
+                    text="Создать проект"
+                    path={`/projects/create`}
+                    target="_self"
+                  />
+                )}
+              </div>
+              <div className="grid grid-cols-2 grid-rows-3 gap-6">
+                {!!user.createdProjects.length &&
+                  user.createdProjects.map((project) => {
+                    return (
+                      <UserProjectCard
+                        key={project.id}
+                        project={project}
+                        role="Создатель"
+                      />
+                    );
+                  })}
+
+                {!!user.memberOfProjects.length &&
+                  user.memberOfProjects.map((project) => {
+                    return (
+                      <UserProjectCard
+                        key={project.id}
+                        project={project}
+                        role="Участник"
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          ))}
       </div>
     );
   },
