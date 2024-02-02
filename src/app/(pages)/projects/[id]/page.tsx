@@ -3,11 +3,14 @@ import { api } from "@/trpc/server";
 import { notFound } from "next/navigation";
 import { getServerAuthSession } from "@/server/auth";
 import { type Metadata } from "next";
+import TimeFrame from "@/shared/types/projectFilter/TimeFrame";
 
 import Link from "next/link";
 import NavBar from "@/components/navBar/NavBar";
 import OpenModalButton from "@/components/openModalButton/OpenModalButtont";
-
+import FilterBadge from "@/components/filterBadge/FilterBadge";
+import FilterSelect from "@/components/filterSelect/FilterSelect";
+import ResponseList from "@/modules/responseList/ResponseList";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import BackButton from "@/ui/backButton/BackButton";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
@@ -31,7 +34,7 @@ const Project: React.FC<Props> = async ({ params }) => {
   }
 
   const response = await api.response.findByProjectId.query(project.id);
-
+  const tags = response.map((response) => response.profession);
   const isAuthor = project.userId === session?.user.id;
 
   return (
@@ -67,7 +70,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                 <p className="mb-2 mt-6 text-secondary-cadet-grey">
                   Опубликован
                 </p>
-                <p>{project.published.toString()}</p>
+                <p>{project.published.toLocaleDateString()}</p>
               </div>
               <p>{project.status}</p>
             </div>
@@ -103,9 +106,9 @@ const Project: React.FC<Props> = async ({ params }) => {
                 <div className="flex w-full flex-col gap-3">
                   <Link
                     href={`/user/${project.creator.id}`}
-                    className="flex flex-row justify-between"
+                    className="flex flex-row justify-between items-center"
                   >
-                    <div className="flex flex-row gap-3">
+                    <div className="flex flex-row gap-3 items-center">
                       <ProfileImage
                         imageSrc={project.creator.image}
                         alt="не найдено"
@@ -150,43 +153,31 @@ const Project: React.FC<Props> = async ({ params }) => {
         <div className="mt-12">
           <p className=" text-3xl">Отклики</p>
           <div className="item-center mt-8 flex justify-between">
-            <div className=" flex items-center gap-5">
-              <p>По тегам:</p>
-              <Badge text="Frontend" />
-              <Badge text="Backend" />
-              <Badge text="Design" />
-            </div>
-            <div className=" flex items-center">
-              <p>За всё время</p>
+          <div className="mt-8 flex items-center gap-6">
+            <p className="text-base text-onPrimary-anti-flash-withe">По тегам:</p>
+
+            <div className="flex flex-wrap gap-5">
+              {[...new Set(tags)]
+                .sort((a, b) => a.localeCompare(b))
+                .map((tag) => (
+                  <FilterBadge key={tag} text={tag} paramName="professions" />
+                ))}
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-2 grid-rows-3 gap-6">
-            {response.map((response) => {
-              return (
-                <Link
-                  href={`/projects/${params.id}/response/${response.id}/${response.userId}`}
-                >
-                  <SectionWrapper className="flex flex-col gap-6">
-                    <div className=" flex items-center justify-between">
-                      <p>{response.project.title}</p>
-                      <Badge text="Frontend" />
-                    </div>
-                    <div className=" flex items-center gap-3">
-                      <ProfileImage
-                        imageSrc={response.candidate.image}
-                        alt="не найдено"
-                        width={38}
-                        height={38}
-                      />
-                      <p>{response.candidate.name}</p>
-                    </div>
-                    <div className=" flex items-center justify-between">
-                      <p>{response.date.toString()}</p>
-                    </div>
-                  </SectionWrapper>
-                </Link>
-              );
-            })}
+            <div className=" flex items-center">
+              <FilterSelect
+                allItems={[
+                  TimeFrame.All,
+                  TimeFrame.Month,
+                  TimeFrame.Week,
+                  TimeFrame.Last3Days,
+                ]}
+                paramName="timeFrame"
+              />
+            </div>
+          </div>
+          <div className="mt-6 gap-6">
+            <ResponseList response={response}/>
           </div>
         </div>
       </div>
