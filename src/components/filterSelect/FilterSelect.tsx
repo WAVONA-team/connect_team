@@ -27,6 +27,7 @@ const FilterSelect: React.FC<Props> = React.memo(({ allItems, paramName }) => {
       allItems={allItems}
       selectedItem={searchParams.get(paramName) ?? allItems[0]!}
       onChange={(newItem) => handleChange(newItem)}
+      className=" w-48"
     />
   );
 });
