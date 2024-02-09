@@ -237,7 +237,7 @@ const UserSettingsForm: React.FC = React.memo(() => {
               <div className={generalClassNames.labelWrapper}>
                 <label className={generalClassNames.label}>
                   <p className={generalClassNames.labelText}>
-                    Владение яззыками
+                    Владение языками
                   </p>
 
                   <Controller
