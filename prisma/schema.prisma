@@ -64,7 +64,7 @@ model User {
 }
 
 model Project {
-    id                           String               @id @default(cuid())
+    id                           String     @id @default(cuid())
     image                        String
     title                        String
     term                         String
@@ -79,10 +79,12 @@ model Project {
     discord                      String?
     site                         String?
     userId                       String
-    creator                      User                 @relation(name: "ProjectCreator", fields: [userId], references: [id], onDelete: Cascade)
-    members                      User[]               @relation(name: "ProjectMembers")
+    creator                      User       @relation(name: "ProjectCreator", fields: [userId], references: [id], onDelete: Cascade)
+    members                      User[]     @relation(name: "ProjectMembers")
     requiredPeople               String
     responses                    Response[]
+    createdAt                    DateTime   @default(now())
+    updatedAt                    DateTime   @updatedAt
 }
 
 model Response {
