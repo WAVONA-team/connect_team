@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import type Filter from "../types/Filter";
-import NewResponse from "@/shared/types/extendedModels/NewResponse";
+import type NewResponse from "@/shared/types/extendedModels/NewResponse";
 import TimeFrame from "@/shared/types/projectFilter/TimeFrame";
 
 const getFilteredResponse = (
@@ -10,7 +10,6 @@ const getFilteredResponse = (
   const { professions,  timeFrame,  } =
     filterParams;
   const currentDate = new Date();
-  const allProffesions = responses.map(resp => resp.profession);
   const filteredResponse = responses.filter((response) => {
     const {
       date,

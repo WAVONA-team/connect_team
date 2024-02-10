@@ -37,7 +37,7 @@ const Responses: React.FC<Props> = async ({ params }) => {
         <div className=" mt-8 flex flex-col gap-6">
           {response?.map((response) => {
             return (
-              <SectionWrapper>
+              <SectionWrapper key={response.id}>
                 <Link
                   href={`/projects/${response.project.id}`}
                   className="text-onPrimary-anti-flash-withe"
