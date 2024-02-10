@@ -46,25 +46,29 @@ const UserSettingsForm: React.FC = React.memo(() => {
     },
   });
 
-  const onSubmit: SubmitHandler<InputsValue> = (formData) => {
+  const onSubmit: SubmitHandler<InputsValue> = async (formData) => {
     const userData = data!;
 
-    userMutation.mutate({
-      id: userData.user.id,
-      name: formData.name,
-      city: formData.city,
-      isVisibleForTeam: formData.isVisibleForTeam,
-      age: formData.age,
-      languages: formData.languages,
-      email: formData.email,
-      preferredTypeOfCommunication: formData.preferredTypeOfCommunication,
-      telegram: formData.telegram,
-      discord: formData.discord,
-      description: formData.description,
-      profession: formData.profession,
-    });
-    router.push(`/pages/user/${data?.user.id}`);
-    reset();
+    await userMutation
+      .mutateAsync({
+        id: userData.user.id,
+        name: formData.name,
+        city: formData.city,
+        isVisibleForTeam: formData.isVisibleForTeam,
+        age: formData.age,
+        languages: formData.languages,
+        email: formData.email,
+        preferredTypeOfCommunication: formData.preferredTypeOfCommunication,
+        telegram: formData.telegram,
+        discord: formData.discord,
+        description: formData.description,
+        profession: formData.profession,
+      })
+      .then(() => {
+        router.push(`/user/${data?.user.id}`);
+        reset();
+      })
+      .catch((error) => console.log(error));
   };
 
   const onCancel = () => {
@@ -79,7 +83,7 @@ const UserSettingsForm: React.FC = React.memo(() => {
           action="#"
           method="POST"
           onSubmit={handleSubmit(onSubmit)}
-            className="
+          className="
             flex
             flex-col
             gap-12
