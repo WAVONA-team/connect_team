@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { api } from "@/trpc/react";
 
 import type NewProject from "@/shared/types/extendedModels/NewProject";
-
 import Status from "@/shared/types/projectFilter/Status";
+import createSearchParams from "@/shared/helpers/createSearchParams";
+import getProjectStatus from "./helpers/getProjectStatus";
+
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import Badge from "@/ui/badge/Badge";
 import MainButton from "@/ui/mainButton/MainButton";
 import Link from "next/link";
-import createSearchParams from "@/shared/helpers/createSearchParams";
 
 type Props = {
   project: NewProject;
@@ -19,12 +21,30 @@ type Props = {
 };
 
 const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
-  const { requiredPeople, title, status, target, creator, responses, members } =
-    project;
+  const {
+    requiredPeople,
+    title,
+    status,
+    target,
+    creator,
+    responses,
+    members,
+    published,
+    deadline,
+  } = project;
   const { data: session } = useSession();
 
   const router = useRouter();
   const searchParams = useSearchParams()!;
+
+  const updateProjectStatus = api.project.updateStatus.useMutation();
+
+  useEffect(() => {
+    updateProjectStatus.mutate({
+      id: project.id,
+      status: getProjectStatus(published, deadline),
+    });
+  }, []);
 
   return (
     <Link href={`/projects/${href}`}>
