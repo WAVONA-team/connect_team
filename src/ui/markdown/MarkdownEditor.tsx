@@ -30,6 +30,7 @@ const MarkdownEditor: React.FC<Props> = React.memo(
       <MDEditor
         className={`
           ${className}
+          text-secondary-cadet-grey
           !bg-secondary-dark-purple
         `}
         value={source}
