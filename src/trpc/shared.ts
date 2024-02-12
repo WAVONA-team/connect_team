@@ -7,7 +7,7 @@ export const transformer = superjson;
 
 function getBaseUrl() {
   if (typeof window !== "undefined") return "";
-  if (process.env.SERVER_URL) return `https://${process.env.SERVER_URL}`;
+  if (process.env.SERVER_URL) return `https://${process.env.SERVER_URL}:${process.env.PORT ?? 3000}`;
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
