@@ -26,10 +26,9 @@ export const responseRouter = createTRPCRouter({
       });
     }),
 
-  getAll: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await ctx.db.response.findMany();
-    }),
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db.response.findMany();
+  }),
 
   delete: protectedProcedure
     .input(z.string().trim())
@@ -42,12 +41,14 @@ export const responseRouter = createTRPCRouter({
     }),
 
   accept: protectedProcedure
-    .input(z.object({
-      responseId: z.string().trim(),
-      projectId: z.string().trim(),
-      userId: z.string().trim(),
-      status: z.string().trim(),
-    }))
+    .input(
+      z.object({
+        responseId: z.string().trim(),
+        projectId: z.string().trim(),
+        userId: z.string().trim(),
+        status: z.string().trim(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.response.update({
         where: {
@@ -55,16 +56,17 @@ export const responseRouter = createTRPCRouter({
         },
         data: {
           status: input.status,
-        }
-      })
+        },
+      });
 
-      const projectToUpdate = await ctx.db.project
-        .findUnique({
-          where: { id: input.projectId },
-          include: { members: true }
-        });
+      const projectToUpdate = await ctx.db.project.findUnique({
+        where: { id: input.projectId },
+        include: { members: true },
+      });
 
-      const newMember = await ctx.db.user.findUnique({ where: { id: input.userId } });
+      const newMember = await ctx.db.user.findUnique({
+        where: { id: input.userId },
+      });
 
       return await ctx.db.project.update({
         where: {
@@ -72,9 +74,11 @@ export const responseRouter = createTRPCRouter({
         },
         data: {
           members: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             set: [...projectToUpdate.members, newMember],
-          }
-        }
+          },
+        },
       });
     }),
 
