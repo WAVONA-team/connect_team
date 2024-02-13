@@ -36,7 +36,7 @@ export type InputsValue = {
 };
 
 interface Props {
-  project: NewProject;
+  project: Omit<NewProject, "createdAt" | "updatedAt">;
 }
 const calculateMonthDifference = (startDate: Date, endDate: Date) => {
   const start = new Date(startDate);

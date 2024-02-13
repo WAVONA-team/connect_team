@@ -1,19 +1,18 @@
 "use client";
 import React, { useState } from "react";
 
-
 import Container from "@/ui/container/Container";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import NavBar from "@/components/navBar/NavBar";
 
-import NewProject from "@/shared/types/extendedModels/NewProject";
+import type NewProject from "@/shared/types/extendedModels/NewProject";
 import ProjectForm from "@/modules/projectForm/ProjectForm";
 const ProjectCreate: React.FC = () => {
-  const [dateRange, setDateRange] = useState({
+  const [dateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
   });
-  const project: NewProject = {
+  const project: Omit<NewProject, "createdAt" | "updatedAt"> = {
     id: "",
     userId: "",
     image: "",
@@ -44,7 +43,7 @@ const ProjectCreate: React.FC = () => {
       age: null,
       preferredTypeOfCommunication: null,
       languages: null,
-      emailVerified: null
+      emailVerified: null,
     },
     members: [],
     responses: [],
