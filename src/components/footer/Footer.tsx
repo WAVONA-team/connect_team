@@ -47,6 +47,7 @@ const Footer: React.FC = React.memo(async () => {
                 <Link
                   className="w-max p-2 text-sm text-onPrimary-anti-flash-withe transition hover:text-accent-azure"
                   href={path}
+                  key={name}
                 >
                   {name}
                 </Link>

@@ -38,7 +38,7 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
                   .map((item) => {
                     const [key, value] = item;
 
-                    return <Badge text={key} counterValue={value} />;
+                    return <Badge text={key} counterValue={value} key={key} />;
                   }),
               ),
             ]}
@@ -115,7 +115,7 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
           )}
 
           <p className="text-base text-onPrimary-anti-flash-withe">
-            {project.published.toLocaleDateString()}
+            {project.createdAt.toLocaleDateString()}
           </p>
         </div>
       </SectionWrapper>
