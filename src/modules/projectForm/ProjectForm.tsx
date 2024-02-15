@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 import Input from "@/ui/input/Input";
 import DatePicker from "@/ui/datepicker/DatePicker";
@@ -49,6 +50,7 @@ const calculateMonthDifference = (startDate: Date, endDate: Date) => {
   return diffInMonths;
 };
 const ProjectForm: React.FC<Props> = ({ project }) => {
+  const router = useRouter();
   const allItems = ["Frontend", "Backend", "UI"];
   const projectMutation = api.project.create.useMutation();
   const [selectedItems, setSelectedItems] = useState<InitialType>(
@@ -109,6 +111,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
       });
 
       reset();
+      router.push('/projects')
     } catch (error) {
       console.error("An error occurred:", error);
     }
