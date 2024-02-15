@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Container from "@/ui/container/Container";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 import NavBar from "@/components/navBar/NavBar";
+import makeInitialState from "@/ui/counterMultiSelect/helpers/makeInitialState";
 
 import type NewProject from "@/shared/types/extendedModels/NewProject";
 import ProjectForm from "@/modules/projectForm/ProjectForm";
@@ -12,6 +13,8 @@ const ProjectCreate: React.FC = () => {
     startDate: new Date(),
     endDate: new Date(),
   });
+  const allItems = ["Frontend", "Backend", "UI"];
+
   const project: Omit<NewProject, "createdAt" | "updatedAt"> = {
     id: "",
     userId: "",
@@ -28,7 +31,7 @@ const ProjectCreate: React.FC = () => {
     discord: "",
     site: "",
     preferredTypeOfCommunication: "",
-    requiredPeople: {},
+    requiredPeople: makeInitialState(allItems),
     creator: {
       id: "",
       name: null,
