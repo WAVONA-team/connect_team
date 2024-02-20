@@ -1,11 +1,14 @@
 import React from "react";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import DefaultHeader from "@/components/header/defaultHeader/DefaultHeader";
 import Footer from "@/components/footer/Footer";
 
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 
-const NotFound: React.FC = React.memo(() => {
+const NotFound: React.FC = React.memo(async () => {
+  const { t, i18n } = await useTranslation('en');
+
   return (
     <div
       className={`flex h-screen flex-col bg-background-night bg-[url("/images/404Bg.png")] bg-center`}
@@ -18,11 +21,11 @@ const NotFound: React.FC = React.memo(() => {
         </h1>
 
         <p className="mt-1 block text-2xl text-onPrimary-anti-flash-withe">
-          Извините, страница не найдена
+          {t("notFound.page_not_found")}
         </p>
 
         <MainButtonLink
-          text="Вернутся на главную"
+          text={t("notFound.return_home")}
           path="/"
           target="_self"
           className="mt-12"

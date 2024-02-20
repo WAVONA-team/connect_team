@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import Input from "@/ui/input/Input";
 import DatePicker from "@/ui/datepicker/DatePicker";
@@ -49,7 +50,9 @@ const calculateMonthDifference = (startDate: Date, endDate: Date) => {
 
   return diffInMonths;
 };
-const ProjectForm: React.FC<Props> = ({ project }) => {
+const ProjectForm: React.FC<Props> = async({ project }) => {
+  const { t } = await useTranslation('en');
+
   const router = useRouter();
   const allItems = ["Frontend", "Backend", "UI"];
   const projectMutation = api.project.create.useMutation();
@@ -126,38 +129,38 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
       <div>
         <div className=" flex">
           <BackButton></BackButton>
-          <h2>Создание проекта</h2>
+          <h2>{t("creatingProject")}</h2>
         </div>
         <div>
           <p className=" mb-8 mt-7">
-            <span className=" text-error-imperial-red">*</span> - поля
-            обязательные для заполнения
+            <span className=" text-error-imperial-red">*</span>
+            {t("requiredFields")}
           </p>
         </div>
       </div>
       <div className=" flex flex-col gap-12">
-        <h2 className=" font-bold">Основная информация</h2>
+        <h2 className=" font-bold">{t("information")}</h2>
         <div>
           <div>
             <div className=" flex items-center">
               <ProfileImage
                 imageSrc="https://avatars.githubusercontent.com/u/70152685?v=4"
-                alt="ded"
+                alt="projectImage"
               ></ProfileImage>
               <MainButton
-                text="Редактировать"
+                text={t("redact")}
                 className=" ml-8 h-12"
               ></MainButton>
             </div>
             <div className=" flex items-center">
               <p className=" mr-24 mt-8 w-72">
-                Название вашего проекта
+                {t("yourProjectName")}
                 <span className=" text-error-imperial-red">*</span>
               </p>
               <Controller
                 name="title"
                 control={control}
-                rules={{ required: "Обязательно к заполнению" }}
+                rules={{ required: `${t("required")}` }}
                 render={({ field }) => (
                   <Input
                     value={field.value}
@@ -171,14 +174,14 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
             </div>
             <div className=" flex items-center">
               <p className=" mr-24 mt-8 w-72">
-                Сроки работы над проектом
+                {t("termsForProjects")}
                 <span className=" text-error-imperial-red">*</span>
               </p>
               <div className=" w-96">
                 <Controller
                   name="target"
                   control={control}
-                  rules={{ required: "Обязательно к заполнению" }}
+                  rules={{ required: `${t("required")}` }}
                   render={() => (
                     <DatePicker
                       date={dateRange}
@@ -193,73 +196,69 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
         <div>
           <div>
             <h2 className=" mb-6 font-bold">
-              Цель<span className=" text-error-imperial-red">*</span>
+             {t("target")}<span className=" text-error-imperial-red">*</span>
             </h2>
           </div>
           <p className=" text-secondary-cadet-grey">
-            Опишите цель проекта (макс 300 символов 0/200)
+            {t("targetDesctiption")}
           </p>
           <Controller
             name="target"
             control={control}
-            rules={{ required: "Обязательно к заполнению" }}
+            rules={{ required: `${t("required")}` }}
             render={({ field }) => (
               <Input
                 value={field.value}
                 onChange={(event) => field.onChange(event.target.value)}
                 error={errors.target?.message}
                 className=" !w-96"
-                placeholder="Опишите цель"
+                placeholder={t("targetPlaceholder")}
               />
             )}
           />
         </div>
         <div>
           <h2 className=" font-bold">
-            Описание проекта
+            {t("projectDescription")}
             <span className=" text-error-imperial-red">*</span>
           </h2>
           <p className=" mb-8 mt-4 text-secondary-cadet-grey">
-            Добавьте описание проекта, чтобы соискатели быстрее нашли ваш проект
+            {t("projectDescription.description")}
           </p>
           {errors.description && <p>{errors.description.message}</p>}
           <Controller
             name="description"
             control={control}
-            rules={{ required: "Обязательно к заполнению" }}
+            rules={{ required: `${t("required")}` }}
             render={({ field }) => (
               <MarkdownEditor
                 source={field.value}
                 setSource={(event) => {
                   field.onChange(event);
                 }}
-                placeholder="Оформите описание так, как вам нравится: сделайте текст полужирным, курсивом или выделите его подчеркиванием.
-                        Создайте списки, чтобы структурировать свои мысли,
-                        добавьте разделы и заголовки,
-                        чтобы все выглядело аккуратно и организовано.
-                        Можете также добавить ссылки"
+                placeholder={t("markDownPlaceholder")}
               />
             )}
           />
         </div>
         <div>
           <h2 className=" font-bold">
-            Кто вам требуеться в команду?
+          {t("whoNeeded")}
             <span className=" text-error-imperial-red">*</span>
           </h2>
           <p className=" mb-8 mt-4 text-secondary-cadet-grey">
-            Добавьте того, кто вам требуется
+            {t("addWhoNeeded")}
           </p>
-          {errors.requiredPeople && "Обязательно к заполнению"}
+          {errors.requiredPeople && `${t("required")}`}
           <Controller
             name="target"
             control={control}
-            rules={{ required: "Обязательно к заполнению" }}
+            rules={{ required: `${t("required")}` }}
             render={() => (
               <CounterMultiSelect
                 allItems={selectedItems ?? []}
                 onNumberChange={setSelectedItems}
-                placeholder="Выберите профессию"
+                placeholder={t("whoNeededPlaceholder")}
                 className=" h-12 w-fit"
               />
             )}
@@ -267,14 +266,14 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
         </div>
         <div>
           <p className=" font-bold">
-            Ссылки на связи
+            {t("linkToContacts")}
             <span className=" text-error-imperial-red">*</span>
           </p>
           <p className=" mb-8 mt-4 text-secondary-cadet-grey">
-            Добавьте хотя бы один контакт
+            {t("linkToContactsDescription")}
           </p>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">Электронная почта</p>
+            <p className=" mt-8 w-72">{t("email")}</p>
             <Controller
               name="email"
               control={control}
@@ -293,7 +292,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
               control={control}
               render={({ field }) => (
                 <RadioButton
-                  labelText="Желаемый вид связи"
+                  labelText={t("preferredTypeOfCommunication")}
                   radioName="links"
                   onChange={(event) => field.onChange(event.target.value)}
                   radioValue="email"
@@ -303,7 +302,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
             />
           </div>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">Телеграмм</p>
+            <p className=" mt-8 w-72">{t("telegram")}</p>
             <Controller
               name="telegram"
               control={control}
@@ -321,7 +320,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
               control={control}
               render={({ field }) => (
                 <RadioButton
-                  labelText="Желаемый вид связи"
+                  labelText={t("preferredTypeOfCommunication")}
                   radioName="links"
                   onChange={(event) => field.onChange(event.target.value)}
                   radioValue="telegram"
@@ -331,7 +330,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
             />{" "}
           </div>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">Дискорд</p>
+            <p className=" mt-8 w-72">{t("discord")}</p>
             <Controller
               name="discord"
               control={control}
@@ -349,7 +348,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
               control={control}
               render={({ field }) => (
                 <RadioButton
-                  labelText="Желаемый вид связи"
+                  labelText={t("preferredTypeOfCommunication")}
                   radioName="links"
                   onChange={(event) => field.onChange(event.target.value)}
                   radioValue="discord"
@@ -359,7 +358,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
             />
           </div>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">Другой сайт</p>
+            <p className=" mt-8 w-72">{t("site")}</p>
             <Controller
               name="site"
               control={control}
@@ -375,8 +374,8 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
           </div>
         </div>
         <div className=" flex gap-6">
-          <MainButton text="Опубликовать" type="submit"></MainButton>
-          <SecondaryButton text="Отменить" onClick={onCancel}></SecondaryButton>
+          <MainButton text={t("published")} type="submit"></MainButton>
+          <SecondaryButton text={t("cancel")} onClick={onCancel}></SecondaryButton>
         </div>
       </div>
     </form>

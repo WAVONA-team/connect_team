@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import BackButton from "@/ui/backButton/BackButton";
 import Container from "@/ui/container/Container";
@@ -7,11 +8,13 @@ import Container from "@/ui/container/Container";
 import wavonaLogo from "../../../../public/images/wavonaLogo.png";
 import Link from "next/link";
 
-const AboutUs: React.FC = React.memo(() => {
+const AboutUs: React.FC = React.memo(async() => {
+  const { t, i18n } = await useTranslation('en');
+
   const members = [
     {
       url: `bg-[url("/images/team/Oleksii.jpg")]`,
-      name: "Алексей",
+      name: 'Алексей',
       position: "Project Manager",
       social: {
         Linkedin: "https://www.linkedin.com/in/oleksii-kalinichenko-333616264",
@@ -66,7 +69,7 @@ const AboutUs: React.FC = React.memo(() => {
           <BackButton />
 
           <h2 className="text-3xl text-onPrimary-anti-flash-withe">
-            Наша команда
+            {t("aboutUs.ourTeam")}
           </h2>
         </div>
 
@@ -80,9 +83,7 @@ const AboutUs: React.FC = React.memo(() => {
           </div>
 
           <p className="max-w-4xl text-2xl text-onPrimary-anti-flash-withe">
-            Wavona Team - команда, стоящая за разработкой этого сайта. В её
-            <br />
-            состав входят талантливые разработчики и креативные дизайнеры.
+            {t("aboutUs.description")}
           </p>
         </div>
 

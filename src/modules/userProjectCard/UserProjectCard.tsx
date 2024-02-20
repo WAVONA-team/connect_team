@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import Link from "next/link";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
@@ -16,7 +17,8 @@ type Props = {
   role: string;
 };
 
-const ProjectCard: React.FC<Props> = React.memo(({project, role}) => {
+const ProjectCard: React.FC<Props> = React.memo( async ({project, role}) => {
+  const { t } = await useTranslation('en');
   return (
     <Link href={`/projects/${project.id}`} className=" wflex  gap-6">
       <SectionWrapper className="flex flex-col gap-4">
@@ -25,12 +27,12 @@ const ProjectCard: React.FC<Props> = React.memo(({project, role}) => {
           <p className="text-sm">{role}</p>
         </div>
         <div>
-          <p className=" text-sm text-secondary-cadet-grey">Описание</p>
+          <p className=" text-sm text-secondary-cadet-grey">{t("description")}</p>
           <p>{project.description}</p>
         </div>
-        <p className="text-sm">Длительность: {project.term}</p>
+        <p className="text-sm">{t("duration")}: {project.term}</p>
         <div className=" flex justify-between">
-          <p className="text-sm">Статус: {project.status}</p>
+          <p className="text-sm">{t("status")}: {project.status}</p>
           <p className="text-sm">{project.published.toString()}</p>
         </div>
       </SectionWrapper>

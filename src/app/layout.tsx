@@ -19,6 +19,7 @@ export const metadata = {
 type Props = {
   children: React.ReactNode;
 };
+import '@/shared/localization/i18n';
 
 const RootLayout: React.FC<Props> = React.memo(({ children }) => {
   return (

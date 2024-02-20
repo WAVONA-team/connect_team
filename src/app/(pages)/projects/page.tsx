@@ -25,7 +25,7 @@ const Projects: React.FC = async () => {
 
   const tags = projects.flatMap((project) => {
     const { requiredPeople } = project;
-    
+
     return Object.keys(requiredPeople);
   });
 
