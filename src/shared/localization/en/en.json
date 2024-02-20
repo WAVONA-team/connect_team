@@ -75,5 +75,8 @@
   "resetFilters": "Reset filters",
   "signOut": "Sign Out",
   "youRespond": "You responded!",
-  "respond": "Respond"
-  }
+  "respond": "Respond",
+  "registerForRespond": "Register to respond to projects",
+  "byTags": "By tags:",
+  "otherProjects": "Other projects"
+}

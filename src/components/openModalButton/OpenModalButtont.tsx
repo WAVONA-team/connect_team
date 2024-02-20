@@ -22,7 +22,7 @@ const OpenModalButton: React.FC<Props> = React.memo(
     const { data: session } = useSession();
     const { t } = await useTranslation('en');
 
-    const responses = await api.response.getAll.useQuery().data;
+    const responses = api.response.getAll.useQuery().data;
 
     const isUserResponsed = responses?.some(
       (response) => response.userId === session?.user.id,

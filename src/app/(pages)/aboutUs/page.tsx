@@ -9,7 +9,7 @@ import wavonaLogo from "../../../../public/images/wavonaLogo.png";
 import Link from "next/link";
 
 const AboutUs: React.FC = React.memo(async() => {
-  const { t, i18n } = await useTranslation('en');
+  const { t } = await useTranslation('en');
 
   const members = [
     {

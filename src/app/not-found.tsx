@@ -7,7 +7,7 @@ import Footer from "@/components/footer/Footer";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 
 const NotFound: React.FC = React.memo(async () => {
-  const { t, i18n } = await useTranslation('en');
+  const { t } = await useTranslation('en');
 
   return (
     <div

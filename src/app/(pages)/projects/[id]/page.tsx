@@ -27,7 +27,7 @@ interface Props {
 }
 
 const Project: React.FC<Props> = async ({ params }) => {
-  const { t, i18n } = await useTranslation('en');
+  const { t} = await useTranslation('en');
   const session = await getServerAuthSession();
   const project = await api.project.findById.query(params.id);
   const projects = await api.project.getAll.query();

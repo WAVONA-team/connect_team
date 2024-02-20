@@ -5,7 +5,7 @@ import { useTranslation } from "@/shared/localization/i18n";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 
 const NotFound: React.FC = React.memo(async() => {
-  const { t, i18n } = await useTranslation('en');
+  const { t } = await useTranslation('en');
 
   return (
     <section

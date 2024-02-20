@@ -8,7 +8,6 @@ const initI18next = async (lng: string, ns: string) => {
     .use(initReactI18next)
     .use(resourcesToBackend((language: string) => import(`@/shared/localization//${language}/${language}.json`)))
     .init({
-      // debug: true,
       supportedLngs: ['en','ru'],
       fallbackLng: 'en',
       lng,
@@ -19,7 +18,7 @@ const initI18next = async (lng: string, ns: string) => {
   return i18nInstance
 }
 
-export async function useTranslation(lng: string, options = {}) {
+export async function useTranslation(lng: string) {
   const i18nextInstance = await initI18next(lng, lng )
   return {
     t: i18nextInstance.getFixedT(lng, lng),

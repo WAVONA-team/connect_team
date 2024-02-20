@@ -7,7 +7,7 @@ import SecondaryButtonLink from "@/ui/secondaryButton/SecondaryButtonLink";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 
 const Home: React.FC = React.memo (async() => {
-  const { t, i18n } = await useTranslation('en');
+  const { t } = await useTranslation('en');
   return (
     <body className={`flex h-screen flex-col bg-[url("/images/homeBg.jpg")]`}>
       <HomeHeader />

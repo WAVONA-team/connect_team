@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { api } from "@/trpc/react";

@@ -22,7 +22,7 @@
   import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
 
   const UserSettingsForm: React.FC = React.memo( async () => {
-    const { t, i18n } = await useTranslation('en');
+    const { t } = await useTranslation('en');
     const { data } = useSession();
     const router = useRouter();
     const userMutation = api.user.update.useMutation();

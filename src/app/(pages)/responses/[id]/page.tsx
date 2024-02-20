@@ -16,7 +16,7 @@ interface Props {
 
 const Responses: React.FC<Props> = async ({ params }) => {
   const response = await api.response.findByUserId.query(params.id);
-  const { t, i18n } = await useTranslation('en');
+  const { t } = await useTranslation('en');
 
   return (
     <Container>
