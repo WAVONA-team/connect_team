@@ -56,6 +56,11 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
   const [selectedItems, setSelectedItems] = useState<InitialType>(
     project.requiredPeople ?? makeInitialState(allItems),
   );
+  const [charCount, setCharCount] = useState(0);
+
+  const handleInputChange = (value: string) => {
+    setCharCount(value.length);
+  };
 
   const [dateRange, setDateRange] = useState({
     startDate: new Date(project.published ?? ""),
@@ -191,25 +196,32 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
           </div>
         </div>
         <div>
-          <div>
-            <h2 className=" mb-6 font-bold">
-              Цель<span className=" text-error-imperial-red">*</span>
-            </h2>
-          </div>
-          <p className=" text-secondary-cadet-grey">
-            Опишите цель проекта (макс 300 символов 0/200)
+        <div>
+          <h2 className="mb-6 font-bold">
+            Цель<span className="text-error-imperial-red">*</span>
+          </h2>
+        </div>
+          <p className="text-secondary-cadet-grey">
+            Опишите цель проекта (макс 300 символов {charCount}/300)
           </p>
           <Controller
             name="target"
             control={control}
-            rules={{ required: "Обязательно к заполнению" }}
+            rules={{
+              required: "Обязательно к заполнению",
+              validate: (value) => value.length <= 300 || "Превышено максимальное количество символов"
+            }}
             render={({ field }) => (
               <Input
-                value={field.value}
-                onChange={(event) => field.onChange(event.target.value)}
-                error={errors.target?.message}
-                className=" !w-96"
+                {...field}
+                onChange={(event) => {
+                  field.onChange(event.target.value);
+                  handleInputChange(event.target.value);
+                }}
+                className="!w-96"
                 placeholder="Опишите цель"
+                value={field.value}
+                error={errors.target?.message}
               />
             )}
           />
