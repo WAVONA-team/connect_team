@@ -61,6 +61,7 @@ model User {
     responses                    Response[]
     accounts                     Account[]
     sessions                     Session[]
+    notifications                Notification[]
 }
 
 model Project {
@@ -97,6 +98,14 @@ model Response {
     message    String?
     project    Project  @relation(fields: [projectId], references: [id])
     candidate  User     @relation(fields: [userId], references: [id])
+}
+model Notification {
+    id         String   @id @default(cuid())
+    userId     String
+    message    String
+    link       String?
+    image      String?
+    user       User     @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {

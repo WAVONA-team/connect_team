@@ -29,7 +29,9 @@ const DefaultHeader: React.FC = React.memo(async () => {
               <SignInButton />
             ) : (
               <div className="flex items-center gap-4">
-                <NotificationPopOver />
+                <NotificationPopOver
+                  userId={session.user.id}
+                />
 
                 <HeaderMenu
                   userId={session.user.id}
