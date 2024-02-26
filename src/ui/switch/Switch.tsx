@@ -19,8 +19,8 @@ const Switch: React.FC<Props> = React.memo(
           "relative inline-flex h-7 w-12 items-center rounded-full",
           {
             "bg-primary-majorelle-blue": checked,
-            "bg-onPrimary-lavender": !checked,
-            "bg-onSecondary-platinum": disabled,
+            "bg-onSecondary-platinum": !checked,
+            "bg-secondary-cadet-grey": disabled,
             "bg-primary-powder-blue": checked && disabled,
           },
         )}
