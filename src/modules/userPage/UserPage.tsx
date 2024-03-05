@@ -1,6 +1,7 @@
 import React from "react";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import UserProjectCard from "@/modules/userProjectCard/UserProjectCard";
 import UserDescription from "@/components/userDescription/UserDescription";
@@ -20,6 +21,7 @@ type Props = {
 
 const UserPage: React.FC<Props> = React.memo(
   async ({ userId, coverLetter = "", isAccepted = false }) => {
+    const { t } = await useTranslation('en');
     const session = await getServerAuthSession();
     const user = await api.user.get.query({ id: userId });
 
@@ -33,10 +35,10 @@ const UserPage: React.FC<Props> = React.memo(
           <div className="flex items-center">
             <BackButton />
 
-            <h2 className="ml-4 text-3xl">Профиль</h2>
+            <h2 className="ml-4 text-3xl">{t("profile")}</h2>
           </div>
           <MainButtonLink
-            text="Редактировать"
+            text={t("redact")}
             path={`/user/${user.id}/settings`}
             target="_self"
           />
@@ -44,7 +46,7 @@ const UserPage: React.FC<Props> = React.memo(
 
         {!!coverLetter.length && !isAccepted && (
           <SectionWrapper className="mb-6">
-            <h2 className="text-3xl">Сопроводительное письмо</h2>
+            <h2 className="text-3xl">{t("coverLetter")}</h2>
 
             <MarkdownViewer className="mt-6" source={coverLetter} />
           </SectionWrapper>
@@ -62,11 +64,11 @@ const UserPage: React.FC<Props> = React.memo(
               <p className="text-3xl font-bold ">{user.name}</p>
               <Badge text={user.profession ?? ""} />
             </div>
-            <p>Город: {user.city}</p>
-            <p>Возраст: {user.age}</p>
-            <p>Владение языками: {user.languages}</p>
+            <p>{t("city")}: {user.city}</p>
+            <p>{t("age")}: {user.age}</p>
+            <p>{t("languages")}: {user.languages}</p>
             <div className=" flex flex-col gap-6">
-              <p className="font-bold">Контакты</p>
+              <p className="font-bold">{t("contacts")}</p>
               <div className="flex">
                 <div className=" mr-6 flex ">
                   <p>{user.email}</p>
@@ -80,7 +82,7 @@ const UserPage: React.FC<Props> = React.memo(
         </SectionWrapper>
 
         <SectionWrapper className="mb-6 flex w-full flex-col gap-6">
-          <h2 className="text-xl font-bold">Обо мне</h2>
+          <h2 className="text-xl font-bold">{t("aboutMe")}</h2>
 
           <UserDescription description={user.description ?? ""} />
         </SectionWrapper>
@@ -90,13 +92,13 @@ const UserPage: React.FC<Props> = React.memo(
             <div className="mb-6 flex  justify-between">
               <h2 className="text-3xl">
                 {session?.user.id === user.id
-                  ? "Мои проекты"
-                  : `Проекты ${user.name}`}
+                  ? `${t("myProjects")}`
+                  : `${t("projects")} ${user.name}`}
               </h2>
 
               {session?.user.id === user.id && (
                 <MainButtonLink
-                  text="Создать проект"
+                  text={t("createProject")}
                   path={`/projects/create`}
                   target="_self"
                 />
@@ -109,7 +111,7 @@ const UserPage: React.FC<Props> = React.memo(
                     <UserProjectCard
                       key={project.id}
                       project={project}
-                      role="Создатель"
+                      role={t("creator")}
                     />
                   );
                 })}
@@ -120,7 +122,7 @@ const UserPage: React.FC<Props> = React.memo(
                     <UserProjectCard
                       key={project.id}
                       project={project}
-                      role="Участник"
+                      role={t("member")}
                     />
                   );
                 })}

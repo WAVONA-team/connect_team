@@ -2,6 +2,7 @@
 import React from "react";
 import classNames from "classnames";
 import { Menu as HeadlessMenu } from "@headlessui/react";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import { type MenuItem } from "./types/MenuItem";
 
@@ -16,14 +17,16 @@ type Props = {
   imgUrl: string | null | undefined;
 };
 
-const HeaderMenu: React.FC<Props> = React.memo(({ userId, imgUrl }) => {
+const HeaderMenu: React.FC<Props> = React.memo(async ({ userId, imgUrl }) => {
+  const { t } = await useTranslation('en');
+
   const menuItems: MenuItem[] = [
     {
-      name: "Настройки",
+      name: t("settings"),
       path: `/user/${userId}/settings`,
     },
     {
-      name: "Профиль",
+      name: t("profile"),
       path: `/user/${userId}`,
     },
   ];

@@ -1,9 +1,12 @@
 "use client";
 import React from "react";
+import { useTranslation } from "@/shared/localization/i18n";
 
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 
-const NotFound: React.FC = React.memo(() => {
+const NotFound: React.FC = React.memo(async() => {
+  const { t } = await useTranslation('en');
+
   return (
     <section
       className={`flex flex-col h-full items-center justify-center bg-[url("/images/404Bg.png")] bg-center`}
@@ -13,11 +16,11 @@ const NotFound: React.FC = React.memo(() => {
       </h1>
 
       <p className="mt-1 block text-2xl text-onPrimary-anti-flash-withe">
-        Извините, ошибка сервера
+        {t("notFound.server_error")}
       </p>
 
       <MainButtonLink
-        text="Вернутся на главную"
+        text={t("notFound.return_home")}
         path="/"
         target="_self"
         className="mt-12"

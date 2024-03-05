@@ -135,7 +135,7 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
           )}
 
           <p className="text-base text-onPrimary-anti-flash-withe">
-            {project.createdAt.toLocaleDateString()}
+            {project.published.toLocaleDateString()}
           </p>
         </div>
       </SectionWrapper>

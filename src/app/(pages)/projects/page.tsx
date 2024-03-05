@@ -1,5 +1,6 @@
 import React from "react";
 import { getServerAuthSession } from "@/server/auth";
+import { useTranslation } from "@/shared/localization/i18n";
 import { api } from "@/trpc/server";
 import classNames from "classnames";
 
@@ -20,12 +21,13 @@ import BackButton from "@/ui/backButton/BackButton";
 import MainButtonLink from "@/ui/mainButton/MainButtonLink";
 
 const Projects: React.FC = async () => {
+  const { t } = await useTranslation('en');
   const session = await getServerAuthSession();
   const projects = await api.project.getAll.query();
 
   const tags = projects.flatMap((project) => {
     const { requiredPeople } = project;
-    
+
     return Object.keys(requiredPeople);
   });
 
@@ -37,7 +39,7 @@ const Projects: React.FC = async () => {
       <section>
         {!session && (
           <p className="mt-8 text-base text-secondary-cadet-grey">
-            Зарегистрируйтесь, чтобы откликнуться на проект
+            Зарегистрируйтесь, чтобы откликнуться на проект{t("registerForRespond")}
           </p>
         )}
 
@@ -51,12 +53,12 @@ const Projects: React.FC = async () => {
             <BackButton />
 
             <h2 className="text-3xl text-onPrimary-anti-flash-withe">
-              Проекты
+              {t("projects")}
             </h2>
           </div>
 
           <MainButtonLink
-            text="Создать проект"
+            text={t("createProject")}
             path="/projects/create"
             target="_self"
             disabled={!session}
@@ -64,7 +66,7 @@ const Projects: React.FC = async () => {
         </div>
 
         <div className="mt-8 flex items-center gap-6">
-          <p className="text-base text-onPrimary-anti-flash-withe">По тегам:</p>
+          <p className="text-base text-onPrimary-anti-flash-withe">{t("byTags")}</p>
 
           <div className="flex flex-wrap gap-5">
             {[...new Set(tags)]
@@ -78,14 +80,14 @@ const Projects: React.FC = async () => {
         <div className="mt-6 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <FilterCheckBox
-              labelText="Мои проекты"
+              labelText={t("myProjects")}
               checkedState={false}
               disabled={session ? false : true}
               value="Мои проекты"
             />
 
             <FilterCheckBox
-              labelText="Остальные проекты"
+              labelText={t("otherProjects")}
               checkedState={session ? false : true}
               disabled={session ? false : true}
               value="Остальные проекты"

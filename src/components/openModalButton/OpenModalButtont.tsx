@@ -7,6 +7,7 @@ import type NewProject from "@/shared/types/extendedModels/NewProject";
 import ResponseModal from "@/modules/responseModal/ResponseModal";
 import { api } from "@/trpc/react";
 import { useSession } from "next-auth/react";
+import { useTranslation } from "@/shared/localization/i18n";
 
 type Props = {
   projectId: string;
@@ -15,10 +16,11 @@ type Props = {
 };
 
 const OpenModalButton: React.FC<Props> = React.memo(
-  ({ projectId, projects, className }) => {
+  async ({ projectId, projects, className }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { data: session } = useSession();
+    const { t } = await useTranslation('en');
 
     const responses = api.response.getAll.useQuery().data;
 
@@ -30,7 +32,7 @@ const OpenModalButton: React.FC<Props> = React.memo(
       <>
         <MainButton
           className={className}
-          text={isUserResponsed ? "Вы откликнулись!" : "Откликнуться"}
+          text={isUserResponsed ? t("youRespond") : t("respond")}
           disabled={isUserResponsed}
           onClick={() => {
             router.push(
