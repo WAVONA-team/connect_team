@@ -58,6 +58,11 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
   const [selectedItems, setSelectedItems] = useState<InitialType>(
     project.requiredPeople ?? makeInitialState(allItems),
   );
+  const [charCount, setCharCount] = useState(0);
+
+  const handleInputChange = (value: string) => {
+    setCharCount(value.length);
+  };
 
   const [dateRange, setDateRange] = useState({
     startDate: new Date(project.published ?? ""),
@@ -193,25 +198,32 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
           </div>
         </div>
         <div>
-          <div>
-            <h2 className=" mb-6 font-bold">
-             {t("target")}<span className=" text-error-imperial-red">*</span>
-            </h2>
-          </div>
-          <p className=" text-secondary-cadet-grey">
-            {t("targetDesctiption")}
+        <div>
+          <h2 className="mb-6 font-bold">
+            Цель<span className="text-error-imperial-red">*</span>
+          </h2>
+        </div>
+          <p className="text-secondary-cadet-grey">
+            Опишите цель проекта (макс 300 символов {charCount}/300)
           </p>
           <Controller
             name="target"
             control={control}
-            rules={{ required: `${t("required")}` }}
+            rules={{
+              required: "Обязательно к заполнению",
+              validate: (value) => value.length <= 300 || "Превышено максимальное количество символов"
+            }}
             render={({ field }) => (
               <Input
+                {...field}
+                onChange={(event) => {
+                  field.onChange(event.target.value);
+                  handleInputChange(event.target.value);
+                }}
+                className="!w-96"
+                placeholder="Опишите цель"
                 value={field.value}
-                onChange={(event) => field.onChange(event.target.value)}
                 error={errors.target?.message}
-                className=" !w-96"
-                placeholder={t("targetPlaceholder")}
               />
             )}
           />
