@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "@/shared/localization/i18n";
 import { getServerAuthSession } from "@/server/auth";
 
 import Logo from "@/components/logo/Logo";
@@ -7,24 +6,23 @@ import Container from "@/ui/container/Container";
 import Link from "next/link";
 
 const Footer: React.FC = React.memo(async () => {
-  const { t } = await useTranslation('en');
   const session = await getServerAuthSession();
 
   const links = [
     {
-      name: t("projects"), // Используем перевод для "Проекты"
+      name: "Проекты",
       path: "/projects",
     },
     {
-      name: t("profile"), // Используем перевод для "Профиль"
+      name: "Профиль",
       path: `/user/${session?.user.id}`,
     },
     {
-      name: t("responses"), // Используем перевод для "Отклики"
+      name: "Отклики",
       path: `/responses/${session?.user.id}`,
     },
     {
-      name: t("createProject"), // Используем перевод для "Создать проект"
+      name: "Создать проект",
       path: `/projects/create`,
     },
   ];
@@ -37,7 +35,7 @@ const Footer: React.FC = React.memo(async () => {
             <Logo />
 
             <p className="text-sm text-onPrimary-anti-flash-withe">
-              {t("searchITTeams")} {/* Используем перевод для "Поиск IT команд и разработчиков для ваших проектов" */}
+              Поиск IT команд и разработчиков для ваших проектов
             </p>
           </div>
 
@@ -62,12 +60,12 @@ const Footer: React.FC = React.memo(async () => {
               className="w-max p-2 text-sm text-onPrimary-anti-flash-withe transition hover:text-accent-azure"
               href="/aboutUs"
             >
-              {t("ourTeam")} {/* Используем перевод для "Наша команда" */}
+              Наша команда
             </Link>
 
             <div className="gap flex flex-col items-start">
               <p className="w-max pl-2 text-sm text-onPrimary-anti-flash-withe">
-                {t("contactUs")} {/* Используем перевод для "По всем вопросам" */}
+                По всем вопросам
               </p>
 
               <Link

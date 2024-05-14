@@ -2,28 +2,26 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useTranslation } from "@/shared/localization/i18n";
 
 import Tabs from "@/ui/tabs/tabs";
 
-const NavBar: React.FC = React.memo(async () => {
+const NavBar: React.FC = React.memo(() => {
   const pathName = usePathname();
-  const { data: session } = useSession();
-  const { t } = await useTranslation('en');
+  const session = useSession();
 
   return (
     <nav className="relative">
       <div className="flex">
         <Tabs
           link="/projects"
-          title={t("projects")}
+          title="Проекты"
           isActive={pathName === "/projects"}
         />
 
         <Tabs
-          link={`/responses/${session?.user.id}`}
-          title={t("responses")}
-          isActive={pathName === `/responses/${session?.user.id}`}
+          link={`/responses/${session.data?.user.id}`}
+          title="Отклики"
+          isActive={pathName === `/responses/${session.data?.user.id}`}
         />
       </div>
 

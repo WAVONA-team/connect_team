@@ -1,6 +1,5 @@
 import React from "react";
 import { getServerAuthSession } from "@/server/auth";
-import { useTranslation } from "@/shared/localization/i18n";
 
 import Logo from "@/components/logo/Logo";
 import SignInButton from "@/components/signInButton/signIn";
@@ -10,7 +9,6 @@ import Link from "next/link";
 
 const HomeHeader: React.FC = React.memo(async () => {
   const session = await getServerAuthSession();
-  const { t } = await useTranslation('en');
 
   return (
     <header className="py-2">
@@ -23,7 +21,7 @@ const HomeHeader: React.FC = React.memo(async () => {
               href="/projects"
               className="px-4 py-3.5 text-base text-onPrimary-anti-flash-withe"
             >
-              {t("signIn")}
+              Вход
             </Link>
           ) : (
             <SignInButton />

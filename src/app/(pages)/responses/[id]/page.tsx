@@ -6,7 +6,6 @@ import { api } from "@/trpc/server";
 import NavBar from "@/components/navBar/NavBar";
 import Container from "@/ui/container/Container";
 import SectionWrapper from "@/ui/sectionWrapper/SectionWrapper";
-import { useTranslation } from "@/shared/localization/i18n";
 
 interface Props {
   params: {
@@ -16,23 +15,22 @@ interface Props {
 
 const Responses: React.FC<Props> = async ({ params }) => {
   const response = await api.response.findByUserId.query(params.id);
-  const { t } = await useTranslation('en');
 
   return (
     <Container>
       <NavBar />
       <div className=" mt-12">
         <div className="flex flex-row justify-between text-onPrimary-anti-flash-withe">
-          <p className=" text-3xl">{t("responses")}</p>
+          <p className=" text-3xl">Отклики</p>
           <div className=" flex flex-row gap-6">
             <div>
-              <p>{t("allTime")}</p>
+              <p>За всё время</p>
             </div>
             <div>
-              <p>{t("allDuration")}</p>
+              <p>Любая длительность</p>
             </div>
             <div>
-              <p>{t("allStatus")}</p>
+              <p>Любой статус</p>
             </div>
           </div>
         </div>
@@ -74,15 +72,15 @@ const Responses: React.FC<Props> = async ({ params }) => {
                       {response.project.title}
                     </p>
                     <p className=" mt-4 text-sm text-secondary-cadet-grey">
-                      {t("responses")}
+                      Описание
                     </p>
                     <p className=" mt-5">{response.project.description}</p>
                     <div className=" mt-8">
                       <p className=" mb-4 text-sm">
-                        {t("duration")}: {response.project.term}
+                        Длительность: {response.project.term}
                       </p>
                       <p className="text-sm">
-                        {t("status")}: {response.project.status}
+                        Статус: {response.project.status}
                       </p>
                     </div>
                   </div>

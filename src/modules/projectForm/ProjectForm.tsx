@@ -1,8 +1,8 @@
+"use client";
 import React, { useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "@/shared/localization/i18n";
 
 import Input from "@/ui/input/Input";
 import DatePicker from "@/ui/datepicker/DatePicker";
@@ -49,9 +49,7 @@ const calculateMonthDifference = (startDate: Date, endDate: Date) => {
 
   return diffInMonths;
 };
-const ProjectForm: React.FC<Props> = async({ project }) => {
-  const { t } = await useTranslation('en');
-
+const ProjectForm: React.FC<Props> = ({ project }) => {
   const router = useRouter();
   const allItems = ["Frontend", "Backend", "UI"];
   const projectMutation = api.project.create.useMutation();
@@ -133,38 +131,38 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
       <div>
         <div className=" flex">
           <BackButton></BackButton>
-          <h2>{t("creatingProject")}</h2>
+          <h2>Создание проекта</h2>
         </div>
         <div>
           <p className=" mb-8 mt-7">
-            <span className=" text-error-imperial-red">*</span>
-            {t("requiredFields")}
+            <span className=" text-error-imperial-red">*</span> - поля
+            обязательные для заполнения
           </p>
         </div>
       </div>
       <div className=" flex flex-col gap-12">
-        <h2 className=" font-bold">{t("information")}</h2>
+        <h2 className=" font-bold">Основная информация</h2>
         <div>
           <div>
             <div className=" flex items-center">
               <ProfileImage
                 imageSrc="https://avatars.githubusercontent.com/u/70152685?v=4"
-                alt="projectImage"
+                alt="ded"
               ></ProfileImage>
               <MainButton
-                text={t("redact")}
+                text="Редактировать"
                 className=" ml-8 h-12"
               ></MainButton>
             </div>
             <div className=" flex items-center">
               <p className=" mr-24 mt-8 w-72">
-                {t("yourProjectName")}
+                Название вашего проекта
                 <span className=" text-error-imperial-red">*</span>
               </p>
               <Controller
                 name="title"
                 control={control}
-                rules={{ required: `${t("required")}` }}
+                rules={{ required: "Обязательно к заполнению" }}
                 render={({ field }) => (
                   <Input
                     value={field.value}
@@ -178,14 +176,14 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
             </div>
             <div className=" flex items-center">
               <p className=" mr-24 mt-8 w-72">
-                {t("termsForProjects")}
+                Сроки работы над проектом
                 <span className=" text-error-imperial-red">*</span>
               </p>
               <div className=" w-96">
                 <Controller
                   name="target"
                   control={control}
-                  rules={{ required: `${t("required")}` }}
+                  rules={{ required: "Обязательно к заполнению" }}
                   render={() => (
                     <DatePicker
                       date={dateRange}
@@ -230,46 +228,50 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
         </div>
         <div>
           <h2 className=" font-bold">
-            {t("projectDescription")}
+            Описание проекта
             <span className=" text-error-imperial-red">*</span>
           </h2>
           <p className=" mb-8 mt-4 text-secondary-cadet-grey">
-            {t("projectDescription.description")}
+            Добавьте описание проекта, чтобы соискатели быстрее нашли ваш проект
           </p>
           {errors.description && <p>{errors.description.message}</p>}
           <Controller
             name="description"
             control={control}
-            rules={{ required: `${t("required")}` }}
+            rules={{ required: "Обязательно к заполнению" }}
             render={({ field }) => (
               <MarkdownEditor
                 source={field.value}
                 setSource={(event) => {
                   field.onChange(event);
                 }}
-                placeholder={t("markDownPlaceholder")}
+                placeholder="Оформите описание так, как вам нравится: сделайте текст полужирным, курсивом или выделите его подчеркиванием.
+                        Создайте списки, чтобы структурировать свои мысли,
+                        добавьте разделы и заголовки,
+                        чтобы все выглядело аккуратно и организовано.
+                        Можете также добавить ссылки"
               />
             )}
           />
         </div>
         <div>
           <h2 className=" font-bold">
-          {t("whoNeeded")}
+            Кто вам требуеться в команду?
             <span className=" text-error-imperial-red">*</span>
           </h2>
           <p className=" mb-8 mt-4 text-secondary-cadet-grey">
-            {t("addWhoNeeded")}
+            Добавьте того, кто вам требуется
           </p>
-          {errors.requiredPeople && `${t("required")}`}
+          {errors.requiredPeople && "Обязательно к заполнению"}
           <Controller
             name="target"
             control={control}
-            rules={{ required: `${t("required")}` }}
+            rules={{ required: "Обязательно к заполнению" }}
             render={() => (
               <CounterMultiSelect
                 allItems={selectedItems ?? []}
                 onNumberChange={setSelectedItems}
-                placeholder={t("whoNeededPlaceholder")}
+                placeholder="Выберите профессию"
                 className=" h-12 w-fit"
               />
             )}
@@ -277,14 +279,14 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
         </div>
         <div>
           <p className=" font-bold">
-            {t("linkToContacts")}
+            Ссылки на связи
             <span className=" text-error-imperial-red">*</span>
           </p>
           <p className=" mb-8 mt-4 text-secondary-cadet-grey">
-            {t("linkToContactsDescription")}
+            Добавьте хотя бы один контакт
           </p>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">{t("email")}</p>
+            <p className=" mt-8 w-72">Электронная почта</p>
             <Controller
               name="email"
               control={control}
@@ -303,7 +305,7 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
               control={control}
               render={({ field }) => (
                 <RadioButton
-                  labelText={t("preferredTypeOfCommunication")}
+                  labelText="Желаемый вид связи"
                   radioName="links"
                   onChange={(event) => field.onChange(event.target.value)}
                   radioValue="email"
@@ -313,7 +315,7 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
             />
           </div>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">{t("telegram")}</p>
+            <p className=" mt-8 w-72">Телеграмм</p>
             <Controller
               name="telegram"
               control={control}
@@ -331,7 +333,7 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
               control={control}
               render={({ field }) => (
                 <RadioButton
-                  labelText={t("preferredTypeOfCommunication")}
+                  labelText="Желаемый вид связи"
                   radioName="links"
                   onChange={(event) => field.onChange(event.target.value)}
                   radioValue="telegram"
@@ -341,7 +343,7 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
             />{" "}
           </div>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">{t("discord")}</p>
+            <p className=" mt-8 w-72">Дискорд</p>
             <Controller
               name="discord"
               control={control}
@@ -359,7 +361,7 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
               control={control}
               render={({ field }) => (
                 <RadioButton
-                  labelText={t("preferredTypeOfCommunication")}
+                  labelText="Желаемый вид связи"
                   radioName="links"
                   onChange={(event) => field.onChange(event.target.value)}
                   radioValue="discord"
@@ -369,7 +371,7 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
             />
           </div>
           <div className=" flex items-center">
-            <p className=" mt-8 w-72">{t("site")}</p>
+            <p className=" mt-8 w-72">Другой сайт</p>
             <Controller
               name="site"
               control={control}
@@ -385,8 +387,8 @@ const ProjectForm: React.FC<Props> = async({ project }) => {
           </div>
         </div>
         <div className=" flex gap-6">
-          <MainButton text={t("published")} type="submit"></MainButton>
-          <SecondaryButton text={t("cancel")} onClick={onCancel}></SecondaryButton>
+          <MainButton text="Опубликовать" type="submit"></MainButton>
+          <SecondaryButton text="Отменить" onClick={onCancel}></SecondaryButton>
         </div>
       </div>
     </form>

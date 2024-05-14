@@ -1,11 +1,8 @@
 "use client";
 import React from "react";
 import { signOut } from "next-auth/react";
-import { useTranslation } from "@/shared/localization/i18n";
 
-const SignOutButton: React.FC = React.memo( async () => {
-  const { t } = await useTranslation('ru');
-
+const SignOutButton: React.FC = React.memo(() => {
   return (
     <button
       type="button"
@@ -15,7 +12,7 @@ const SignOutButton: React.FC = React.memo( async () => {
         rounded
       "
     >
-      {t("signOut")}
+      Выход
     </button>
   );
 });

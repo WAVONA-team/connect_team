@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { api } from "@/trpc/react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTranslation } from "@/shared/localization/i18n";
 
 import type NewProject from "@/shared/types/extendedModels/NewProject";
 import createSearchParams from "@/shared/helpers/createSearchParams";
@@ -24,148 +23,159 @@ type InputValues = {
   message: string;
 };
 
-const ResponseModal: React.FC<Props> = React.memo(async ({ active, projectId, projects }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams()!;
-  const { t } = await useTranslation('en');
+const ResponseModal: React.FC<Props> = React.memo(
+  ({ active, projectId, projects }) => {
+    const router = useRouter();
+    const searchParams = useSearchParams()!;
 
-  const { data: project } = api.project.findById.useQuery(projectId);
-  const responseMutation = api.response.create.useMutation();
+    const { data: project } = api.project.findById.useQuery(projectId);
+    const responseMutation = api.response.create.useMutation();
 
-  const [badgeValue, setBadgeValue] = useState("");
-  const [isMarkdownShowed, setIsMarkdownShowed] = useState(false);
+    const [badgeValue, setBadgeValue] = useState("");
+    const [isMarkdownShowed, setIsMarkdownShowed] = useState(false);
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-    setValue,
-  } = useForm<InputValues>({
-    defaultValues: {
-      profession: "",
-      message: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<InputValues> = (data) => {
-    responseMutation.mutate({
-      projectId,
-      status: t("underReview"),
-      date: new Date().toISOString(),
-      message: data.message,
-      profession: data.profession,
+    const {
+      handleSubmit,
+      formState: { errors },
+      control,
+      reset,
+      setValue,
+    } = useForm<InputValues>({
+      defaultValues: {
+        profession: "",
+        message: "",
+      },
     });
-    reset();
-    router.push(createSearchParams({ responseProjectId: null }, searchParams));
-  };
 
-  const isProjectExists = projects.some((project) => project.id === projectId);
+    const onSubmit: SubmitHandler<InputValues> = (data) => {
+      responseMutation.mutate({
+        projectId,
+        status: "На рассмотрении",
+        date: new Date().toISOString(),
+        message: data.message,
+        profession: data.profession,
+      });
+      reset();
+      router.push(
+        createSearchParams({ responseProjectId: null }, searchParams),
+      );
+    };
 
-  return (
-    <Modal active={active} paramName="responseProjectId">
-      {!isProjectExists ? (
-        <p className="text-base text-error-imperial-red">
-          {t("responseError")}
-        </p>
-      ) : (
-        <form
-          action="#"
-          method="POST"
-          className="flex flex-col items-start"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <p className="text-3xl text-onPrimary-anti-flash-withe">
-            {t("responseToProject")}
+    const isProjectExists = projects.some(
+      (project) => project.id === projectId,
+    );
+
+    return (
+      <Modal active={active} paramName="responseProjectId">
+        {!isProjectExists ? (
+          <p className="text-base text-error-imperial-red">
+            К сожалению, при выполнении запроса произошла ошибка. Обратитесь в
+            службу поддержки
           </p>
+        ) : (
+          <form
+            action="#"
+            method="POST"
+            className="flex flex-col items-start"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <p className="text-3xl text-onPrimary-anti-flash-withe">
+              Отклик на проект
+            </p>
 
-          <div className="relative mt-10 flex w-full items-center gap-5">
-            {errors.profession && (
-              <p className="absolute -top-8 font-semibold text-error-imperial-red">
-                {errors.profession.message}
-              </p>
-            )}
-
-            {[...new Set(Object.entries(project?.requiredPeople ?? {}))]
-              .sort((a, b) => {
-                const [keyA] = a;
-                const [keyB] = b;
-
-                return keyA.localeCompare(keyB);
-              })
-              .map((item) => {
-                const [key] = item;
-
-                return (
-                  <Badge
-                    text={key}
-                    key={key}
-                    isActive={badgeValue === key}
-                    onClick={() => {
-                      setValue("profession", key);
-                      setBadgeValue(key);
-                    }}
-                  />
-                );
-              })}
-
-            <Controller
-              name="profession"
-              control={control}
-              rules={{ required: t("pleaseChooseProfession") }}
-              render={({ field }) => (
-                <input
-                  type="text"
-                  defaultValue={field.value}
-                  className="absolute left-[9999px] top-[9999px] h-0 w-0"
-                />
+            <div className="relative mt-10 flex w-full items-center gap-5">
+              {errors.profession && (
+                <p className="absolute -top-8 font-semibold text-error-imperial-red">
+                  {errors.profession.message}
+                </p>
               )}
-            />
-          </div>
 
-          <h2 className="mt-8 block text-xl font-bold text-onPrimary-anti-flash-withe">
-            {project?.title}
-          </h2>
+              {[...new Set(Object.entries(project?.requiredPeople ?? {}))]
+                .sort((a, b) => {
+                  const [keyA] = a;
+                  const [keyB] = b;
 
-          {isMarkdownShowed ? (
-            <div className="mt-8 w-full">
+                  return keyA.localeCompare(keyB);
+                })
+                .map((item) => {
+                  const [key] = item;
+
+                  return (
+                    <Badge
+                      text={key}
+                      key={key}
+                      isActive={badgeValue === key}
+                      onClick={() => {
+                        setValue("profession", key);
+                        setBadgeValue(key);
+                      }}
+                    />
+                  );
+                })}
+
               <Controller
-                name="message"
+                name="profession"
                 control={control}
+                rules={{ required: "Пожалуйста, выберите профессию" }}
                 render={({ field }) => (
-                  <MarkdownEditor
-                    source={field.value}
-                    setSource={(value) => field.onChange(value)}
-                    withoutToolBar
-                    withDragBar={false}
+                  <input
+                    type="text"
+                    defaultValue={field.value}
+                    className="absolute left-[9999px] top-[9999px] h-0 w-0"
                   />
                 )}
               />
             </div>
-          ) : (
-            <button
-              type="button"
-              className="mt-8 block border-b-2 border-dashed border-accent-azure pb-1 text-accent-azure"
-              onClick={() => setIsMarkdownShowed(true)}
-            >
-              {t("coverLetter")}
-            </button>
-          )}
 
-          <div className="mt-10 flex w-full justify-end gap-4">
-            <SecondaryButton
-              onClick={() => {
-                router.push(createSearchParams({ responseProjectId: null }, searchParams));
-              }}
-              text={t("cancel")}
-            />
+            <h2 className="mt-8 block text-xl font-bold text-onPrimary-anti-flash-withe">
+              {project?.title}
+            </h2>
 
-            <MainButton type="submit" text={t("send")} />
-          </div>
-        </form>
-      )}
-    </Modal>
-  );
-});
+            {isMarkdownShowed ? (
+              <div className="mt-8 w-full">
+                <Controller
+                  name="message"
+                  control={control}
+                  render={({ field }) => (
+                    <MarkdownEditor
+                      source={field.value}
+                      setSource={(value) => field.onChange(value)}
+                      withoutToolBar
+                      withDragBar={false}
+                    />
+                  )}
+                />
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="mt-8 block border-b-2 border-dashed border-accent-azure pb-1 text-accent-azure"
+                onClick={() => setIsMarkdownShowed(true)}
+              >
+                Сопроводительное письмо
+              </button>
+            )}
+
+            <div className="mt-10 flex w-full justify-end gap-4">
+              <SecondaryButton
+                onClick={() => {
+                  router.push(
+                    createSearchParams(
+                      { responseProjectId: null },
+                      searchParams,
+                    ),
+                  );
+                }}
+                text="Отмена"
+              />
+
+              <MainButton type="submit" text="Отправить" />
+            </div>
+          </form>
+        )}
+      </Modal>
+    );
+  },
+);
 
 export default ResponseModal;

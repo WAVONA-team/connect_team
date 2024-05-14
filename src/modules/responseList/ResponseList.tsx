@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { useTranslation } from "@/shared/localization/i18n";
 import classNames from "classnames";
 import { useRouter, useSearchParams } from "next/navigation";
 import type NewResponse from "@/shared/types/extendedModels/NewResponse";
@@ -15,8 +14,7 @@ type Props = {
   response: NewResponse[];
 };
 
-const ResponseList: React.FC<Props> = React.memo(async ({ response }) => {
-  const { t } = await useTranslation('en');
+const ResponseList: React.FC<Props> = React.memo(({ response }) => {
   const searchParams = useSearchParams()!;
   const router = useRouter();
 
@@ -27,7 +25,6 @@ const ResponseList: React.FC<Props> = React.memo(async ({ response }) => {
     professions,
     timeFrame,
   });
-
   return (
     <div className={classNames("mt-8 grid w-full grid-cols-2 gap-6")}>
       {filteredResponse.length ? (
@@ -37,11 +34,11 @@ const ResponseList: React.FC<Props> = React.memo(async ({ response }) => {
             key={response.id}
           >
             <SectionWrapper className="flex flex-col gap-6">
-              <div className="flex items-center justify-between">
+              <div className=" flex items-center justify-between">
                 <p>{response.project.title}</p>
                 <Badge text={response.profession} />
               </div>
-              <div className="flex items-center gap-3">
+              <div className=" flex items-center gap-3">
                 <ProfileImage
                   imageSrc={response.candidate.image}
                   alt="не найдено"
@@ -50,7 +47,7 @@ const ResponseList: React.FC<Props> = React.memo(async ({ response }) => {
                 />
                 <p>{response.candidate.name}</p>
               </div>
-              <div className="flex items-center justify-between">
+              <div className=" flex items-center justify-between">
                 <p>{response.date.toLocaleDateString()}</p>
               </div>
             </SectionWrapper>
@@ -59,10 +56,11 @@ const ResponseList: React.FC<Props> = React.memo(async ({ response }) => {
       ) : (
         <div className="flex flex-col items-start gap-2">
           <p className="text-base text-secondary-cadet-grey">
-            {t("noProjectsFound")}
+            К сожалению, по Вашему запросу проектов не найдено
           </p>
+
           <MainButton
-            text={t("resetFilters")}
+            text="Сбросить фильтры"
             onClick={() => router.push("/projects")}
           />
         </div>

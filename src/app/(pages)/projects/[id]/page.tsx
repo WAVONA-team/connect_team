@@ -3,8 +3,6 @@ import { api } from "@/trpc/server";
 import { notFound } from "next/navigation";
 import { getServerAuthSession } from "@/server/auth";
 import { type Metadata } from "next";
-import { useTranslation } from "@/shared/localization/i18n";
-
 import TimeFrame from "@/shared/types/projectFilter/TimeFrame";
 
 import Link from "next/link";
@@ -27,7 +25,6 @@ interface Props {
 }
 
 const Project: React.FC<Props> = async ({ params }) => {
-  const { t} = await useTranslation('en');
   const session = await getServerAuthSession();
   const project = await api.project.findById.query(params.id);
   const projects = await api.project.getAll.query();
@@ -50,11 +47,11 @@ const Project: React.FC<Props> = async ({ params }) => {
             <div className="flex items-center">
               <BackButton />
 
-              <p className="ml-4 text-3xl">{t("project")}</p>
+              <p className="ml-4 text-3xl">Проект</p>
             </div>
             {isAuthor && (
               <MainButtonLink
-                text={t("redact")}
+                text="Редактировать"
                 path={`/projects/${params.id}/edit`}
                 target="_self"
               />
@@ -67,11 +64,11 @@ const Project: React.FC<Props> = async ({ params }) => {
               <div>
                 <h2 className="text-xl font-bold">{project.title}</h2>
                 <p className="mb-2 mt-8 text-secondary-cadet-grey">
-                  {t("duration")}
+                  Длительность
                 </p>
                 <p>{project.term}</p>
                 <p className="mb-2 mt-6 text-secondary-cadet-grey">
-                  {t("publishe")}
+                  Опубликован
                 </p>
                 <p>{project.published.toLocaleDateString()}</p>
               </div>
@@ -80,18 +77,18 @@ const Project: React.FC<Props> = async ({ params }) => {
           </SectionWrapper>
 
           <SectionWrapper>
-            <h2 className="text-xl font-bold">{t("target")}</h2>
+            <h2 className="text-xl font-bold">Цель</h2>
             <p>{project.target}</p>
           </SectionWrapper>
 
           <SectionWrapper>
-            <h2 className="text-xl font-bold">{t("discription")}</h2>
+            <h2 className="text-xl font-bold">Описание</h2>
             <p className="mt-6">{project.description}</p>
           </SectionWrapper>
 
           <div className="flex flex-row gap-6">
             <SectionWrapper className="w-1/2">
-              <h2 className="text-xl font-bold">{t("whoNeeded")}</h2>
+              <h2 className="text-xl font-bold">Кто требуется</h2>
               <div className="mt-8 flex w-fit flex-col gap-3">
                 {Object.entries(project.requiredPeople)
                   .filter(([_key, value]) => value !== 0)
@@ -104,7 +101,7 @@ const Project: React.FC<Props> = async ({ params }) => {
             </SectionWrapper>
 
             <SectionWrapper className="w-1/2">
-              <h2 className="text-xl font-bold">{t("team members")}</h2>
+              <h2 className="text-xl font-bold">Участники команды</h2>
               <div className="mt-8">
                 <div className="flex w-full flex-col gap-3">
                   <Link
@@ -120,7 +117,7 @@ const Project: React.FC<Props> = async ({ params }) => {
                       />
                       <p>{project.creator.name}</p>
                     </div>
-                    <p>{t("creator")}/{project.creator.profession}</p>
+                    <p>Создатель/{project.creator.profession}</p>
                   </Link>
                   {project.members.map((member) => {
                     return (
@@ -154,10 +151,10 @@ const Project: React.FC<Props> = async ({ params }) => {
         </div>
 
         <div className="mt-12">
-          <p className=" text-3xl">{t("responses")}</p>
+          <p className=" text-3xl">Отклики</p>
           <div className="item-center mt-8 flex justify-between">
           <div className="mt-8 flex items-center gap-6">
-            <p className="text-base text-onPrimary-anti-flash-withe">{t("byTags")}:</p>
+            <p className="text-base text-onPrimary-anti-flash-withe">По тегам:</p>
 
             <div className="flex flex-wrap gap-5">
               {[...new Set(tags)]
