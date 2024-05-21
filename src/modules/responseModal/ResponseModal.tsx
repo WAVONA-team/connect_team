@@ -26,7 +26,7 @@ type InputValues = {
 const ResponseModal: React.FC<Props> = React.memo(
   ({ active, projectId, projects }) => {
     const router = useRouter();
-    const searchParams = useSearchParams()!;
+    const searchParams = useSearchParams();
 
     const { data: project } = api.project.findById.useQuery(projectId);
     const responseMutation = api.response.create.useMutation();

@@ -15,7 +15,7 @@ type Props = {
 };
 
 const ResponseList: React.FC<Props> = React.memo(({ response }) => {
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const professions = searchParams.getAll("professions") ?? [];

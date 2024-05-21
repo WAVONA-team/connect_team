@@ -13,7 +13,7 @@ type Props = {
 
 const Modal: React.FC<Props> = React.memo(({ active, paramName, children }) => {
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   return (
     <div

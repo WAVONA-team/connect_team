@@ -13,7 +13,7 @@ type Props = {
 
 const FilterBadge: React.FC<Props> = React.memo(({ text, paramName }) => {
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   const professions = searchParams.getAll(paramName) ?? [];
 

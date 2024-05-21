@@ -13,7 +13,7 @@ type Props = {
 
 const FilterViewButton: React.FC<Props> = React.memo(({ value }) => {
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   const view = searchParams.get("view") ?? "grid";
 

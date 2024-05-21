@@ -35,7 +35,7 @@ const ProjectCard: React.FC<Props> = React.memo(({ project, href }) => {
   const { data: session } = useSession();
 
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   const updateProjectStatus = api.project.updateStatus.useMutation();
 
