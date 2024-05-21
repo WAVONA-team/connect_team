@@ -16,7 +16,7 @@ type Props = {
 
 const FilterSelect: React.FC<Props> = React.memo(({ allItems, paramName }) => {
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   const handleChange = (value: string) => {
     router.push(createSearchParams({ [paramName]: value }, searchParams));

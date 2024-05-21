@@ -17,7 +17,7 @@ type Props = {
 };
 
 const ProjectList: React.FC<Props> = React.memo(({ projects }) => {
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
   const { data: session } = useSession();
   const router = useRouter();
 

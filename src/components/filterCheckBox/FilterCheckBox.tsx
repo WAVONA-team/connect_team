@@ -15,7 +15,7 @@ type Props = {
 const FilterCheckBox: React.FC<Props> = React.memo(
   ({ labelText, checkedState, disabled, value }) => {
     const router = useRouter();
-    const searchParams = useSearchParams()!;
+    const searchParams = useSearchParams();
 
     const [isChecked, setIsChecked] = useState(checkedState);
     const whosProjects = searchParams.getAll("whosProjects") || [];
