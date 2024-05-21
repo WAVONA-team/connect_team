@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import Input from "@/ui/input/Input";
 import DatePicker from "@/ui/datepicker/DatePicker";
@@ -51,6 +51,7 @@ const calculateMonthDifference = (startDate: Date, endDate: Date) => {
 };
 const ProjectForm: React.FC<Props> = ({ project }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const allItems = ["Frontend", "Backend", "UI"];
   const projectMutation = api.project.create.useMutation();
   const [selectedItems, setSelectedItems] = useState<InitialType>(
@@ -125,13 +126,12 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
   const onCancel = () => {
     reset();
   };
-
   return (
     <form action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div>
         <div className=" flex">
           <BackButton></BackButton>
-          <h2>Создание проекта</h2>
+          <h2>{pathname === '/projects/create' ? 'Создание проекта' :'Редактирование проекта'}</h2>
         </div>
         <div>
           <p className=" mb-8 mt-7">
@@ -387,7 +387,7 @@ const ProjectForm: React.FC<Props> = ({ project }) => {
           </div>
         </div>
         <div className=" flex gap-6">
-          <MainButton text="Опубликовать" type="submit"></MainButton>
+          <MainButton text={pathname === '/projects/create' ? 'Опубликовать' :'Сохранить'} type="submit"></MainButton>
           <SecondaryButton text="Отменить" onClick={onCancel}></SecondaryButton>
         </div>
       </div>
