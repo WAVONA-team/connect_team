@@ -4,7 +4,7 @@ import AuthButton from "@/components/auth/authButton";
 
 import google from "@/assets/google.svg";
 import github from "@/assets/github.svg";
-import vk from "@/assets/vk.svg";
+// import vk from "@/assets/vk.svg";
 
 const Login: React.FC = React.memo(() => {
   return (
@@ -31,11 +31,11 @@ const Login: React.FC = React.memo(() => {
                 provider={"github"}
               />
 
-              <AuthButton
+              {/* <AuthButton
                 image={vk as HTMLImageElement}
                 text={"Continue with VK"}
                 provider={"vk"}
-              />
+              /> */}
             </div>
           </div>
         </div>
