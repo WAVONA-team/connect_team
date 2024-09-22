@@ -7,15 +7,35 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import { type JWT } from "next-auth/jwt";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    phone: string;
+    city: string;
+    adress: string;
+  }
+}
+
 declare module "next-auth" {
-  interface Session {
+  interface Session extends DefaultSession {
     user: {
       id: string;
-    } & JWT & DefaultSession["user"];
+      phone: string;
+      city: string;
+      adress: string;
+    } & DefaultSession["user"];
+  }
+
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    city: string;
+    adress: string;
   }
 }
 
@@ -28,7 +48,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/login",
     signOut: "/",
-    newUser: "/user/[id]/settings"
+    newUser: "/user/[id]/settings",
   },
   providers: [
     Google({
@@ -41,16 +61,30 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
-    },
-    async session({ session, token }) {
-      session.user = {
-        ...token,
-        id: token.sub!,
-      };
+    jwt: async ({ token, user }) => {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          phone: user.phone,
+          city: user.city,
+          adress: user.adress,
+        };
+      }
 
-      return session;
+      return token;
+    },
+    session: async ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          phone: token.phone,
+          city: token.city,
+          adress: token.adress,
+        },
+      };
     },
   },
 };
