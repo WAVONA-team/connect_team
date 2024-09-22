@@ -23,7 +23,7 @@ const ProjectCreate: React.FC = () => {
     term: "",
     published: dateRange.startDate,
     deadline: dateRange.endDate,
-    status: "Не начат",
+    status: "Планируется",
     target: "",
     description: "",
     email: "",
