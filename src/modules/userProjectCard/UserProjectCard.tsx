@@ -31,7 +31,7 @@ const ProjectCard: React.FC<Props> = React.memo(({project, role}) => {
         <p className="text-sm">Длительность: {project.term}</p>
         <div className=" flex justify-between">
           <p className="text-sm">Статус: {project.status}</p>
-          <p className="text-sm">{project.published.toString()}</p>
+          <p className="text-sm">{project.published.toLocaleDateString()}</p>
         </div>
       </SectionWrapper>
     </Link>
